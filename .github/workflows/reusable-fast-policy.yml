@@ -1,0 +1,87 @@
+name: Reusable Fast Policy CI
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  policy:
+    name: Policy and syntax checks
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate tracked files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "repository=$GITHUB_REPOSITORY"
+          echo "sha=$GITHUB_SHA"
+
+          while IFS= read -r -d '' file; do
+            ruby -e 'require "yaml"; YAML.load_file(ARGV[0], aliases: true)' "$file" >/dev/null
+            echo "PASS YAML: $file"
+          done < <(git ls-files -z '*.yml' '*.yaml')
+
+          while IFS= read -r -d '' file; do
+            bash -n "$file"
+            echo "PASS shell: $file"
+          done < <(git ls-files -z '*.sh')
+
+          python3 - <<'PY'
+          import json
+          import pathlib
+          import re
+          import subprocess
+          import xml.etree.ElementTree as ET
+
+          tracked = [p for p in subprocess.check_output(["git", "ls-files", "-z"]).decode().split("\0") if p]
+          full_sha = re.compile(r"^[0-9a-fA-F]{40}$")
+          uses_line = re.compile(r"^\s*-?\s*uses:\s*([^\s#]+)")
+          failures = []
+
+          for path in tracked:
+              p = pathlib.Path(path)
+              if path.endswith('.json'):
+                  try:
+                      json.loads(p.read_text(encoding='utf-8'))
+                  except Exception as exc:
+                      failures.append(f"JSON parse {path}: {exc}")
+              if path.endswith('.xml'):
+                  try:
+                      ET.parse(path)
+                  except Exception as exc:
+                      failures.append(f"XML parse {path}: {exc}")
+              if path.startswith('.github/workflows/') and p.suffix in {'.yml', '.yaml'}:
+                  text = p.read_text(encoding='utf-8', errors='replace')
+                  for lineno, line in enumerate(text.splitlines(), 1):
+                      m = uses_line.match(line)
+                      if not m:
+                          continue
+                      ref = m.group(1)
+                      if ref.startswith('./'):
+                          continue
+                      if '@' not in ref:
+                          failures.append(f"unversioned Action {path}:{lineno}: {ref}")
+                          continue
+                      revision = ref.rsplit('@', 1)[1]
+                      if not full_sha.fullmatch(revision):
+                          failures.append(f"Action not pinned to full SHA {path}:{lineno}: {ref}")
+              if p.name in {'id_rsa', 'id_ed25519'} or p.suffix.lower() in {'.jks', '.keystore', '.p12', '.pfx'}:
+                  failures.append(f"high-risk credential container tracked: {path}")
+
+          if failures:
+              for item in failures:
+                  print(f"FAIL: {item}")
+              raise SystemExit(1)
+
+          print('SABLE_FAST_POLICY=PASS')
+          PY
