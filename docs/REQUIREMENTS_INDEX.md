@@ -197,7 +197,16 @@ docs/R9_SABLE_UTILITY_APP_MODEL.md
 
 First planned app: **Sable Calculator**.
 
-Locked direction includes:
+Before Calculator source implementation, also read:
+
+```text
+sableos-project/platform_sable
+docs/R9_CALCULATOR_REQUIREMENTS_DRAFT.md
+```
+
+That document intentionally marks unresolved Calculator semantics `TBD BEFORE CODING`, including the calculation interaction model, numeric representation/rounding, percent/sign/backspace behavior, history, clipboard, persistence, and canonical repository/package/module identity. Do not decide those implicitly in code.
+
+Locked R9 direction includes:
 
 - low privilege;
 - no network/sensitive permission for basic Calculator;
