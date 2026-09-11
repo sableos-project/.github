@@ -53,6 +53,39 @@ Read before choosing or replacing Phone, Messaging, Contacts, Browser, Camera, F
 
 It deliberately does not impose a blanket "AOSP" or "Graphene" application rule. Decisions are component-level.
 
+### CI/build/device/signing trust architecture
+
+Repository/path:
+
+```text
+sableos-project/.github
+docs/CI_TRUST_ARCHITECTURE.md
+```
+
+This is required reading before adding or modifying GitHub Actions, self-hosted runners, device automation, release signing, or build-cache sharing.
+
+Formal infrastructure identity:
+
+```text
+thinkpad-p50      = sable-builder-01
+optiPlex          = sable-signer-01
+Pixel 7 / panther = sable-device-01
+GitHub hosted     = untrusted/disposable CI
+```
+
+Locked trust direction:
+
+- untrusted PR code executes only on disposable GitHub-hosted infrastructure;
+- `sable-builder-01` executes only explicitly trusted source identities;
+- the current developer/reference AOSP workspace is not a generic Actions scratch tree;
+- future automated ThinkPad CI uses a dedicated account/workspace boundary;
+- `sable-device-01` consumes exact hash-identified artifacts under separately authorized device tests;
+- `sable-signer-01` is a signing appliance, not a general build/CI host;
+- production signing material does not live on GitHub-hosted runners or the normal builder;
+- third-party Actions are pinned to full commit SHA and run with least privilege.
+
+The implementation-side CI execution model is maintained in `sableos-project/build/docs/CI_EXECUTION_MODEL.md`.
+
 ## R5 — migrated-source build/reconstruction closure
 
 ### Sable Start migration state
