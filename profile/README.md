@@ -27,6 +27,8 @@ R9  first native Sable utilities, beginning with Calculator
 R10+ deliberate replacement/expansion based on documented value
 ```
 
+Start future implementation sessions with [`docs/REQUIREMENTS_INDEX.md`](../docs/REQUIREMENTS_INDEX.md). It points to the owning requirements for each milestone and defines the read-before-code protocol.
+
 The organization-wide normative plan is in [`docs/DEVELOPMENT_RELEASE_PLAN.md`](../docs/DEVELOPMENT_RELEASE_PLAN.md). The default-application/replacement decision framework is in [`docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md`](../docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md).
 
 These `R*` labels are development milestones, not public semantic SableOS versions. Exact product/build identity remains revision- and manifest-based.
