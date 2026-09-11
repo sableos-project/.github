@@ -27,7 +27,7 @@ jobs:
           echo "sha=$GITHUB_SHA"
 
           while IFS= read -r -d '' file; do
-            ruby -e 'require "yaml"; YAML.load_file(ARGV[0], aliases: true)' "$file" >/dev/null
+            ruby -e 'require "yaml"; YAML.load_file(ARGV[0])' "$file" >/dev/null
             echo "PASS YAML: $file"
           done < <(git ls-files -z '*.yml' '*.yaml')
 
