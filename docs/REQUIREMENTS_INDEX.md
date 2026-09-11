@@ -101,16 +101,27 @@ Read for:
 - R4 capture evidence;
 - R4-R1 commit identity;
 - R4-R2 push/PR status;
-- R5 open build/reconstruction claim boundary.
+- R5-R2 direct migrated-checkout build PASS;
+- remaining clean reconstruction/source-integration boundary.
 
 ### Manifest reconstruction/composition requirements
 
 ```text
 sableos-project/platform_manifest
 docs/DEVELOPMENT_MILESTONE_COMPOSITION.md
+docs/R5_R3_RECONSTRUCTION_PLAN.md
 ```
 
-Read for canonical project paths, revision pinning, local-manifest restrictions, and clean reconstruction expectations.
+The R5-R3 audit established that `platform_manifest` still lacks the operational `default.xml` / common / Panther / release manifest hierarchy. `R5_R3_RECONSTRUCTION_PLAN.md` defines the exact GrapheneOS `2026081300` substrate binding, SableStart path/revision mapping, clean reconstruction phases, artifact expectations, and closure statement.
+
+Before manifest mutation, run the read-only historical-workspace audit gate:
+
+```text
+sableos-project/build
+gates/r5_r3a_manifest_audit.sh
+```
+
+It records `.repo` manifest identity, resolved manifest, local-manifest inventory, `packages/apps/SableStart` path ownership/collision state, and evidence hashes without sync/build/source mutation.
 
 ### Build/evidence gates
 
