@@ -13,10 +13,11 @@ The current priority is to turn the validated Panther build into a dependable da
 The shortest path is not to replace every Android application. The shortest path is:
 
 1. make Sable Start a complete and reliable launcher;
-2. prove core phone functionality on the validated substrate;
-3. establish one coherent Sable design/customization system before multiplying Sable-owned applications;
-4. build simple, high-value Sable utilities where replacement risk is low;
-5. replace complex inherited applications only when there is a clear privacy, UX, maintenance, or architectural benefit.
+2. finish the approved Sable Start production surfaces without reintroducing demo data or unnecessary privilege;
+3. prove core phone functionality on the validated substrate;
+4. establish one coherent Sable design/customization system before multiplying Sable-owned applications;
+5. build simple, high-value Sable utilities where replacement risk is low;
+6. replace complex inherited applications only when there is a clear privacy, UX, maintenance, or architectural benefit.
 
 The daily-driver baseline is:
 
@@ -180,15 +181,48 @@ Do not add during R6 unless separately approved:
 - arbitrary launcher layout customization;
 - custom Phone/Messaging implementations.
 
-## 5. R7 — Daily-driver foundation
+## 5. R7 — Sable Start production surfaces + daily-driver foundation
 
 ### 5.1 Goal
 
-Prove that the Panther reference device can function as a normal phone using the validated Android/GrapheneOS-derived substrate plus Sable product integration.
+R7 has two coordinated responsibilities:
+
+1. promote the approved Sable Metro prototype surfaces into real production Sable Start behavior without demo data, unnecessary permissions, or Quickstep replacement; and
+2. prove that the Panther reference device can function as a normal phone using the validated Android/GrapheneOS-derived substrate plus Sable product integration.
+
+Launcher-specific normative requirements live in `packages_apps_SableStart/docs/R7_PRODUCTION_SURFACES.md`.
 
 The Panther-specific runtime matrix lives in `device_sable_panther/docs/R7_DAILY_DRIVER_VALIDATION.md`.
 
-### 5.2 Required capability groups
+R7 closure requires both launcher-surface qualification and daily-driver capability evidence. Visual expansion must not hide an unproven phone baseline, and daily-driver qualification must not leave approved launcher surfaces as demo-only code.
+
+### 5.2 Sable Start production surfaces
+
+The production launcher should promote these prototype surfaces:
+
+- Start;
+- All Apps;
+- App Context;
+- Search;
+- Pinned & Recent;
+- Sable Start Settings;
+- Live local data;
+- Lock preview.
+
+The promotion must obey these boundaries:
+
+- All Apps/Search remain driven by the real R6 launcher-visible inventory;
+- real Android-provided launcher icons replace generated/demo marks where available;
+- pinned state is local and explicit;
+- recent state initially means successful launches made through Sable Start, avoiding Usage Stats permission;
+- Sable Start Settings owns only launcher-local behavior and must not clone Android Settings plumbing;
+- Live data remains local and permission-gated, with no network permission added simply to populate the design;
+- Lock remains a visual preview and does not replace Keyguard/SystemUI;
+- Launcher3 Quickstep remains the recents/gesture provider.
+
+R7 must not reintroduce hard-coded application lists, fake notification counts, fake Settings state, or fake search results into the production HOME path.
+
+### 5.3 Required capability groups
 
 #### Telephony
 
@@ -273,7 +307,7 @@ A working alarm/clock implementation is required for daily-driver readiness. It 
 
 A working calculator is part of the user baseline. R7 may temporarily use an inherited calculator if present. The first intended Sable-owned utility application is delivered in R9.
 
-### 5.3 R7 default-app selection gate
+### 5.4 R7 default-app selection gate
 
 Before declaring R7 complete, record for each baseline application:
 
@@ -288,7 +322,7 @@ Before declaring R7 complete, record for each baseline application:
 
 Do not make a product-wide statement such as "use AOSP apps" or "use Graphene apps" without this component-level review.
 
-### 5.4 R7 non-goals
+### 5.5 R7 non-goals
 
 R7 is not blocked on:
 
@@ -296,10 +330,12 @@ R7 is not blocked on:
 - Sable-owned Messaging;
 - Sable-owned Camera;
 - Sable-owned Browser;
-- deep theme customization;
+- full R8 theme customization;
+- production Keyguard/lock-screen replacement;
+- global Usage Stats-based recents;
 - perfect visual consistency in inherited applications.
 
-A working, secure, maintainable phone takes priority.
+A working, secure, maintainable phone and a real, privacy-preserving Sable Start take priority.
 
 ## 6. R8 — Sable design system and customization foundation
 
@@ -413,7 +449,7 @@ R5  migrated-source build/reconstruction closure
 R6  real Sable Start launcher + local-time greeting
  |
  v
-R7  daily-driver phone validation + explicit default-app decisions
+R7  Sable Start production surfaces + daily-driver phone validation + explicit default-app decisions
  |
  v
 R8  shared Sable design/theme/customization foundation
@@ -432,7 +468,7 @@ Work may be researched in parallel, but closure claims must respect dependencies
 | Repository | Milestone responsibility |
 | --- | --- |
 | `.github` | organization-wide product direction, roadmap, contribution/process expectations |
-| `packages_apps_SableStart` | R6 launcher behavior, app inventory/search/greeting UX and launcher-specific tests |
+| `packages_apps_SableStart` | R6 launcher inventory/search/greeting behavior and R7 production launcher surfaces/tests |
 | `platform_sable` | release model, common semantic contracts, R8 theme/customization contracts, cross-app product APIs |
 | `device_sable_panther` | R7 Panther runtime qualification and device-specific evidence |
 | `vendor_sable` | product composition/default package inclusion/overlays/common product configuration; no app source copies |
