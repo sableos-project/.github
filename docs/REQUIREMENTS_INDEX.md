@@ -1,6 +1,6 @@
 # SableOS requirements index
 
-Status: **current entry point for implementation, qualification, integration and release work.**
+Status: **current entry point for implementation, qualification, integration and later release work.**
 
 Use this document before source mutation or a build/integration run. It distinguishes current normative requirements from historical milestone/evidence documents so new work does not reconstruct architecture from chat history or obsolete READMEs.
 
@@ -8,39 +8,62 @@ Use this document before source mutation or a build/integration run. It distingu
 
 Before changing source, product composition, build tooling or device state:
 
-1. read the organization current roadmap;
+1. read the organization development plan;
 2. read the owning repository's architecture/requirements;
-3. identify whether the work belongs to standalone application qualification or SableOS product integration;
-4. bind the exact source/upstream/artifact baseline;
-5. identify permissions, network, privilege, exported-component and data-ownership changes;
-6. identify what remains `TBD` and do not let implementation silently choose it;
-7. state the validation/authorization boundary before state-changing work.
+3. identify the current stage: A1, A2, B1, B2/B3 or later release-signing work;
+4. bind exact source/upstream/artifact/toolchain baseline;
+5. identify permission, network, privilege, exported-component and data-ownership changes;
+6. identify unresolved `TBD` behavior and do not let implementation silently choose it;
+7. state validation and authorization boundaries before mutation.
 
-Requirements define intended behavior. Evidence records whether the requirement was met; do not rewrite old evidence to match a later architecture.
+Requirements define intended behavior. Evidence records whether it was met.
 
-## 2. Organization-wide current documents
+## 2. Organization-wide normative documents
 
-### Current development/release plan
+### Development/release plan
 
 ```text
 sableos-project/.github/docs/DEVELOPMENT_RELEASE_PLAN.md
 ```
 
-Defines the current R8 consolidated train, the Process A / Process B split, integration-freeze requirements, the `ai-g732` builder transition and the one-image/one-device-campaign budget.
+Defines the consolidated R8 pipeline:
 
-### Application reuse/integration architecture
+```text
+A1 disposable GitHub qualification
+ -> A2 trusted standalone app build on ai-g732
+ -> exact trusted app freeze
+ -> B1 pre-image Android/Soong integration proof
+ -> B2 Panther development image/acceptance
+ -> B3 Titan 2 portability image/acceptance
+ -> later production-signing workstream
+```
+
+### Trust architecture
+
+```text
+sableos-project/.github/docs/CI_TRUST_ARCHITECTURE.md
+sableos-project/build/docs/CI_EXECUTION_MODEL.md
+```
+
+Current roles:
+
+```text
+GitHub hosted     = disposable/untrusted A1 CI
+ai-g732           = intended trusted A2/B1/B2/B3 development builder
+thinkpad-p50      = historical/reference builder during migration;
+                    future signing-host candidate only
+Pixel 7 / panther = primary R8 runtime target
+Titan 2           = second R8 portability/runtime target
+```
+
+There is no active `sable-signer-01`. OptiPlex is removed from the planned signing architecture. Production signing is deferred until development qualification is satisfactory on Panther and Titan 2.
+
+### Application reuse/Rust-Kotlin architecture
 
 ```text
 sableos-project/.github/docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md
-sableos-project/platform_sable/docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md
-```
-
-The organization document defines program policy; the `platform_sable` document defines the shared application/platform architecture. They must agree on workstream scope and claim boundaries.
-
-### Rust/Kotlin architecture
-
-```text
 sableos-project/.github/docs/RUST_APPLICATION_ARCHITECTURE.md
+sableos-project/platform_sable/docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md
 ```
 
 Governing rule:
@@ -49,7 +72,7 @@ Governing rule:
 RUST_BY_RISK, NOT_RUST_BY_BRANDING
 ```
 
-Rust owns deterministic/high-value domain logic where useful; Kotlin/Android owns lifecycle, permissions, accessibility, framework/provider APIs, Media3/MediaSession, CameraX, Readium Android integration and other Android-specific behavior. JNI/FFI is a narrow tested boundary, not a goal by itself.
+Rust owns deterministic/high-value domain logic where useful; Kotlin/Android owns lifecycle, permissions, accessibility, framework/provider APIs, Media3/MediaSession, CameraX, Readium Android integration and other platform-facing behavior.
 
 ### Default application/replacement policy
 
@@ -58,41 +81,22 @@ sableos-project/.github/docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md
 sableos-project/vendor_sable/docs/DEFAULT_APPLICATION_COMPOSITION.md
 ```
 
-A standalone-qualified Sable APK is not automatically a shipping/default app. Product adoption requires explicit composition/integration/runtime evidence and replacement/rollback planning where applicable.
+A standalone-qualified APK is not automatically a shipping/default app.
 
-### CI/build/device/signing trust architecture
+## 3. Historical R5/R6 foundation
 
-```text
-sableos-project/.github/docs/CI_TRUST_ARCHITECTURE.md
-sableos-project/build/docs/CI_EXECUTION_MODEL.md
-```
-
-Current transition:
-
-```text
-GitHub hosted     = disposable standalone application/static/security CI
-ai-g732           = intended sable-builder-01 after storage/build migration gate
-thinkpad-p50      = legacy/reference builder and historical evidence source
-Pixel 7 / panther = sable-device-01
-OptiPlex          = sable-signer-01
-```
-
-Do not run untrusted PR code on the trusted Android builder or signer.
-
-## 3. R5/R6 historical foundation
-
-The following remain important source/evidence history, but they do not define the current forward milestone:
+Preserve as historical requirements/evidence:
 
 ```text
 packages_apps_SableStart/docs/MIGRATION_STATUS.md
 packages_apps_SableStart/docs/R6_ALL_APPS_AND_GREETING.md
 platform_manifest/docs/R5_R3_RECONSTRUCTION_PLAN.md
-build/docs/MILESTONE_EVIDENCE_GATES.md   # R5/R6 sections
+build/docs/MILESTONE_EVIDENCE_GATES.md   # historical sections
 ```
 
-Preserve their original evidence/requirements. Current README/status documents should identify them as historical foundations rather than saying R6 is still the next feature milestone.
+Do not rewrite earlier evidence to fit the current architecture.
 
-## 4. R7 — Panther/product/daily-driver baseline
+## 4. R7 evidence baseline
 
 ### Panther runtime matrix
 
@@ -100,34 +104,28 @@ Preserve their original evidence/requirements. Current README/status documents s
 sableos-project/device_sable_panther/docs/R7_DAILY_DRIVER_VALIDATION.md
 ```
 
-The matrix remains the requirements baseline for calls, contacts, SMS/MMS, Wi-Fi, cellular, browser/Internet, notifications, Settings, camera/photos, files, clock/alarm, Calculator baseline and Sable Start accessibility.
+R7 remains the baseline for calls, contacts, SMS/MMS, Wi-Fi, cellular, browser/Internet, notifications, Settings, camera/photos, files, clock/alarm, Calculator baseline and Sable Start accessibility. Unexecuted cases remain unproven.
 
-Do not infer unexecuted runtime cases as PASS because R8 source work has started.
-
-### Product-wiring / build evidence model
-
-```text
-sableos-project/build/docs/ANDROID_PRODUCT_BUILD_PLAYBOOK.md
-sableos-project/build/docs/MILESTONE_EVIDENCE_GATES.md
-```
-
-Current R7 forensics reinforce the required claim ladder:
+### Build/product claim ladder
 
 ```text
 source/module
  -> graph edge
  -> product selection
  -> PRODUCT_OUT
- -> installed-file/target-files
- -> image
+ -> target-files
+ -> filesystem image
  -> runtime
 ```
 
-Firmware/product packaging work established direct standalone Panther firmware source/product/target-files provenance for ABL/bootloader/radio. That does not remove the need for separate app/runtime qualification.
+Read:
 
-## 5. R8 — ACTIVE consolidated train
+```text
+sableos-project/build/docs/ANDROID_PRODUCT_BUILD_PLAYBOOK.md
+sableos-project/build/docs/MILESTONE_EVIDENCE_GATES.md
+```
 
-R8 is not theme-only. It combines a shared Sable design foundation with independently qualified application workstreams, followed by one deliberate product integration tranche.
+## 5. R8 application workstreams
 
 ### R8-A — shared design
 
@@ -135,7 +133,7 @@ R8 is not theme-only. It combines a shared Sable design foundation with independ
 sableos-project/platform_sable/docs/R8_DESIGN_SYSTEM_AND_CUSTOMIZATION.md
 ```
 
-Authoritative first-R8 behavior:
+Normative first-R8 appearance:
 
 ```text
 Follow system
@@ -143,67 +141,27 @@ Light
 Dark
 bounded accent
 reset/default
-shared semantic tokens
+shared semantic roles
 accessibility/readability rules
 ```
 
-Do not expand first R8 into icon packs, grid/density editors, corner-style editors, theme stores/marketplaces or wallpaper editors without a requirements change.
-
-### Sable Start R8 consumer
-
-```text
-sableos-project/packages_apps_SableStart
-```
-
-The existing R8 customization PR must be reconciled with the authoritative R8-A contract before merge. Metro/Graphite/OLED and user-selectable corner styles are not currently normative first-R8 requirements.
-
 ### R8-B — Calculator + Convert
 
-Current architecture:
-
-- interaction-neutral exact arithmetic/domain primitives may be implemented and tested;
-- conversion logic may reuse/refactor portable Rustmix Wave domain logic;
-- unresolved Calculator interaction semantics remain requirements `TBD` before they become shipping behavior;
-- Android/Compose owns presentation/input;
-- core operation requires no network/sensitive permission.
-
-The historical filenames `R9_SABLE_UTILITY_APP_MODEL.md` and `R9_CALCULATOR_REQUIREMENTS_DRAFT.md` contain useful policy/requirements material, but their original milestone assignment is superseded: Calculator/Convert now belong to R8-B.
+Deterministic arithmetic/conversion domain behavior, Kotlin/Compose presentation, no network/sensitive permission for core operation. Unresolved Calculator interaction semantics remain requirements `TBD`.
 
 ### R8-C — Games
 
-Initial set:
-
-```text
-Sudoku
-Minesweeper
-2048
-```
-
-Deterministic Rust cores where useful; Compose/Android input/presentation; no Lua runtime.
+Sudoku, Minesweeper and 2048; deterministic Rust cores where useful; Compose/Android presentation/input; no Lua runtime.
 
 ### R8-D — Reader publication path
 
-Primary source:
-
-```text
-vaachak-platform/vaachak-mobile
-initial qualification pin: 5393503ec0695e87e0a9bc4567fec0fea110ea4d
-```
-
-Use Readium/Android reader architecture for EPUB/publication behavior. Do not create a second Android EPUB renderer simply to move logic into Rust.
+Primary source: `vaachak-platform/vaachak-mobile` / Readium.
 
 ### R8-D2 — Reader text/accessibility path
 
-Primary source:
+Primary source: `vaachak-platform/vaachak-textreader`.
 
-```text
-vaachak-platform/vaachak-textreader
-initial qualification pin: 50fca365baae9869264716569830690fb62029a7
-```
-
-Qualified capability target includes TXT, Android share/process-text, TTS/audio export and OCR. It is a capability source for the same Sable Reader product, not a second Sable Reader app.
-
-Upstream Internet permission/model-download behavior is explicit. Strict network-free Reader closure must be decided/proven separately from on-device OCR/translation claims.
+Accepted capability target includes TXT, share/process-text, TTS/audio export and OCR. Network/model-download behavior is a separate privacy gate. One Sable Reader product composes D and D2.
 
 Normative supplement:
 
@@ -213,126 +171,150 @@ sableos-project/platform_sable/docs/SABLE_READER_TEXT_ACCESSIBILITY_CAPABILITY.m
 
 ### R8-E — Media
 
-Local Music + Internet Radio. Portable station/parser/probe logic may be reused from the ESP32 assistant, but Android owns Media3/MediaSession/codec playback, SAF/MediaStore, audio focus/routing, lifecycle/background behavior and networking.
+Local Music + Internet Radio. Android owns Media3/MediaSession, codecs, storage/document access, audio routing, lifecycle/background behavior and networking.
 
-## 6. R8 Process A — standalone qualification
+## 6. R8-A1 — disposable qualification
 
-Current standalone qualification work is staged outside the Panther image build and is intentionally split into independent CI lanes:
+GitHub CI lanes may include:
 
 ```text
 Rust correctness
 Rust dependency/security
 Android compile/tests
 Android static analysis
-Vaachak Reader compile/tests
-Vaachak Reader policy/static
-Vaachak Text Reader compile/tests
-Vaachak Text Reader policy/static
-APK artifact seal
-repository/policy checks
+Reader compile/tests
+Reader policy/static
+Text Reader compile/tests
+Text Reader policy/static
+qualification APK seal
+repository/workflow policy
 ```
 
-The current staging workspace is `aimindseye/sableos` PR #7. It is a qualification workspace, not the final product source-composition authority.
+A1 output is qualification evidence. It is not automatically the trusted artifact that enters the product.
 
-The integration freeze must bind source commit(s), workflow/run identity, package ID/version, manifest permissions/components, ABI/native-library inventory where relevant, dependency/provenance inventory and APK SHA-256.
+## 7. R8-A2 — trusted standalone application build
 
-## 7. R8 Process B — product integration
+A2 runs on `ai-g732` after builder migration/preflight closure.
+
+For each accepted app bind:
+
+```text
+source/upstream commits
+Gradle wrapper/version
+JDK
+SDK/NDK
+Rust toolchain + lockfile hashes
+trusted APK SHA-256
+package/version
+permissions/components
+classes*.dex hashes
+JNI .so hashes
+native ABI inventory
+16 KiB ELF/APK compatibility
+dependency/provenance inventory
+```
+
+Where reproducible, compare A1 and A2 outputs. Do not promote unexplained differences into a release input.
+
+## 8. R8 integration freeze
+
+Only exact A2-qualified artifacts enter B1. A workstream may be deferred rather than forcing incomplete work into the image.
+
+## 9. R8-B1 — pre-image integration gate
 
 Read:
 
 ```text
-vendor_sable/docs/DEFAULT_APPLICATION_COMPOSITION.md
-build/docs/ANDROID_PRODUCT_BUILD_PLAYBOOK.md
-platform_manifest/docs/DEVELOPMENT_MILESTONE_COMPOSITION.md
-platform_manifest/docs/RELEASE_MANIFEST_POLICY.md
+sableos-project/build/docs/R8_PREIMAGE_GATE.md
+sableos-project/build/gates/r8_app_artifact_audit.sh
+sableos-project/vendor_sable/docs/DEFAULT_APPLICATION_COMPOSITION.md
+sableos-project/platform_manifest/docs/DEVELOPMENT_MILESTONE_COMPOSITION.md
 ```
 
-The exact Android 17 / GrapheneOS mechanism for consuming sealed standalone APKs must be proved before it becomes normative. `android_app_import` is a candidate only.
+`android_app_import` is the preferred candidate, but exact Android 17/GrapheneOS behavior must be observed.
 
-Required proof ladder:
+B1 proves separately:
 
 ```text
-sealed APK/source identity
- -> declared Sable product module/import
- -> selected product package
- -> PRODUCT_OUT install identity
- -> installed-file / target-files identity
- -> image membership
- -> runtime package/component identity
- -> user-visible behavior
+frozen trusted APK input
+ -> Soong import/module processing
+ -> signing/certificate mode
+ -> JNI handling
+ -> dexpreopt / uses-library wiring
+ -> product selection
+ -> PRODUCT_OUT install
 ```
 
-Do not rebuild the Panther image merely to discover that the standalone app does not compile.
+Target-files/image/runtime remain later layers.
 
-## 8. Trusted R8 image builder transition
+## 10. Native 16 KiB compatibility
 
-The next normal Panther image build is planned on `ai-g732` after the 4 TB storage/build migration is itself validated.
+Every R8 APK containing native libraries must pass verified 16 KiB compatibility.
 
-Before that build, prove source/repository identity, filesystem/storage identity, host/toolchain prerequisites, OUT/evidence boundaries, target product/release/variant/Build ID, and absence of accidental old-workspace-only inputs.
-
-The ThinkPad P50 remains historical/reference evidence during the transition; no new R8 full image should be scheduled there merely because older output exists.
-
-## 9. R9+ — future coherent tranche
-
-R9 is no longer "first Calculator". Candidate work includes Notes, Voice Notes, Flashcards, selected sensor games, Calendar after provider/data/permission design, future Sable Study/PDF workflow and selected Sable Start improvements.
-
-The same rule applies:
+Required evidence includes:
 
 ```text
-standalone qualification
- -> exact integration freeze
- -> bounded product wiring
- -> one coherent image build
- -> one device campaign
+ELF PT_LOAD alignment >= 0x4000
+APK ZIP alignment suitable for uncompressed native libraries
+runtime page size measured on device
+representative JNI execution
 ```
 
-## 10. Release identity
+The requirement is verified output compatibility, not one hard-coded linker flag regardless of NDK/toolchain.
 
-Read:
+## 11. R8-B2 — Panther
 
-```text
-platform_sable/docs/RELEASE_MODEL.md
-platform_sable/docs/DEVICE_SUPPORT_LEVELS.md
-platform_manifest/docs/RELEASE_MANIFEST_POLICY.md
-platform_manifest/docs/SOURCE_COMPOSITION_MODEL.md
-build/docs/REPRODUCIBILITY.md
-build/docs/AUTHORIZATION_MODEL.md
-```
+After A1/A2/freeze/B1 close for the selected tranche, build one coherent Panther development image and run one bounded Panther campaign. Do not use the full image as the first compiler for ordinary app code.
 
-A release/build identity must distinguish:
+## 12. R8-B3 — Titan 2 portability
 
-- exact OS source composition;
-- exact external qualified application artifacts when used;
-- build/toolchain/host identity;
-- target/device/support level;
-- artifact hashes;
-- signing/update channel;
-- runtime qualification and known limitations.
+Where compatible, Titan 2 must consume the same frozen common R8 app artifacts and common `vendor_sable` integration as Panther.
 
-## 11. Documentation status
+| Dimension | Panther | Titan 2 |
+| --- | --- | --- |
+| ABI | `arm64-v8a` | `arm64-v8a` |
+| Rust target | `aarch64-linux-android` | `aarch64-linux-android` |
+| 16 KiB compatibility | required | required |
+| common app artifacts | baseline | same where compatible |
+| common product composition | `vendor_sable` | `vendor_sable` |
+| OUT_DIR | isolated | isolated |
+| runtime page size | measured | measured |
+| physical keyboard | baseline | explicit gate |
+| square display | baseline | explicit gate |
+| Reader OCR/TTS | capability gate | capability gate |
+| Media3/audio | capability gate | capability gate |
 
-Use:
+Titan-specific secondary-display/program-key/FM features are not common R8 requirements unless separately approved.
 
-```text
-sableos-project/.github/docs/DOCUMENTATION_STATUS.md
-```
+R8 portability closes only with bounded target adapters and no common application source fork.
 
-for the current audit classification of organization documentation into current normative, active-workstream, and historical/evidence documents.
+## 13. Build-host migration
 
-## 12. Anti-drift checklist
+Before using `ai-g732` for A2/B1/B2/B3, prove host/storage/source/tool/output identities, isolated OUT_DIR policy, free-space monitoring, target selection, application-freeze inputs and absence of accidental old-workspace-only dependencies.
+
+## 14. Production signing — later
+
+Production APK keys, AVB hierarchy, OTA signing, `sign_target_files_apks`, key custody/backup/recovery/rotation and signed release handoff are deliberately deferred until Panther and Titan 2 development qualification is satisfactory.
+
+The ThinkPad P50 is only a future signing-host candidate. Do not call it `sable-signer-01` until the role is designed and commissioned.
+
+## 15. R9+
+
+R9 is the next coherent productivity/application tranche, not first Calculator. Candidate work remains Notes, Voice Notes, Flashcards, selected sensor games, Calendar after provider/data/permission design, future Sable Study/PDF workflow and selected Sable Start improvements.
+
+## 16. Anti-drift checklist
 
 Before implementation/build work answer:
 
 ```text
 Which current requirement owns this change?
 Which repository/layer owns it?
-Process A or Process B?
+A1, A2, B1, B2/B3 or later release work?
 What is still TBD?
 What privilege/network/data authority changes?
-What exact source/artifact identity is tested?
-What standalone evidence is required?
-What product/image evidence is required?
-What is explicitly not being claimed?
+What exact source/artifact/toolchain identity is tested?
+What evidence closes this layer?
+What later claim remains unproven?
 ```
 
-If the answer is absent from current documentation, update the architecture/requirements before encoding the choice in source.
+If the answer is absent from current documentation, update requirements before encoding the choice in source.
