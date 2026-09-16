@@ -1,8 +1,8 @@
 # R8 consolidated build-plan review status
 
-Status: **SECOND-EYE REVIEW COMPLETE — corrections incorporated; ready for final CI/merge.**
+Status: **MERGED / AUTHORITATIVE — second-eye review complete and corrections incorporated.**
 
-The experienced Android build-engineer review confirmed the A1/A2/B1/B2/B3 architecture and did not identify a blocking structural gap. The review did identify several implementation details worth adding, plus several claims that required AOSP verification before becoming normative.
+The experienced Android build-engineer review confirmed the A1/A2/B1/B2/B3 architecture and did not identify a blocking structural gap. The resulting corrections were verified against current AOSP/Android behavior where needed, all coordinated documentation/tooling PRs passed their required CI/policy checks, and the consolidated R8 revision has been merged into the owning default branches.
 
 ## Adopted review additions
 
@@ -28,8 +28,19 @@ The final R8 plan does **not** adopt the following claims as written:
 
 ## Application identity decision
 
-No current Sable-owned application requires `android:sharedUserId`. Sable Start does not declare it. R8 therefore adopts **NO_NEW_SHARED_USER_ID** as the default product rule; any future exception would require an explicit architecture/security gate.
+No current Sable-owned application requires `android:sharedUserId`. Sable Start does not declare it. R8 therefore adopts **NO_NEW_SHARED_USER_ID** as the default product rule; any future exception requires an explicit architecture/security gate.
 
-## Promotion condition
+## Current execution boundary
 
-The coordinated R8 PRs may be promoted after their final CI/policy checks are green. Real A2/B1 Android evidence remains future execution work on `ai-g732`; documentation review does not pre-claim those runtime/build results.
+The merged documentation/tooling defines the R8 plan; it does not pre-claim execution results that have not happened yet.
+
+```text
+A1 disposable qualification              architecture/current CI path
+A2 trusted standalone app build          pending execution on ai-g732
+B1 pre-image Android integration gate     pending execution on ai-g732
+B2 Panther development image/runtime      not yet authorized by plan merge alone
+B3 Titan 2 portability image/runtime      follows Panther acceptance
+production signing                        deferred until dual-target development qualification
+```
+
+The next evidence-producing work is therefore A2/B1 on the migrated, sealed `ai-g732` environment, not another broad image build.
