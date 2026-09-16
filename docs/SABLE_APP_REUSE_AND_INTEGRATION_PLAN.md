@@ -1,455 +1,300 @@
 # SableOS application reuse and integration plan
 
-Status: **normative product direction for application reuse, pre-build verification, and integration-build budgeting.**
+Status: **normative program policy for R8 application reuse, standalone qualification, artifact freezing and later SableOS integration.**
 
-This document records how SableOS will reuse existing application/domain code from projects already owned by the same developer while avoiding unnecessary rewrites, duplicate renderers, embedded-runtime baggage, and excessive Panther product rebuilds.
+This document defines the organization-level rules. `platform_sable/docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md` owns the detailed shared application/platform architecture. The two documents must remain consistent.
 
-It complements:
-
-- `docs/DEVELOPMENT_RELEASE_PLAN.md`;
-- `docs/RUST_APPLICATION_ARCHITECTURE.md`;
-- `docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md`;
-- application-specific requirements in the owning repositories.
-
-The governing rules are:
+## 1. Governing rules
 
 ```text
 REUSE_PROVEN_CODE_BEFORE_REWRITING
-HOST_VERIFY_BEFORE_PRODUCT_BUILD
-ONE_INTEGRATION_BUILD_PER_COHERENT_TRANCHE
+QUALIFY_APPS_OUTSIDE_AOSP_FIRST
 ANDROID_OWNS_ANDROID_INTEGRATION
-RUST_OWNS_PORTABLE_DOMAIN_LOGIC_WHERE_IT_MATERIALLY_HELPS
-NO_LUA_RUNTIME_IN_SABLEOS_APPLICATIONS
+RUST_OWNS_PORTABLE_DOMAIN_LOGIC_WHERE_IT_HELPS
+NARROW_FFI_ONLY
+NO_LUA_RUNTIME_IN_SABLE_APPS
+FREEZE_EXACT_ARTIFACTS_BEFORE_PRODUCT_INTEGRATION
+ONE_PRODUCT_BUILD_PER_COHERENT_FROZEN_TRANCHE
 ```
 
-## 1. Current source projects considered for reuse
+A standalone application PASS is not an image-release claim. A product build is not an application unit-test framework.
 
-The following repositories are approved as first-party reuse sources for planning because they are owned by the same developer. The listed revisions are research/reference pins observed when this plan was written; any production extraction must bind to the exact source revision actually imported.
+## 2. Current reuse sources
 
-| Project | Reference revision | Planned SableOS value |
+Initial planning/qualification pins:
+
+| Source | Initial observed/pinned revision | R8 value |
 | --- | --- | --- |
-| `aimindseye/rustmix-wave` | `6feeeb4f5941bf9b899033f713dcc5f2987e8bad` | native Rust games, converter, dictionary/domain logic, additional offline utilities |
-| `aimindseye/rustmix-x4-firmware` | `46a169e42234eeedf1736974b80f1d34bc63a6cd` | reader/domain concepts, persistence models, bounded embedded implementations useful as reference |
-| `aimindseye/ESP32-S3-Touch-LCD-1.85C-Assistant` | `c247b208f2a64921cc5b99b516c8a09234a76f50` | local music and Internet-radio domain/state/parsing logic |
-| `vaachak-platform/vaachak-mobile` | `5393503ec0695e87e0a9bc4567fec0fea110ea4d` | production Android/Compose/Readium e-reader implementation and study-oriented foundations |
+| `aimindseye/rustmix-wave` | exact imported/extracted revision must be recorded per workstream | Convert and deterministic game/domain logic |
+| `aimindseye/rustmix-x4-firmware` | exact reference revision per extraction | reader/domain/reference concepts only; not primary Android renderer |
+| `aimindseye/ESP32-S3-Touch-LCD-1.85C-Assistant` | exact extraction revision per import | station/media parser/state/probe concepts, not embedded playback backend |
+| `vaachak-platform/vaachak-mobile` | `5393503ec0695e87e0a9bc4567fec0fea110ea4d` | Readium/Compose EPUB publication path |
+| `vaachak-platform/vaachak-textreader` | `50fca365baae9869264716569830690fb62029a7` | TXT/share/process-text/TTS/OCR capability |
 
-First-party repository ownership does **not** automatically clear third-party code or assets. Every imported crate/library/font/dictionary/content pack/media codec/data set retains its own license, security-update, and provenance requirements.
+First-party ownership does not waive third-party dependency, font, asset, dictionary, codec, model, license or security-update obligations.
 
-## 2. Application-development model
+## 3. Process A — standalone application qualification
 
-New Sable applications should be developed primarily as ordinary application projects with fast host/Gradle/Cargo validation. The Panther AOSP/Graphene-derived product graph is an integration environment, not the everyday application compiler.
-
-Preferred flow:
+Normal app development happens outside the Panther product graph.
 
 ```text
-GitHub source
-    |
-    +--> Rust host gates
-    |       rustfmt
-    |       clippy
-    |       cargo test/property tests where applicable
-    |
-    +--> Kotlin/Gradle host gates
-    |       unit tests
-    |       static analysis
-    |       standalone APK build
-    |
-    +--> application runtime tests
-            emulator / supported Android device / e-ink device as relevant
-                |
-                v
-        freeze exact source + qualified artifact
-                |
-                v
-        SableOS product integration
-                |
-                v
-        ONE normal Panther integration build
-                |
-                v
-        artifact fidelity + Device1 campaign
+source / pinned upstream
+   |
+   +-- Rust correctness
+   |     cargo fmt --check
+   |     cargo clippy -D warnings
+   |     cargo test
+   |     property/fuzz/unsafe checks where justified
+   |
+   +-- Rust dependency/security
+   |     RustSec/cargo-audit where Cargo is canonical
+   |     dependency/license/provenance inventory
+   |
+   +-- Android/Kotlin
+   |     JVM/unit tests
+   |     Compose/instrumentation tests as appropriate
+   |     Android lint/static analysis
+   |     standalone Gradle APK build
+   |
+   +-- external Reader sources
+         exact commit checkout
+         deterministic Sable adaptation
+         relevant upstream/Sable tests
+         lint/policy checks
+         APK build
+
+        -> package/component/permission inspection
+        -> native ABI/library inventory
+        -> APK SHA-256
+        -> workflow/run identity
+        -> accepted feature-policy record
 ```
 
-A narrow Soong build is still appropriate when a change must prove Android resource linking, platform API typing, privileged integration, JNI linkage, product-owned framework APIs, or another property that standalone application tests cannot prove. It is not an automatic gate after every source change.
+Local Mac/Linux runs are useful preflight. The accepted GitHub qualification run remains the R8 freeze authority unless a later policy changes that explicitly.
 
-## 3. Product-build budget
+## 4. Process B — product integration
 
-A development milestone does not automatically imply a separate full Panther build.
-
-The default policy is:
+After Process A freezes the exact input set:
 
 ```text
-pure/domain source iteration       -> host tests only
-ordinary Android app iteration     -> Gradle/app tests + standalone APK
-platform/JNI integration change    -> targeted narrow Android build when justified
-coherent application tranche done  -> one normal Panther product integration build
-release/device qualification       -> one exact artifact/device evidence campaign
-```
-
-Before launching any expensive product target, capture a dry-run or equivalent dependency estimate when practical. Targets such as `target-files-package` must be treated as potentially near-full product builds rather than assumed to be cheap packaging steps.
-
-Repeated direct-Ninja environment repair is not a development strategy. Once an integration checkpoint requires broad product closure, prefer the normal known-good product build path and make that build carry a meaningful feature tranche.
-
-## 4. R8 consolidated application foundation
-
-R8 is expanded from a theme-only milestone into the first coherent Sable native-application foundation.
-
-R8 workstreams may progress and close source-level gates independently. They converge at one integration freeze.
-
-### 4.1 Shared Sable foundation
-
-R8 establishes:
-
-- shared semantic colors, typography, spacing, shape, icon, surface, motion, and accessibility contracts;
-- Follow system / Light / Dark;
-- bounded accent selection;
-- typed/persisted Sable-owned appearance settings;
-- Compose UI-test infrastructure;
-- AndroidX UIAutomator system-boundary infrastructure;
-- Rust host-verification conventions;
-- Kotlin/Gradle pre-build verification conventions;
-- exact source/artifact provenance rules for standalone app integration.
-
-Sable Start becomes one consumer of the shared design contract rather than the sole owner of it.
-
-### 4.2 Sable Calculator + Convert
-
-Initial direction:
-
-- dedicated Sable Calculator Android application;
-- Kotlin/Compose UI;
-- deterministic arithmetic/domain core, using Rust where it provides a clean reusable/testable boundary;
-- unit conversion as a secondary surface in the same application unless later product requirements justify a separate app;
-- reuse/refactor the hardware-independent fixed-point conversion concepts from `rustmix-wave`;
-- no network permission for core Calculator/Convert functionality;
-- deterministic host tests before Android product integration.
-
-The first release need not become a scientific/programmer calculator merely because the architecture can support it.
-
-### 4.3 Sable Games
-
-Initial R8 game set:
-
-- Sudoku;
-- Minesweeper;
-- 2048.
-
-Primary reuse source: `aimindseye/rustmix-wave`.
-
-Architecture:
-
-```text
-Compose UI / Android input
-        |
-        | narrow typed JNI boundary where useful
-        v
-sable-games-core
-        +-- sudoku
-        +-- minesweeper
-        +-- game_2048
-```
-
-Reuse the game rules/state/algorithms. Refactor out e-paper rendering, ESP input, firmware storage assumptions, and runtime-specific UI code.
-
-The initial Android versions should use ordinary touch/swipe input. Tilt Maze and Sokoban/Tilt may be considered later with Android sensor adapters, but Rust game cores must remain unaware of `SensorManager` and Android JNI objects.
-
-**Lua is not part of the Sable Games architecture.** Do not port the Rustmix Lua VM, Lua manifests/catalog, Lua application loader, or dynamic Lua game scripting into SableOS.
-
-Prefer one `Sable Games` APK for the initial collection instead of one APK per small game. This gives one manifest, one shared design surface, one test harness, and one integration artifact.
-
-### 4.4 Sable Reader
-
-Primary implementation source: `vaachak-platform/vaachak-mobile`.
-
-Sable Reader should reuse the working Android/Compose/Readium implementation rather than building a second Android EPUB renderer from the embedded Rustmix reader.
-
-Initial R8 scope:
-
-- EPUB;
-- TXT;
-- library/recent books;
-- reading progress;
-- bookmarks;
-- highlights;
-- table of contents;
-- in-book search;
-- TTS where the existing implementation remains suitable;
-- reader appearance controls;
-- e-ink-oriented mode/behavior where useful;
-- local/offline-first defaults.
-
-Preferred code-ownership model is a Sable product flavor or equivalent shared-source arrangement in Vaachak rather than copying a large reader implementation into a divergent Sable-only fork without reason.
-
-The Sable flavor may use a Sable application ID/branding/theme adapter and a narrower product feature policy while continuing to share the proven reader/core code.
-
-The Rustmix X4 reader remains valuable for domain concepts, compact persistence formats, host-test ideas, and reusable non-rendering logic. It is not the preferred Android EPUB rendering engine.
-
-### 4.5 PDF policy
-
-R8 does **not** embed PDF rendering into Sable Reader.
-
-Initial policy:
-
-```text
-Sable Reader     -> EPUB + TXT leisure/book reading
-existing secure PDF Viewer -> PDF viewing
-future Sable Study -> only if richer PDF annotation/study workflows justify it
-```
-
-Sable Reader may later recognize a PDF in a library and delegate it to the installed `application/pdf` handler, but it must not duplicate a mature PDF renderer merely for visual unification.
-
-A future **Sable Study** application may be evaluated for PDF highlighting, annotation, notes, study sessions, organization, search, or related workflows. That is a separate product decision and not an R8 requirement.
-
-### 4.6 Sable Dictionary
-
-Candidate sources:
-
-- native Rust dictionary/lookup work from `rustmix-wave`;
-- existing Vaachak dictionary interfaces/providers.
-
-Goal:
-
-- offline-first exact/prefix lookup;
-- reusable by Sable Reader and potentially other Sable apps;
-- avoid shipping duplicate dictionary engines/data sets when one shared product design can serve both;
-- treat dictionary data licensing separately from application-code ownership.
-
-Dictionary may ship in R8 if reuse is straightforward and low-risk; it must not delay the R8 integration freeze if the data/provenance or shared-service design is not ready.
-
-### 4.7 Sable Media: Music + Internet Radio
-
-Primary reuse source: `aimindseye/ESP32-S3-Touch-LCD-1.85C-Assistant`.
-
-The useful reusable portions are domain/state/parsing behavior such as:
-
-- local track discovery/selection concepts;
-- WAV/MP3 metadata/probing logic where portable and worthwhile;
-- playback-state models;
-- Internet-radio station models;
-- station-list parsing;
-- M3U/M3U8 or simple station-list conventions;
-- URL/selection/control state.
-
-Do **not** port the embedded playback backend:
-
-- FreeRTOS tasks;
-- PSRAM stream buffers;
-- PCM5101/I2S ownership;
-- ESP-IDF audio shims;
-- HELIX C decoder glue solely because the firmware used it;
-- fixed SD-card paths;
-- watch/display-specific rendering/input code.
-
-Android should own:
-
-- audio decoding/playback through the supported Android media stack;
-- MediaSession/background playback;
-- audio focus;
-- Bluetooth/headset routing;
-- lock-screen/media controls;
-- lifecycle/foreground-service behavior;
-- MediaStore/Storage Access Framework integration;
-- network permission and connectivity behavior for radio.
-
-Sable Media can expose both **Music** and **Internet Radio** in one application because they share playback controls and media-session ownership.
-
-Local Music should not require broad storage privilege when MediaStore/SAF can satisfy the use case. Internet Radio explicitly requires network access and must keep that permission boundary visible in requirements and tests.
-
-## 5. Reuse classification
-
-The default classification for source from the four projects is:
-
-| Source area | Reuse direction |
-| --- | --- |
-| deterministic Rust game rules/state | **extract/refactor and reuse** |
-| Rust unit-conversion logic | **reuse/refactor** |
-| Rust dictionary parsing/lookup | **reuse/refactor** |
-| Rust reader persistence/domain models | **reuse selectively / reference** |
-| Vaachak Readium integration | **reuse substantially** |
-| Vaachak Compose reader UI/ViewModel | **reuse substantially, Sable product adaptation** |
-| Vaachak e-ink behavior | **reuse selectively; replace device-brand hacks with platform abstraction when needed** |
-| ESP radio station parser/state | **extract/refactor and reuse** |
-| ESP music domain/state logic | **extract/refactor selectively** |
-| ESP/LVGL/e-paper/raw framebuffer UI | **do not port** |
-| ESP GPIO/I2S/FreeRTOS/PSRAM-specific code | **do not port** |
-| HELIX/firmware decoder glue | **do not port by default** |
-| Rustmix Lua runtime/catalog/manifests | **do not port** |
-| fixed SD-card paths/embedded storage assumptions | **replace with Android storage adapters** |
-
-## 6. Android/Rust ownership boundary
-
-For reusable hybrid applications, prefer:
-
-```text
-Android / Kotlin / Compose
-    presentation
-    accessibility
-    permissions
-    lifecycle
-    SAF / MediaStore
-    sensors
-    microphone/audio services
-    notifications
-    MediaSession
-    Readium Android integration
+sealed application artifacts + exact source identities
             |
-            | narrow typed interface
             v
-Rust domain core
-    algorithms
-    game rules
-    deterministic state machines
-    parsers
-    bounded import/export formats
-    validation
-    selected persistence transformations
+prove exact Android 17 / GrapheneOS import/module semantics
+            |
+            v
+vendor_sable common product selection
+            |
+            v
+PRODUCT_OUT install proof
+            |
+            v
+installed-files / target-files / image proof
+            |
+            v
+one Panther image build
+            |
+            v
+runtime package/component/behavior proof
 ```
 
-Rust code should not receive Android framework objects when a simple typed value/file/byte abstraction can preserve host-testability.
+`android_app_import` is a candidate only. The current target tree must prove the accepted mechanism before the mechanism is documented as normative.
 
-Do not add JNI merely to increase Rust percentage. Follow `docs/RUST_APPLICATION_ARCHITECTURE.md`.
+## 5. R8-A — shared Sable foundation
 
-## 7. Pre-build verification gates
-
-### 7.1 Rust gate
-
-Applicable Cargo-managed reusable cores should pass, as appropriate:
+First-R8 design behavior is intentionally bounded:
 
 ```text
-cargo fmt --check
-cargo clippy -- reviewed lint policy
-cargo test
-property/fuzz tests for parsers and state machines where justified
-unsafe inventory/review
-cargo-audit / cargo-deny / provenance checks when the canonical dependency graph supports them
+Follow system
+Light
+Dark
+bounded accent
+reset/default
+semantic colors/typography/spacing/shapes
+accessibility and test conventions
 ```
 
-Host tests should include deterministic vectors for Calculator, Convert, game rules, media-list/station parsing, dictionary parsing, migrations, and other pure logic.
+Do not broaden first R8 into density/grid/icon-pack/corner-style/wallpaper/theme-marketplace work without a requirements update.
 
-### 7.2 Kotlin/Gradle gate
+Sable Start and the first additional Sable applications must consume the same contract rather than copy local constants.
 
-Standalone Android applications should pass, as applicable:
+## 6. R8-B — Calculator + Convert
+
+Calculator:
+
+- exact/checked arithmetic primitives may be implemented before UI semantics are selected;
+- code must not silently choose precedence, repeated-equals, percent, history or user-visible rounding/display policy while those remain TBD;
+- no sensitive permission/network requirement for basic operation.
+
+Convert:
+
+- reuse/refactor hardware-independent conversion logic from Rustmix Wave where correct;
+- Android owns entry, presentation and lifecycle;
+- conversion math remains deterministic and host-testable.
+
+Whether Calculator and Convert remain separate APKs or converge later is a product decision; the current standalone workspace may qualify them independently without making the final launcher/product decision prematurely.
+
+## 7. R8-C — Sable Games
+
+Initial game set:
 
 ```text
-Kotlin/JVM unit tests
-coroutine/state-flow tests
-static analysis/lint
-Compose/unit semantics tests
-standalone debug/release-like APK build appropriate to the development stage
+Sudoku
+Minesweeper
+2048
 ```
 
-Vaachak-derived code should reuse its existing Gradle/unit/runtime test investment rather than forcing every iteration through Soong.
+Reuse portable Rust rules/state where valuable. Android owns rendering, touch, lifecycle and accessibility. Do not port embedded e-paper UI, firmware storage assumptions or the Rustmix Lua runtime/catalog.
 
-### 7.3 Android integration gate
+One Games APK is the preferred product shape unless later requirements justify separation.
 
-Use narrow AOSP/Soong compilation only when needed to prove:
+## 8. R8-D — Sable Reader publication capability
 
-- framework API availability;
-- AAPT/resource integration;
-- platform signing/privilege assumptions;
-- JNI installation/linkage;
-- product-owned framework APIs;
-- manifest/product composition constraints that standalone Gradle cannot prove.
+Primary source: pinned Vaachak Mobile.
 
-### 7.4 Full integration gate
+Reuse Readium/Android/Compose reader behavior substantially. Initial publication capability should be qualified for what source/tests/runtime evidence actually prove; do not claim unsupported formats because another Reader-related repository supports them.
 
-The R8 Panther product build starts only after the selected R8 workstreams reach an explicit integration freeze.
+Network-backed Vaachak features are not automatically accepted into Sable Reader merely because upstream provides them.
 
-The build binds exact source/artifact identities for the included applications and produces the normal product/target-files/image chain. Device qualification then validates cross-app behavior, permissions, defaults, media/storage interactions, theme integration, and regressions.
+## 9. R8-D2 — Reader text/accessibility capability
 
-## 8. Application artifact integration
+Primary source: pinned Vaachak Text Reader.
 
-SableOS should be able to consume exact, qualified standalone application artifacts where that is safer and faster than reproducing a large external Gradle/Maven dependency graph inside Soong.
+Initial capability target:
 
-The exact Android 17/GrapheneOS integration mechanism must be verified in the current tree before it becomes normative. `android_app_import` or another canonical prebuilt-app mechanism may be suitable, but this document does not assume semantics that have not been validated.
+- local `text/plain` ingestion;
+- Android share target;
+- Android process-text target;
+- Android TTS playback;
+- bounded WAV/audio export through supported document APIs;
+- CameraX/gallery OCR;
+- Latin and Devanagari OCR.
 
-Whichever mechanism is selected must record:
+This is a capability provider for the **same Sable Reader product**. Do not ship a second Sable-branded Reader merely because qualification happens against a separate upstream APK.
 
-- source repository and exact commit;
-- reproducible build instructions/toolchain identity;
-- APK SHA-256;
-- package/application ID;
-- signing identity/model;
-- min/target/compile SDK constraints;
-- permissions/components;
-- native library ABI contents when present;
-- product partition/install path;
-- update/rollback model;
-- third-party dependency/provenance evidence.
-
-Do not place opaque manually-built APKs into `vendor_sable` without provenance and rebuildability.
-
-## 9. R8 integration acceptance direction
-
-R8 source workstreams do not each require a separate Panther image.
-
-The intended closure is:
+The current upstream Text Reader declares `INTERNET`, and ML Kit translation can acquire models. Therefore qualification must distinguish:
 
 ```text
-Shared Sable foundation PASS
-Calculator/Convert host + app gates PASS
-Games host + app gates PASS
-Reader host + app gates PASS
-Media host + app gates PASS
-optional Dictionary gate PASS or explicitly deferred
-        |
-        v
-R8 integration freeze
-        |
-        v
-ONE normal Panther full build
-        |
-        v
-artifact/package fidelity
-        |
-        v
-ONE Device1 integration campaign
+on-device execution
+model already present
+model acquisition requiring network
+strict network-free accepted product mode
 ```
 
-A workstream may be explicitly deferred rather than forcing a poor-quality implementation merely to preserve a list. The integration freeze must record exactly what is included.
+Translation may be deferred from the first accepted Sable Reader even if TXT/TTS/OCR are accepted.
 
-## 10. R9 direction
+## 10. PDF policy
 
-R9 becomes the **next coherent application/productivity tranche**, not simply "the next single app after Calculator."
+R8 does not create a new Sable PDF renderer merely for brand consistency. Continue using an inherited/proven secure PDF viewer unless a future Sable Study/annotation workflow justifies a separate requirements/security program.
 
-Candidates include:
+## 11. R8-E — Sable Media
 
-- Notes;
-- Flashcards using native Rust/Kotlin rather than Lua runtime execution;
-- Voice Notes using Android audio capture/playback with reusable domain logic;
-- Tilt Maze / Sokoban using Android sensor adapters;
-- Calendar only after local/provider ownership and permission policy is explicitly designed;
-- selected Sable Start improvements;
-- a future Sable Study PDF workflow if requirements justify it.
+Initial product capability:
 
-R9 should again batch enough host-qualified value to justify one expensive product integration build.
+- local Music;
+- Internet Radio.
 
-## 11. Explicit non-goals
+Reusable ESP-derived domain work may include station models/list parsing and media probing concepts. Do not port FreeRTOS, I2S, PCM5101 ownership, PSRAM stream buffers, HELIX firmware glue or fixed SD-card assumptions.
 
-This plan does not authorize:
+Android owns Media3/codec playback, MediaSession, audio focus, Bluetooth/headset routing, lifecycle/background service behavior, SAF/MediaStore access and Internet connectivity.
 
-- replacing Phone, Messaging, Camera, Browser, SystemUI, Keyguard, or core Settings for branding consistency;
-- a Sable browser engine;
-- a new Sable PDF renderer in R8;
-- a Lua runtime or general scripting platform inside Sable apps;
-- porting ESP hardware drivers into Android;
-- broad storage/network/sensor permissions merely to preserve firmware behavior;
-- full Panther builds after every app feature;
-- treating successful host tests as proof of Android runtime integration;
-- treating one integration build as proof of every future source revision.
+## 12. JNI/native integration gate
 
-## 12. Decision rule
+A Rust core and a compiling Kotlin shell are not one end-to-end application proof.
 
-When evaluating another existing project for SableOS reuse, classify each subsystem as:
+For Rust-backed Android apps, qualification must additionally prove as applicable:
 
 ```text
-REUSE DIRECTLY
-EXTRACT / REFACTOR
-ANDROID ADAPTER
-REFERENCE ONLY
-DO NOT PORT
+Rust domain tests PASS
+Android target native library builds PASS
+arm64-v8a library identity
+x86_64/emulator library identity where supported
+JNI signatures match Kotlin declarations
+panic/exception/error contract is bounded
+APK contains expected native libraries
+representative Kotlin -> JNI -> Rust call works
 ```
 
-Prefer the path that preserves proven behavior while reducing duplicated code, privilege, embedded-specific baggage, and integration-build frequency.
+Do not add JNI merely to increase Rust usage.
 
-The objective is not to maximize new Sable-owned code. The objective is to create a coherent SableOS application family from already-proven work, with fast host verification and deliberately budgeted product builds.
+## 13. Artifact freeze contract
+
+Each accepted application input records at least:
+
+```text
+source repository
+source commit
+upstream/reuse source commit where applicable
+build workflow/run
+build environment/toolchain identity
+application/package ID
+versionCode/versionName
+APK SHA-256
+permissions
+exported components/intent filters
+native ABI/library inventory
+third-party dependency/provenance inventory
+feature-policy boundary
+known limitations
+```
+
+The product build consumes this exact sealed input. A later untracked local rebuild is a different input.
+
+## 14. Product-build budget
+
+Default R8 budget:
+
+```text
+host/Cargo/Gradle CI          repeat freely
+standalone app/device tests   repeat as needed
+product wiring proof          bounded
+full Panther integration      once per frozen tranche
+Device1 campaign              once per accepted image tranche
+```
+
+A target-files or packaging target is not presumed cheap. Use build-graph/dry-run evidence before treating a broad target as a low-cost gate.
+
+## 15. Trusted builder transition
+
+The next intended full R8 Panther build is on `ai-g732` after the new storage/build environment is migrated and sealed. The old ThinkPad P50 remains a historical/reference environment during transition.
+
+Before using `ai-g732` for the R8 image:
+
+- seal filesystem/storage/host identity;
+- compare/match source repository revisions;
+- verify toolchain and host prerequisites;
+- define OUT/evidence directories and free-space floor;
+- bind exact frozen R8 application inputs;
+- prove target/product/release/Build ID;
+- prove the selected prebuilt/application-integration mechanism.
+
+## 16. Canonical repository policy
+
+Do not fork/copy Vaachak or create permanent Sable app repositories merely to make the directory structure look final.
+
+During qualification, exact pinned upstream + deterministic Sable adaptation is acceptable. Once sustained Sable-owned implementation diverges or a stable source boundary emerges, create/move to a dedicated `sableos-project` repository and record the transition/provenance.
+
+`vendor_sable` must never become a dumping ground for copied application source or opaque manually generated APKs.
+
+## 17. R8 closure
+
+R8 application-foundation closure requires:
+
+```text
+selected Process A workstreams PASS
+exact integration inputs frozen
+shared design contract aligned across consumers
+product import/wiring mechanism proven
+one trusted Panther image built from the frozen set
+artifact/package fidelity proven
+one bounded Device1 integration campaign completed
+remaining limitations/deferred work recorded
+```
+
+A source workstream can be explicitly deferred rather than lowering the gate.
+
+## 18. R9 direction
+
+R9 is the next coherent productivity/application tranche, not the first Calculator milestone. Candidate work includes Notes, Voice Notes, Flashcards, Calendar after provider/data policy, selected sensor games, Sable Study/PDF workflow and selected Sable Start improvements.
+
+R9 follows the same qualification -> freeze -> product integration -> image -> device pattern.
