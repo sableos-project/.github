@@ -12,6 +12,8 @@ RUST_BY_RISK, NOT_RUST_BY_BRANDING
 
 Rust is not a product badge. Rewriting a component in Rust is justified only when the resulting ownership, privilege, maintenance, and test burden is safer or more maintainable than retaining the existing implementation.
 
+Application reuse and integration-build budgeting are additionally governed by `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md`.
+
 ## 1. Primary architecture
 
 For Sable-owned Android applications, prefer this split when a meaningful Rust core exists:
@@ -90,6 +92,9 @@ Kotlin/Compose remains the default for:
 - Camera2/CameraX integration;
 - notification channels and Android notification plumbing;
 - system Settings delegation;
+- MediaSession/audio-focus/background-media integration;
+- Android storage/document-provider integration;
+- Readium/Android reader integration;
 - Compose UI tests and AndroidX UIAutomator integration.
 
 Do not wrap mature Android framework APIs in a large JNI layer merely to increase the percentage of Rust code.
@@ -233,6 +238,8 @@ A Rust core must not be used to disguise unnecessary data collection or broad An
 
 Local/offline functionality is preferred where it satisfies the product need.
 
+Networked applications such as Internet Radio must document the network requirement explicitly rather than inheriting a broad permission by convention.
+
 ## 11. Inherited application decision model
 
 Do not replace an inherited Android/GrapheneOS-derived application merely because SableOS wants more Rust code or stronger branding.
@@ -252,14 +259,20 @@ For every proposed replacement, answer:
 
 No replacement is accepted merely because the new implementation compiles or has fewer lines of code.
 
+Reusing another first-party project is preferred when it already solves the problem well, but its third-party dependencies/assets and platform assumptions still require review.
+
 ## 12. Candidate matrix
 
 This table expresses initial architectural direction, not automatic authorization to implement or replace a component.
 
 | Component | Initial direction | Rust role |
 | --- | --- | --- |
-| **Sable Calculator** | strong early Sable-owned candidate | deterministic arithmetic/domain core where useful; Kotlin/Compose UI |
-| **Sable Notes** | strong candidate | storage/model/import/export core; Kotlin/Compose UI |
+| **Sable Calculator + Convert** | strong R8 Sable-owned candidate | deterministic arithmetic/conversion core where useful; Kotlin/Compose UI |
+| **Sable Games** | strong R8 Sable-owned candidate | native deterministic game rules/state (Sudoku, Minesweeper, 2048 initially); Kotlin/Compose UI; no Lua runtime |
+| **Sable Reader** | reuse/adapt Vaachak Android implementation | retain Readium/Compose Android rendering; Rust may supply isolated domain/import logic but should not replace proven Android reader integration merely for language consistency |
+| **Sable Dictionary** | offline shared/reuse candidate | parsing/index/lookup engine is a good Rust domain; Android UI/storage adapters remain platform-facing |
+| **Sable Media** | hybrid R8 reuse candidate | station/media parsing and deterministic state may be Rust; Android MediaSession, decoding, audio focus, routing, storage and networking stay Android-facing |
+| **Sable Notes** | strong later candidate | storage/model/import/export core; Kotlin/Compose UI |
 | **Files / archive handling** | hybrid candidate | parsers, archive/file operations and validation where Sable owns them |
 | **Gallery/media metadata** | hybrid candidate | metadata/index parsing and deterministic transformations |
 | **Messaging** | high-complexity hybrid | parser/protocol/domain core may benefit strongly; Android messaging/role/provider integration remains platform/Kotlin-facing |
@@ -269,24 +282,37 @@ This table expresses initial architectural direction, not automatic authorizatio
 | **Clock / Alarm** | Kotlin generally adequate | Rust only if complex deterministic logic justifies FFI cost |
 | **App store / updater** | security-critical; evaluate separately | Rust may benefit integrity/protocol logic, but update trust/privilege design dominates language choice |
 | **Auditor / attestation** | security-critical; retain/evaluate separately | Rust may benefit crypto/parsing only after threat-model and compatibility review |
-| **PDF/document parser** | security-critical; do not casually rewrite | Rust can reduce memory-safety risk, but parser correctness/fuzzing/update ownership remain substantial |
+| **PDF/document parser** | retain proven secure viewer in R8; do not casually rewrite | Rust can reduce memory-safety risk in owned parsers, but parser correctness/fuzzing/update ownership remain substantial; future Sable Study is separate |
 | **Browser / WebView** | retain hardened browser/WebView substrate | no Sable browser-engine rewrite merely to use Rust |
 | **Android Settings** | retain platform implementation | Sable may provide bounded entry points, not duplicate platform plumbing |
 | **SystemUI / Keyguard** | retain platform implementation unless separately justified | not an application-level Rust migration target |
 | **Accessibility/TalkBack-class service** | retain proven platform/accessibility implementation first | language choice secondary to accessibility correctness and privileged integration |
 
-## 13. Replacement sequencing
+## 13. Replacement and application sequencing
 
-The preferred progression is from low-privilege/deterministic components toward higher-risk integrations only after the application architecture and testing model is proven.
+The preferred progression remains from low-privilege/deterministic components toward higher-risk integrations, but source workstreams may be batched into one product integration milestone when they are independently host/application qualified.
+
+Current direction:
 
 ```text
-Calculator
-    -> Notes / similarly bounded offline utility
-    -> Files/Gallery data-processing cores
-    -> selected Messaging parsing/domain components
-    -> other bounded utilities
-    -> evaluate privileged/security-critical apps individually
+R8 source/app workstreams
+    Calculator + Convert
+    Games
+    Reader reuse/adaptation
+    Media reuse/adaptation
+    optional Dictionary
+        |
+        v
+one deliberate Panther integration build
+        |
+        v
+R9 next coherent productivity/application tranche
+        |
+        v
+evaluate privileged/security-critical replacements individually
 ```
+
+This does **not** mean every R8 application should contain Rust. Vaachak/Readium reader reuse is intentionally Android/Kotlin-heavy because replacing a proven reader stack with a new Rust renderer would increase risk and duplicated maintenance.
 
 Browser engines, core platform Settings, Keyguard/SystemUI, and complex security-critical privileged components are not default rewrite targets.
 
@@ -309,6 +335,9 @@ Rust unit/property/fuzz tests
 Kotlin/host tests
     Android-facing adapters where practical
 
+standalone Gradle/app build and app-level runtime tests
+    ordinary application integration before Panther product integration
+
 Compose UI Test
     deterministic first-party UI semantics
 
@@ -321,6 +350,8 @@ shell evidence gates
 ```
 
 No one layer substitutes for the others.
+
+Host/app qualification is intentionally used to reduce the number of expensive Panther builds. It does not replace product-image/runtime evidence.
 
 ## 16. Dependency trust
 
@@ -341,26 +372,33 @@ For a new Rust dependency, review at least:
 
 Avoid adding a dependency solely to save a few lines in security-sensitive code.
 
+First-party reuse does not waive review of third-party crates, Android libraries, fonts, dictionary packs, codecs, or content bundled by the source project.
+
 ## 17. Build-system rule
 
-The production build graph remains authoritative.
+The production build graph remains authoritative for the final SableOS image, but ordinary application development does not need to use the Panther product graph as its primary feedback loop.
 
-If an Android Rust component is Soong-owned, Soong is the production source/dependency truth. If a standalone Sable utility is intentionally Cargo-managed, Cargo's lockfile and dependency policy become canonical for that component.
+If an Android Rust component is Soong-owned, Soong is the production source/dependency truth. If a standalone Sable application/core is intentionally Cargo/Gradle-managed, its lockfiles and reproducible standalone build become canonical for that component until product integration consumes an exact qualified artifact.
 
 Do not maintain two divergent dependency graphs for the same production artifact.
 
-## 18. Evidence before replacing an inherited app
+For dependency-heavy Android applications such as a Readium-based reader, prefer preserving the established Gradle/application dependency graph unless there is a demonstrated reason to reproduce that entire ecosystem inside Soong. Any prebuilt-app/product-integration mechanism must be verified against the exact Android/Graphene tree and must preserve source/artifact/signing provenance.
 
-Before a Sable replacement becomes a required product application, evidence should include as applicable:
+## 18. Evidence before replacing or adding a required app
+
+Before a Sable replacement or reused application becomes a required product application, evidence should include as applicable:
 
 ```text
-exact old/new source identity
+exact source identity
+reuse/extraction source identity where applicable
 old/new package/component/role mapping
 permission/privilege comparison
 dependency and unsafe inventory
 static analysis results
 unit/property/fuzz results
+standalone APK identity where applicable
 artifact hashes and manifest inspection
+product integration identity
 runtime compatibility matrix
 privacy/network behavior
 migration/interoperability behavior
@@ -373,11 +411,12 @@ Replacing a mature inherited component creates a long-term security maintenance 
 
 ## 19. Decision rule
 
-When choosing between Kotlin, Rust, hybrid, or retaining an inherited component, prefer the option that yields the best combination of:
+When choosing between Kotlin, Rust, hybrid, reuse of an existing owned project, or retaining an inherited component, prefer the option that yields the best combination of:
 
 ```text
 least privilege
 smallest understandable attack surface
+maximum reuse of proven behavior without importing inappropriate platform baggage
 memory safety where it matters
 clear Android framework ownership
 strong deterministic testing
@@ -385,7 +424,9 @@ fuzzability of untrusted-input code
 maintainable dependency provenance
 fast upstream security response
 accessible and correct user behavior
+fast application-development feedback
+few deliberate product integration builds
 simple rollback
 ```
 
-The desired outcome is not the maximum amount of Rust. It is **a security- and privacy-oriented SableOS codebase whose language boundaries are deliberate, reviewable, testable, and proportionate to risk**.
+The desired outcome is not the maximum amount of Rust. It is **a security- and privacy-oriented SableOS codebase whose language, reuse, build, and integration boundaries are deliberate, reviewable, testable, and proportionate to risk**.
