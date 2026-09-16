@@ -1,89 +1,154 @@
 # Contributing to SableOS
 
-SableOS uses evidence-driven development, requirements-first implementation, and explicit repository ownership boundaries.
+SableOS uses evidence-driven development, requirements-first implementation, explicit repository ownership and a strict distinction between standalone application qualification and operating-system product integration.
 
-## Read requirements before coding
+## Read before code
 
-Before implementing a milestone, begin with:
+Start with:
 
-- [`docs/REQUIREMENTS_INDEX.md`](docs/REQUIREMENTS_INDEX.md);
-- [`docs/DEVELOPMENT_RELEASE_PLAN.md`](docs/DEVELOPMENT_RELEASE_PLAN.md);
-- the milestone-specific requirements in the owning repository;
-- the relevant architecture/ownership/validation documents.
+- `docs/REQUIREMENTS_INDEX.md`;
+- `docs/DEVELOPMENT_RELEASE_PLAN.md`;
+- the owning repository's architecture/requirements/status documents;
+- `docs/DOCUMENTATION_STATUS.md` when an older milestone file may conflict with current direction.
 
-If a product-semantic choice is not defined, do **not** silently invent one in source code or a test script. Update the owning requirements first.
+If a product behavior, privilege, data-ownership rule or integration mechanism is still undecided, update the requirements/architecture before silently choosing it in code.
 
-Examples of decisions that require explicit documentation include:
+## Ownership
 
-- what counts as an All Apps entry;
-- greeting time buckets/text;
-- default Phone/Messaging/Browser/Camera selection;
-- new permissions or privileged roles;
-- theme/customization behavior;
-- Calculator arithmetic semantics;
-- new repository/service ownership;
-- device-specific versus common implementation placement.
+Place changes at the narrowest correct layer:
 
-Implementation convenience does not override recorded requirements.
+```text
+application repository/workspace
+    application source, tests, standalone build/dependency graph
 
-## Choose the correct repository
+platform_sable
+    shared semantic/design/application architecture contracts
 
-- common application behavior -> application repository such as `packages_apps_SableStart`;
-- common semantic/service/design behavior -> `platform_sable`;
-- common Android product/default-app integration -> `vendor_sable`;
-- target-specific integration/qualification -> `device_sable_<target>`;
-- source composition -> `platform_manifest`;
-- host bootstrap/build/validation -> `build`;
-- current organization-wide roadmap/policy -> `.github` while the future central `sableos` repository transition is incomplete;
-- future central architecture/ADRs/project roadmap -> `sableos` after that transition.
+vendor_sable
+    common product selection/integration of qualified inputs
 
-Do not copy common code into a device repository to solve a target-specific problem without first reviewing the abstraction boundary.
+device_sable_<target>
+    genuine device-specific adaptation/qualification
 
-Do not place an application implementation in `vendor_sable` or `platform_sable` merely to avoid creating/using the correct canonical app repository.
+platform_manifest
+    exact OS source composition and qualified external input provenance
 
-## Change discipline
+build
+    build/reconstruction/validation tooling
+```
 
-A pull request should state:
+Do not put common product semantics in a device tree. Do not put application source in `vendor_sable`. Do not patch generated substrate files merely because they are convenient.
 
-- milestone/requirement being satisfied;
-- purpose and ownership boundary;
-- exact files/components affected;
-- source/build/device mutation required;
-- new permission/role/dependency implications;
-- product composition/default-app impact;
-- tests and evidence completed;
-- claims that are proven and claims that remain open;
-- portability impact on other Android/device substrates;
-- explicit non-goals when scope could otherwise expand.
+## Process A — application qualification
 
-If implementation reveals a requirement needs to change, update the requirement explicitly rather than rewriting the meaning of the gate after the fact.
+Ordinary Rust/Kotlin application development should use the application's canonical Cargo/Gradle/source workflow first.
 
-## Validation
+As applicable, changes should pass independently diagnosable checks for:
 
-Compilation is necessary but not sufficient. Depending on scope, validation may include static guards, host tests, module builds, artifact inspection, device/runtime checks, user-visible interaction evidence, negative security tests, and recovery/update behavior.
+- formatting/static analysis;
+- unit/property/fuzz tests;
+- dependency/security/provenance checks;
+- Android compile/tests;
+- Android lint;
+- upstream/reuse pin validation;
+- APK manifest/package/permission/native-ABI inspection;
+- artifact SHA-256 sealing.
 
-Validation tooling enforces product decisions; it does not define them. A gate should not invent semantics that are missing from the owning requirements.
+A green standalone app build is not SableOS image inclusion evidence.
 
-Use `sableos-project/build/docs/MILESTONE_EVIDENCE_GATES.md` for the current R5–R10+ evidence model.
+## Process B — product integration
 
-## Authorization discipline
+Product-integration changes must bind exact qualified inputs and prove the relevant ladder:
 
-State-changing validation should explicitly separate authorization for:
+```text
+sealed source/artifact
+ -> import/module declaration
+ -> product selection
+ -> PRODUCT_OUT
+ -> installed-files / target-files
+ -> image
+ -> runtime
+```
+
+Do not launch a broad Android product build merely to discover an app compile error that belongs in Process A.
+
+## Rust/Kotlin boundary
+
+Follow `docs/RUST_APPLICATION_ARCHITECTURE.md`.
+
+Use Rust where deterministic/high-risk domain logic materially benefits; use Kotlin/Android for framework lifecycle, permissions, accessibility, intents/providers, CameraX, Media3/MediaSession, Readium and similar Android integration.
+
+JNI/FFI must stay narrow and tested. Do not add native boundaries for branding or language-percentage goals.
+
+## Reuse before rewrite
+
+Before implementing a new application/domain, check the current reuse plan. Existing Rustmix, Vaachak and ESP-derived work may provide proven behavior that should be extracted/adapted rather than rewritten.
+
+First-party ownership does not waive third-party licensing, dependency, model/data or security obligations.
+
+## Authorization
+
+State explicitly which operations are authorized. Keep separate concepts for:
 
 - source mutation;
-- build/output mutation;
-- network access;
+- build-output mutation;
+- network fetch;
+- build execution;
+- Git commit/push/merge;
 - device contact;
-- install/uninstall;
+- package install/uninstall;
 - reboot;
-- clean/clobber/delete;
-- root/remount/slot/wipe operations;
-- Git commit/push/history changes.
+- role/default-app changes;
+- flashing/signing;
+- root/remount/slot/wipe;
+- clean/clobber/delete.
 
-Authorization for one class does not imply authorization for another.
+Permission for one category does not imply another.
 
-## Mainline
+## Evidence and claim boundaries
 
-`main` is the canonical active development line. Long-lived milestone branches must not become the only location of validated source or documentation. Exact validated OS compositions belong in revision-pinned manifests.
+Every PR should say what was actually proved and what remains unproven.
 
-Internal `R*` milestones are development/validation checkpoints, not semantic SableOS product versions.
+Examples:
+
+```text
+cargo test PASS
+    != Android JNI packaging PASS
+
+APK assemble PASS
+    != product integration PASS
+
+product selection PASS
+    != image membership PASS
+
+image membership PASS
+    != runtime correctness PASS
+```
+
+Bind important evidence to exact source/build/artifact identities.
+
+## Historical documents
+
+Do not rewrite historical PASS/FAIL results, hashes or acceptance boundaries merely because the current architecture changed. Add a supersession/status note or update the current documentation index instead.
+
+## Full image builds
+
+Full Panther image builds are integration checkpoints, not ordinary application feedback loops. R8 uses standalone qualification and an exact integration freeze before the trusted builder runs the image.
+
+During the current host transition, `ai-g732` is the intended trusted R8 Android builder after its storage/source/tooling environment is sealed; the ThinkPad P50 remains a historical/reference host.
+
+## Pull requests
+
+Use the organization PR template. A PR should identify:
+
+- milestone/workstream;
+- Process A / Process B / policy-only classification;
+- owning layer;
+- source/upstream/artifact identities;
+- permissions/authority/dependency impact;
+- validation completed;
+- claim boundary;
+- product/release impact;
+- rollback/fallback when relevant.
+
+Small, bounded, evidence-rich changes are preferred over broad changes whose ownership and validation cannot be stated precisely.

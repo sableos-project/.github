@@ -2,141 +2,226 @@
 
 Status: **normative CI/build/device/signing trust model.**
 
-## Named infrastructure
+SableOS deliberately separates disposable source/application qualification from trusted Android product builds, physical-device mutation and release signing.
+
+## 1. Current infrastructure roles
+
+During the R8 builder/storage transition:
 
 ```text
-thinkpad-p50      = sable-builder-01
-optiPlex          = sable-signer-01
-Pixel 7 / panther = sable-device-01
-GitHub hosted     = untrusted/disposable CI
+GitHub hosted     = T0 disposable/untrusted application + static/security CI
+ai-g732           = intended T1 sable-builder-01 for trusted Android/product builds
+thinkpad-p50      = legacy/reference build host and historical evidence source
+Pixel 7 / panther = T2 sable-device-01
+OptiPlex          = T3 sable-signer-01
 ```
 
-The role names are security boundaries, not merely hostnames.
+`ai-g732` becomes the active trusted Android builder only after its storage/source/tool/output environment passes a migration/preflight seal. Until then, "intended builder" is the correct claim.
 
-## T0 — GitHub-hosted, untrusted/disposable
+The ThinkPad P50 remains useful for historical evidence comparison and bounded read-only reference work. It is not the planned R8 full-image host merely because existing OUT trees are present.
 
-GitHub-hosted runners may execute pull-request code because they are disposable and must not contain Sable production secrets or persistent trusted state.
+## 2. T0 — disposable GitHub application qualification
 
-Allowed work:
+GitHub-hosted runners may execute pull-request code and fetch ordinary public build dependencies. They must not possess production signing material, device secrets or access to a persistent trusted AOSP workspace.
 
-- repository/policy checks;
-- workflow/YAML and shell syntax checks;
-- XML/JSON parsing;
-- full-SHA action-pin verification;
-- secret/private-key heuristics;
-- CodeQL and source-oriented security scans;
-- deterministic pure unit tests;
-- future R6 greeting/search/order tests;
-- future R8 theme-policy tests;
-- future R9 Calculator-engine tests;
-- SARIF and failure-report generation.
+T0 is the normal R8 application-development authority for:
 
-Default permission is `contents: read`; jobs add only the minimum required permission such as `security-events: write` for SARIF/CodeQL.
+- repository/policy/workflow checks;
+- Rust formatting, Clippy and unit/property tests;
+- Rust dependency/advisory/provenance checks where Cargo is canonical;
+- Kotlin/JVM unit tests;
+- Gradle Android application compilation;
+- Android Lint/static analysis;
+- Compose/instrumentation/emulator tests where configured;
+- exact pinned upstream Reader/Text Reader checkout and deterministic Sable adaptation;
+- qualification APK generation;
+- manifest/package/permission/exported-component inspection;
+- native ABI/library inventory;
+- APK SHA-256 and uploaded qualification artifacts;
+- CodeQL/MobSF/SARIF and similar non-secret static/security jobs where appropriate.
 
-T0 must not receive production signing material, personal credentials, writable canonical AOSP workspaces, or ADB access to Sable devices.
+A green T0 job proves only the stated standalone source/application claim. It never proves SableOS product selection, image membership, runtime role/default status or device behavior.
 
-## T1 — sable-builder-01
+## 3. T1 — trusted Android/product builder
 
-The ThinkPad P50 remains the trusted AOSP/Soong build and reconstruction host.
+The trusted Android builder consumes only explicitly accepted source identities and exact frozen application artifacts/inputs.
 
-It may perform exact revision acquisition, `platform_manifest` reconstruction, Soong/module/product builds, artifact inspection, source-before/source-after integrity seals, reproducibility experiments, and evidence generation.
+It is used for:
 
-The strongest CI rule is:
+- Android/Soong product-integration proof;
+- narrow framework/platform/native builds where standalone Gradle cannot prove the required property;
+- prebuilt/import module validation;
+- PRODUCT_OUT/product-selection proof;
+- target-files/image build work;
+- clean reconstruction when required;
+- final unsigned/engineering product artifacts for later device/signing stages.
 
-> A GitHub pull request may cause arbitrary code execution only on disposable infrastructure. Persistent Sable build, device, and signing infrastructure executes only explicitly trusted source identities.
+T1 must **not** be the everyday compiler for ordinary R8 app iteration. A failure that can be detected with Cargo/Gradle/T0 belongs in Process A.
 
-Unreviewed PR/fork code must never run directly on `sable-builder-01`.
+### 3.1 ai-g732 activation gate
 
-The current developer/reference workspace must not become a generic Actions scratch tree. Automated work should move to a dedicated account and layout such as:
+Before `ai-g732` is treated as `sable-builder-01`, record at minimum:
 
 ```text
-/srv/data/sable-ci/
-    source/
-    mirrors/
-    workspaces/
-    out/
-    evidence/
-    runner/
+host identity
+OS/toolchain prerequisites
+filesystem and new storage identity
+source repository identities
+workspace/output/evidence roots
+free-space floor and monitoring policy
+network/build authorization policy
+expected target product/release/variant/Build ID
+artifact-freeze input location and hashes
 ```
 
-A future `sable-ci` account should have no sudo by default, no production signing material, no personal GitHub/SSH credentials, no default ADB access, and no write access to the developer reference workspace unless a documented gate explicitly needs it.
+Do not silently reuse path assumptions from the old ThinkPad workspace.
 
-Trusted Android builds should split acquisition and build:
+### 3.2 Trusted-source rule
+
+Do not run arbitrary PR heads on T1. T1 input must be an exact reviewed/trusted commit, a reviewed merge candidate whose identity is explicitly approved, or an exact frozen artifact accompanied by its accepted source/workflow provenance.
+
+## 4. T1 application-integration boundary
+
+For sealed standalone APKs, the trusted builder proves the missing Android-product properties:
 
 ```text
-ACQUISITION: network allowed only as required -> fetch exact revisions -> verify -> seal
-BUILD:       network denied -> compile -> inspect -> hash -> seal evidence
+sealed APK
+ -> declared import/module
+ -> selected product
+ -> concrete PRODUCT_OUT path
+ -> installed-files/target-files membership
+ -> image membership
 ```
 
-The ThinkPad has already shown that tested unprivileged bubblewrap namespace modes are blocked by host policy. CI must not weaken host security merely to make sandboxing convenient. Prefer the dedicated account/filesystem boundary and, when practical, disposable KVM build VMs.
+The exact Android 17 / GrapheneOS mechanism must be proved before it is normalized. `android_app_import` remains a candidate, not an assumption.
 
-## Device boundary — sable-device-01
+If the product build rebuilds an application instead of consuming the frozen artifact, that is a different integration model and its dependency/source identity must be documented explicitly.
 
-The Panther test device consumes an already-built artifact with an exact hash. Device automation may verify the hash, perform an explicitly authorized install/update, launch exact components, inspect package/launcher inventory, permissions/AppOps, collect bounded logs/screenshots, and run semantic UI smoke tests.
+## 5. T2 — device lab
 
-Calls/SMS/MMS remain semi-automated initially because carrier/external-endpoint behavior must be observed separately.
+`sable-device-01` consumes an exact hash-identified product/application artifact from a trusted stage.
 
-Device testing is not general PR execution and is not release signing.
+Device access and mutation remain separately authorized. Permission to run CI or build code does not imply permission to:
 
-## T2 — sable-signer-01
+- install/uninstall packages;
+- flash/update the device;
+- reboot;
+- change roles/default apps;
+- change network/radio state;
+- root/remount;
+- change slot;
+- wipe userdata/metadata;
+- modify SIM/eSIM/carrier configuration.
 
-The OptiPlex is the highly trusted release-signing machine.
+Runtime evidence binds back to exact package/image/source/artifact identity.
 
-It is a signing appliance, not a development or general CI machine. It must not run ordinary Actions jobs, arbitrary PR/build scripts, or the normal AOSP tree.
+## 6. T3 — signing appliance
 
-Intended flow:
+`sable-signer-01` is not a general GitHub Actions runner and does not execute untrusted application or PR code.
+
+It accepts only an approved release candidate with expected source/manifest/artifact hashes, verifies those identities locally, signs using protected production material and emits signing/output provenance.
+
+Production signing material must not be present on GitHub-hosted runners or the ordinary trusted builder.
+
+## 7. R8 workflow separation
+
+Current R8 qualification should remain split into independently diagnosable lanes such as:
 
 ```text
-approved artifact + exact source/manifest identity + SHA-256
-        -> sable-signer-01 verifies identity
-        -> production signing
-        -> signed artifact + checksums + signing provenance
+Rust correctness
+Rust dependency/security
+Android compile/tests
+Android static analysis
+Reader compile/tests
+Reader policy/static
+Text Reader compile/tests
+Text Reader policy/static
+APK artifact seal
+repository/workflow policy
 ```
 
-Normal signing posture should be offline, encrypted, narrowly administered, and powered off when not needed. Production signing material is never placed on GitHub-hosted runners or the ordinary CI builder.
+Do not hide a failed static/security/policy gate behind a successful APK compile job.
 
-## Artifact trust flow
+A future release aggregator may require all accepted lane results, but the underlying checks should remain separable.
 
-```text
-GitHub-hosted T0 checks
-        -> reviewed/trusted source identity
-        -> sable-builder-01
-        -> artifact + SHA-256 + evidence
-        -> sable-device-01 runtime qualification
-        -> release approval
-        -> sable-signer-01
-        -> signed release + provenance
-```
+## 8. Upstream/reuse-source trust
 
-Every downstream tier verifies the expected source/build identity and cryptographic hash before accepting an artifact.
+External/first-party reuse repositories are checked out by exact commit for an accepted qualification run.
 
-## GitHub Actions requirements
+Rules:
 
-Sable workflows must use:
+- branch names alone are not freeze identities;
+- deterministic Sable flavor/patch/overlay logic is version-controlled;
+- third-party dependencies retain their own provenance/license/security obligations;
+- an upstream repo being owned by the same developer does not make every transitive dependency trusted;
+- the accepted APK records both upstream/source identity and Sable adaptation/workflow identity.
 
-- third-party actions pinned to full commit SHA;
+## 9. Workflow supply-chain rules
+
+Organization workflows should converge on:
+
 - explicit least-privilege `permissions`;
-- timeouts;
-- concurrency cancellation for superseded PR jobs where appropriate;
-- diagnostic artifacts on failure;
-- SARIF upload for supported security scanners;
-- reviewable dependency/action update PRs;
-- reusable Sable workflows referenced by exact commit SHA across repositories.
+- third-party Action pinning to immutable commit SHA for trusted/release-critical jobs;
+- explicit timeouts;
+- concurrency cancellation for replaceable PR jobs;
+- diagnostic artifacts/logs on failure where useful;
+- no secrets exposed to untrusted fork code;
+- no mutable cross-repository workflow reference in a trusted/release path;
+- explicit dependency/tool versions where practical;
+- no silent network access in a stage whose declared policy is offline/no-fetch.
 
-`vaachak-platform/vaachak-mobile` is a CI/security design reference for full-SHA action pinning, least privilege, CodeQL, MobSF/SARIF, failure artifacts, concurrency controls, Dependabot, and semantic UI smoke-test identifiers. Sable adopts those patterns, not Vaachak-specific Gradle, application-security, or signing assumptions.
+## 10. Cache policy
 
-## Cache boundary
+- T0 caches are untrusted convenience data.
+- T0-produced artifacts become integration candidates only after their exact identity/provenance is sealed and accepted.
+- T1 build caches remain isolated from arbitrary PR runners.
+- clean/reconstruction gates must be able to bypass or invalidate mutable caches when the claim requires it.
+- signing does not trust a cache to establish artifact identity; it trusts verified hashes/provenance.
 
-Untrusted PR/T0 caches must never become trusted AOSP or release input. Trusted Android caches should be scoped by exact substrate/toolchain/source identity. Release/reproducibility gates must be able to run without mutable PR caches.
+## 11. Release trust chain
 
-## Rollout
+Preferred high-level chain:
 
-- **C1 Fast PR CI:** GitHub-hosted policy/static/security/pure tests.
-- **C2 Trusted builder:** `sable-builder-01`, exact trusted SHA, component/AOSP build and evidence.
-- **C3 Reconstruction:** fresh `platform_manifest` checkout, acquisition/build network split, product evidence.
-- **C4 Device lab:** `sable-device-01`, explicitly authorized runtime validation.
-- **C5 Release:** `sable-signer-01`, approved inputs only, isolated signing and provenance.
+```text
+reviewed source / pinned upstream
+        |
+        v
+T0 standalone qualification
+        |
+        v
+exact application artifact freeze
+        |
+        v
+T1 product integration + Android image build
+        |
+        v
+T2 device acceptance
+        |
+        v
+approved release candidate
+        |
+        v
+T3 signing
+```
 
-## Change-control questions
+Every transition records the exact input/output identity. A later stage must not substitute a differently rebuilt artifact without reopening the appropriate provenance gate.
 
-Before moving any task to a higher-trust machine, document: what code executes, what persistent state/credentials are visible, whether devices can be reached, how the exact source identity was approved, what may be mutated, and how evidence is sealed. If those answers are unclear, keep the job disposable or manual.
+## 12. Claim discipline
+
+Examples:
+
+```text
+Gradle APK compile PASS
+    != SableOS image inclusion PASS
+
+product import rule PASS
+    != runtime package/role PASS
+
+Panther runtime PASS
+    != all-device release support
+
+unsigned image PASS
+    != signed release provenance PASS
+```
+
+Trust tiers exist to keep those claims separate and auditable.

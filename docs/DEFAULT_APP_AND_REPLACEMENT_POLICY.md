@@ -1,226 +1,186 @@
 # Default application and replacement policy
 
-Status: **normative decision framework; exact R7 component selections remain to be recorded after inventory/validation.**
+Status: **normative product/application selection framework.**
 
-This document answers a recurring product question: when should SableOS use an AOSP application, a GrapheneOS-derived/substrate application, another proven implementation, or a new Sable-owned application?
+SableOS does not require every user-facing application to be Sable-owned. Application selection is capability-by-capability and must distinguish standalone qualification from product adoption/default-role replacement.
 
-The answer is intentionally not "one source for everything." Different application classes have different interoperability, privilege, maintenance, and security costs.
+## 1. Core rule
 
-## 1. Governing principle
+```text
+qualified application
+    != shipping product application
+    != selected default/role holder
+    != proven runtime replacement
+```
 
-Choose the lowest-risk implementation that satisfies the product requirement while keeping future replacement possible.
+Each transition requires its own evidence.
 
-SableOS differentiation should come from product behavior, privacy/security choices, stable Sable semantics, coherent UX, and evidence—not from replacing mature applications solely to change branding.
+## 2. Selection classes
 
-## 2. Four implementation classes
+| Class | Initial direction | Examples |
+| --- | --- | --- |
+| platform/security critical | retain validated Android/substrate mechanism | permissions, networking, telephony framework, Settings plumbing |
+| complex interoperability app | retain a proven implementation until replacement is justified | Phone, Messaging, Browser, Camera |
+| bounded/self-contained utility | strong Sable-owned/reuse candidate | Calculator, Convert, Games, Reader capability, selected Media |
+| content/provider app | explicit provider/data policy required | Weather, Maps, cloud/content services |
 
-### Class A — platform/security critical
+Do not select an implementation solely because it exists in the current reference workspace. Do not reject a working inherited implementation solely because it is not Sable-branded.
 
-Examples:
+## 3. R7 baseline versus R8 application train
 
-- telephony framework and radio integration;
-- IMS/carrier integration;
-- Wi-Fi and cellular networking;
-- Android permission/AppOps infrastructure;
-- package/user/profile management;
-- notification infrastructure;
-- system Settings plumbing;
-- SELinux/Binder/HAL/device integration.
+R7 daily-driver qualification may use inherited implementations for baseline capabilities, including Calculator.
 
-Direction: **inherit the validated substrate/platform implementation unless an explicitly reviewed platform architecture change is required.**
+R8 now qualifies a coherent set of Sable-owned/reused applications:
 
-These are not first-wave Sable application replacement targets.
+- Calculator + Convert;
+- Games;
+- Reader publication capability from Vaachak Mobile;
+- Reader TXT/share/TTS/OCR capability from Vaachak Text Reader;
+- Media.
 
-### Class B — complex interoperability applications
+Their inclusion in R8 source qualification does **not** automatically replace the inherited product application. Replacement/product adoption happens only after standalone gates, exact artifact freeze, product wiring and runtime validation.
 
-Examples:
+The old policy sequence "Calculator becomes Sable-owned in R9" is superseded. Calculator belongs to R8-B, while the replacement threshold remains unchanged.
 
-- Dialer/Phone;
-- SMS/MMS messaging;
-- browser;
-- camera;
-- contacts when tightly coupled to call/message flows;
-- applications with substantial provider/carrier/media/browser-engine integration.
+## 4. Required record before shipping a Sable application
 
-Direction: **start with a proven implementation and validate it as part of the daily-driver baseline.** Replacement requires a separate product/security decision.
+Record:
 
-A Sable-branded rewrite is not assumed.
+```text
+capability
+package/application ID
+source repository + exact commit
+upstream/reuse source + exact commit when applicable
+license/redistribution status
+qualification workflow/run
+APK SHA-256
+permissions/AppOps
+exported activities/services/providers/receivers
+native ABI/library inventory
+third-party dependency/provenance inventory
+product partition/install path
+signing/update model
+maintenance/security owner
+runtime evidence
+rollback/fallback
+status: candidate / qualified / product-integrated / default / replacement
+```
 
-### Class C — simple or bounded utilities
+`TBD` is preferable to an undocumented assumption.
 
-Examples:
+## 5. Product integration gate
 
-- Calculator;
-- Notes;
-- selected Clock UI/functionality;
-- simple offline tools.
+A qualified APK becomes a product integration candidate only after an exact artifact freeze.
 
-Direction: **preferred early Sable-owned application candidates** when requirements are written and the implementation can remain low privilege.
+The integration layer must prove:
 
-Sable Calculator is the first planned example.
+```text
+sealed APK
+ -> declared product import/module
+ -> selected package
+ -> PRODUCT_OUT install identity
+ -> installed-files / target-files identity
+ -> image membership
+ -> runtime package/component identity
+```
 
-### Class D — provider/content applications
+The Android 17 / GrapheneOS prebuilt mechanism is still to be proven. `android_app_import` is a candidate, not a policy guarantee.
 
-Examples:
+Do not drop manually built APKs into `vendor_sable` without reproducible source/workflow/hash provenance.
 
-- Weather;
-- Maps;
-- remote content/search services.
+## 6. Default-role replacement gate
 
-Direction: **treat provider choice as replaceable and explicit.** Avoid making a third-party provider application or API an implicit product dependency unless the product requirements intentionally choose it.
+For HOME, Dialer, SMS, Browser or another Android role/default handler, product inclusion and default selection are separate decisions.
 
-## 3. Component-level decision record
+Before replacing a working default, prove as applicable:
 
-Before a baseline application becomes a SableOS default, record:
+- role/default-handler transition;
+- privileged permissions/allowlists;
+- exported-component expectations;
+- data migration/interoperability;
+- process/reboot persistence;
+- rollback to the previous implementation;
+- no stale product/overlay/permission references.
 
-| Field | Required information |
-| --- | --- |
-| Capability | Phone, Messaging, Browser, Camera, etc. |
-| Package/component | exact package and relevant activity/service identities |
-| Source/provenance | AOSP, GrapheneOS-derived/substrate, Sable-owned, other upstream |
-| Upstream revision | exact revision/tag when source-built |
-| License | redistribution/modification implications |
-| Branding/trademark | whether upstream names/assets may be redistributed |
-| Privilege | system/privileged permissions, roles, providers, shared UID if any |
-| Dependencies | Android services, Google services, Graphene-specific services, native libraries, provider contracts |
-| Data ownership | databases/providers/files and migration concerns |
-| Update owner | who monitors vulnerabilities and upstream updates |
-| Current status | temporary / preferred / Sable replacement planned / undecided |
-| Validation evidence | tests that establish daily-driver suitability |
+During development it is acceptable to install/qualify a package without making it the default.
 
-No broad policy such as "all AOSP apps" or "all Graphene apps" substitutes for this table.
+## 7. Permission/privilege rule
 
-## 4. Initial capability direction
+Do not grant a permission, role, privileged status or allowlist entry merely to simplify implementation.
 
-These are **directions**, not yet exact package selections.
+Every nontrivial authority must map to an accepted product requirement. Remove obsolete grants when the owning package is replaced/removed through a separately validated cleanup change.
 
-### Phone / Dialer
+## 8. Reader policy
 
-Initial direction: proven inherited implementation.
+Sable Reader is one product identity composed from separately qualified capability sources where useful.
 
-Reasons:
+- Vaachak Mobile / Readium supplies the publication/EPUB path.
+- Vaachak Text Reader supplies TXT/share/process-text/TTS/OCR capability.
 
-- telecom framework/role integration;
-- emergency call behavior;
-- contact/call-log interaction;
-- in-call UI/audio routing;
-- carrier and device edge cases;
-- notification and lock-screen behavior.
+Do not ship two competing Sable Reader launcher entries simply because upstream qualification happens against two repositories/APKs.
 
-A custom Sable Phone application should not be an early daily-driver dependency.
+Network-backed upstream behavior is not automatically accepted. Text Reader translation/model acquisition and Vaachak Mobile network surfaces require an explicit privacy/product policy before inclusion.
 
-### Messaging / SMS / MMS
+## 9. Media policy
 
-Initial direction: proven inherited implementation.
+Sable Media may combine local Music and Internet Radio because they share playback/session ownership.
 
-Reasons:
+The Internet permission is explicit and justified only for radio/network features. Local music should use Android user-granted media/document APIs rather than broad storage authority.
 
-- default SMS role behavior;
-- telephony provider interaction;
-- carrier MMS configuration and transport;
-- attachment handling;
-- notification/reply flows;
-- database migration and reliability.
+## 10. Complex inherited applications
 
-RCS is not implicitly required by the SMS/MMS baseline and must not be claimed without separate requirements/evidence.
+Phone, Messaging, Browser and Camera remain proven-inherited-first categories. A future Sable replacement must show concrete privacy/security/UX/maintenance value and must qualify the additional privilege/interoperability burden.
 
-### Contacts
+A new implementation compiling successfully is not a replacement argument.
 
-Initial direction: use a proven contacts implementation/provider compatible with the chosen Phone and Messaging stack.
+## 11. Test fixtures and optional applications
 
-A future Sable contacts experience is possible, but contact-provider compatibility and migration must be designed first.
+Development fixtures such as Maps/Weather or one-off testing APKs are not thereby shipping defaults.
 
-### Browser
+Documentation should distinguish:
 
-Initial direction: proven security-maintained browser.
+```text
+required product app
+qualified candidate
+optional/recommended app
+development/test fixture
+user-installed app
+```
 
-The exact browser must be selected during R7 after reviewing provenance, engine/security-update model, integration, and redistribution. A custom browser is not an early SableOS objective.
+## 12. Replacement cleanup checklist
 
-### Camera
+When replacing a product application audit:
 
-Initial direction: proven implementation compatible with the Panther camera stack and ordinary capture/view/share workflows.
+- product package lists/imports;
+- source/artifact provenance;
+- roles/default handlers;
+- overlays;
+- privileged permission allowlists;
+- intent associations;
+- SELinux rules where applicable;
+- signing/update expectations;
+- package data/migration;
+- launcher/search visibility;
+- stale files/references;
+- rollback path.
 
-A custom camera has significant hardware and image-processing complexity and is not required for initial daily-driver readiness.
+Historical evidence remains preserved even after replacement.
 
-### Files
+## 13. Decision threshold
 
-Initial direction: retain a proven baseline file/document UI for R7. A Sable Files experience is a later candidate if it can sit on supported Android document/storage APIs rather than reinventing storage authority.
+Adopt/replace only when the result is supportable across:
 
-### Clock / Alarm
+```text
+security/privacy
+least privilege
+functional completeness
+accessibility
+update/maintenance ownership
+source/dependency provenance
+product integration complexity
+data migration/interoperability
+rollback
+runtime evidence
+```
 
-Initial direction: working inherited implementation satisfies R7. A Sable Clock may be considered after Calculator and theme contracts, especially if it can use supported alarm APIs without privileged shortcuts.
-
-### Calculator
-
-Initial direction: **first Sable-owned utility application**.
-
-Reasons:
-
-- no carrier/device/provider coupling;
-- no need for network access;
-- minimal privilege;
-- deterministic functional tests;
-- useful proving ground for Sable theme, accessibility, packaging, app architecture, and release gates.
-
-### Weather / Maps
-
-Initial direction: external/provider-driven capability; no mandatory SableOS dependency yet.
-
-Existing installed Maps/Weather apps should remain useful test fixtures during R6 launcher inventory validation. Their eventual default status is separate from their use as test data.
-
-## 5. Replacement threshold
-
-Replacing a proven inherited application requires a written case covering all of the following:
-
-1. **Benefit** — what measurable privacy, security, usability, portability, or maintenance improvement will users receive?
-2. **Authority** — what permissions/roles/providers/system privileges does the replacement require?
-3. **Compatibility** — what Android contracts, file/data formats, carrier/provider behaviors, and external intents must remain compatible?
-4. **Security ownership** — who will monitor vulnerabilities and maintain the application over time?
-5. **Data migration** — what happens to existing data when moving to or away from the Sable application?
-6. **Accessibility/i18n** — what minimum accessibility and localization behavior is required?
-7. **Testing** — what host/unit/instrumentation/runtime tests close the feature?
-8. **Rollback** — how can the product return to the prior proven implementation?
-9. **Licensing** — what upstream code/assets may legally be used and under what obligations?
-10. **Product fit** — why should this be part of the OS rather than a user-selected third-party application?
-
-If the case is weak, keep the proven implementation.
-
-## 6. Sable-owned application rules
-
-New Sable applications should default to:
-
-- no network permission unless the application's core requirement needs it;
-- no sensitive permission unless directly justified by a user feature;
-- supported public/stable Android APIs where practical;
-- clear data ownership and export/delete semantics;
-- shared Sable design tokens rather than copied visual constants;
-- deterministic business-logic tests where applicable;
-- accessibility semantics from the first functional release;
-- exact build/source provenance;
-- explicit runtime acceptance criteria.
-
-Do not grant privileged/system permissions merely to simplify implementation.
-
-## 7. Product composition boundary
-
-`vendor_sable` may choose which validated packages are included/defaulted by a Sable product configuration, but it must not become a storage location for copied application source trees.
-
-Application source belongs in its owning repository. Device repositories must not fork common app source merely to support one device.
-
-`platform_manifest` records exact source composition; `vendor_sable` records common product integration; `device_sable_*` records bounded device-specific integration.
-
-## 8. Decision timing
-
-R6 does not need to settle the complete default-app set. It needs a correct launcher inventory and launch/search behavior.
-
-R7 must settle enough of the default-app set to prove a reliable daily-driver baseline.
-
-R8 establishes the Sable design/customization foundation.
-
-R9 starts native Sable utility delivery with Calculator.
-
-R10+ revisits high-complexity inherited applications only with explicit justification.
-
-## 9. Anti-drift rule
-
-When implementing a feature, do not substitute a different default application, add a new privileged dependency, or begin a Sable rewrite because it appears convenient. Update the relevant decision record first. Future work should be able to determine *why* a component exists by reading GitHub without reconstructing intent from source code or chat history.
+Brand consistency alone is not sufficient.
