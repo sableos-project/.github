@@ -35,10 +35,50 @@ Defines:
 - R5 -> R6 -> R7 -> R8 -> R9 -> R10+ order;
 - product layering;
 - milestone dependencies;
+- consolidated R8 native-application foundation;
+- fewer full Panther builds through coherent integration freezes;
 - required/non-required scope;
 - repository ownership;
 - anti-drift/change-control rules;
 - evidence/closure principles.
+
+### Application reuse and integration plan
+
+Repository/path:
+
+```text
+sableos-project/.github
+docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md
+```
+
+Read before implementing or integrating Sable Calculator/Convert, Games, Reader, Media, Dictionary, or another application derived from an existing owned project.
+
+Locked direction includes:
+
+- reuse proven first-party code before rewriting;
+- host/Gradle/Cargo verification before Panther product builds;
+- one coherent integration build per application tranche rather than one full build per small feature;
+- `rustmix-wave` as a reuse source for native games/converter/dictionary logic;
+- `rustmix-x4-firmware` as a source of reader/domain concepts rather than the primary Android renderer;
+- `vaachak-mobile` as the primary Android/Compose/Readium source for Sable Reader;
+- ESP32 Assistant as a reuse source for Music/Internet-Radio domain/state/parsing logic, not its embedded playback backend;
+- Android ownership of Android lifecycle/media/storage/sensor integration;
+- **no Lua runtime in SableOS applications**;
+- PDF remaining separate from Sable Reader in R8;
+- exact standalone-app artifact/source provenance before product integration.
+
+### Rust/Kotlin application architecture
+
+Repository/path:
+
+```text
+sableos-project/.github
+docs/RUST_APPLICATION_ARCHITECTURE.md
+```
+
+Read before adding Rust, JNI, Binder/native boundaries, unsafe code, Cargo dependencies, parser/fuzzing work, or replacing a Kotlin/platform component merely to increase Rust usage.
+
+The governing principle remains `RUST_BY_RISK, NOT_RUST_BY_BRANDING`.
 
 ### Default application/replacement policy
 
@@ -49,7 +89,7 @@ sableos-project/.github
 docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md
 ```
 
-Read before choosing or replacing Phone, Messaging, Contacts, Browser, Camera, Files, Clock, Calculator, Weather, Maps, or other product applications.
+Read before choosing or replacing Phone, Messaging, Contacts, Browser, Camera, Files, Clock, Calculator, Weather, Maps, PDF/document components, or other product applications.
 
 It deliberately does not impose a blanket "AOSP" or "Graphene" application rule. Decisions are component-level.
 
@@ -160,7 +200,14 @@ Locked direction includes:
 
 Before coding R6, also read `packages_apps_SableStart/docs/ARCHITECTURE.md` and current `MIGRATION_STATUS.md`.
 
-## R7 — Panther daily-driver qualification
+## R7 — Sable Start production surfaces + Panther daily-driver qualification
+
+Launcher requirements:
+
+```text
+sableos-project/packages_apps_SableStart
+docs/R7_PRODUCTION_SURFACES.md
+```
 
 Owning runtime matrix:
 
@@ -207,9 +254,11 @@ docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md
 
 R7 must record actual selected package/component/provenance/privilege/dependencies/maintenance status. `TBD` is preferable to an invented blanket upstream choice.
 
-## R8 — shared Sable design/theme/customization
+## R8 — shared Sable design + native application foundation
 
-Owning requirements:
+R8 is now a consolidated integration tranche rather than a design-only milestone followed immediately by a separate one-app product-build milestone.
+
+### Shared design/customization requirements
 
 ```text
 sableos-project/platform_sable
@@ -225,44 +274,65 @@ Locked first-stage direction includes:
 - bounded accent selection;
 - typed/persisted product-owned settings;
 - accessibility requirements;
-- common consumption by Sable applications;
+- common consumption by Sable Start and R8 Sable applications;
 - no broad theme marketplace or launcher-customization explosion in first R8.
 
-Read `platform_sable/docs/ARCHITECTURE.md` and `PORTABILITY_RULES.md` before introducing any new common service.
-
-## R9 — first native Sable utilities
-
-Owning common application model:
+### Application reuse/build policy
 
 ```text
-sableos-project/platform_sable
-docs/R9_SABLE_UTILITY_APP_MODEL.md
+sableos-project/.github
+docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md
 ```
 
-First planned app: **Sable Calculator**.
+R8 application workstreams are:
 
-Before Calculator source implementation, also read:
+- **Sable Calculator + Convert** — deterministic arithmetic and conversion behavior, no network/sensitive permission for core functionality;
+- **Sable Games** — initial Sudoku, Minesweeper, and 2048, reusing/refactoring native Rust game rules from `rustmix-wave`; one initial Games APK; no Lua runtime;
+- **Sable Reader** — reuse the existing Vaachak Android/Compose/Readium reader for EPUB/TXT through shared source/product adaptation rather than creating a second Android EPUB renderer;
+- **PDF** — remain on the inherited/proven secure PDF viewer in R8; future Sable Study is a separate decision;
+- **Sable Media** — Music + Internet Radio, reusing portable domain/state/parsing from the ESP32 Assistant while Android owns playback, MediaSession, storage, routing, and networking;
+- **Sable Dictionary** — desirable offline shared service/app workstream, but explicitly deferable if data/provenance/shared ownership would delay the integration freeze.
+
+### R8 pre-build and integration rule
+
+Before the R8 Panther build, applicable workstreams must pass host/application gates:
 
 ```text
-sableos-project/platform_sable
-docs/R9_CALCULATOR_REQUIREMENTS_DRAFT.md
+Rust: rustfmt + clippy + cargo tests + targeted property/fuzz tests
+Kotlin/Gradle: unit/state/static/Compose tests + standalone APK build
+Android integration: narrow Soong only when platform/resource/JNI semantics require it
 ```
 
-That document intentionally marks unresolved Calculator semantics `TBD BEFORE CODING`, including the calculation interaction model, numeric representation/rounding, percent/sign/backspace behavior, history, clipboard, persistence, and canonical repository/package/module identity. Do not decide those implicitly in code.
+Then freeze exact source/artifact identities and perform **one normal Panther integration build** followed by one Device1 integration campaign.
 
-Locked R9 direction includes:
+Do not treat `target-files-package` as a presumed cheap packaging operation; broad product targets may approach a full build and must be budgeted accordingly.
 
-- low privilege;
-- no network/sensitive permission for basic Calculator;
-- arithmetic semantics documented before implementation;
-- numeric/rounding policy documented before implementation;
-- deterministic logic tests;
-- accessibility baseline;
-- R8 design/theme consumption;
-- dedicated canonical app repository when created;
-- exact build/package/manifest integration evidence.
+Read `platform_sable/docs/ARCHITECTURE.md`, `PORTABILITY_RULES.md`, `docs/RUST_APPLICATION_ARCHITECTURE.md`, and the application reuse plan before introducing new common services or JNI boundaries.
 
-Notes/Clock/Files are later candidates only. Candidate status is not authorization to implement them.
+## R9 — next coherent application/productivity tranche
+
+R9 is no longer defined as "Calculator, then another full build." Calculator is part of R8.
+
+R9 candidates include:
+
+- Notes;
+- Flashcards implemented without a Lua runtime;
+- Voice Notes using Android audio APIs plus reusable domain logic;
+- Tilt Maze / Sokoban with Android sensor adapters;
+- Calendar after provider/permission/data ownership is explicit;
+- selected Sable Start improvements;
+- Sable Study if richer PDF annotation/highlighting/note workflows justify it.
+
+The selected R9 set must be documented before integration freeze. Candidate status is not automatic implementation authorization.
+
+R9 uses the same build discipline as R8:
+
+```text
+host/app qualification
+    -> exact source/artifact freeze
+    -> one coherent Panther integration build
+    -> one device campaign
+```
 
 ## R10+ — deliberate replacement/expansion
 
@@ -301,6 +371,7 @@ Remember:
 - semantic SableOS product version is separate;
 - branch names are not sufficient release provenance;
 - exact manifests/component commits/artifact hashes identify builds;
+- standalone application PASS is not product-image integration proof;
 - one device passing a feature does not automatically qualify another device or carrier.
 
 ## Implementation anti-drift checklist
@@ -311,12 +382,14 @@ Before writing code, answer all of these from GitHub:
 What milestone am I implementing?
 What exact requirement is this change satisfying?
 Which repository owns the behavior?
+Is there already first-party code we should reuse instead of rewrite?
 What is explicitly out of scope?
 What Android/Sable/device boundary owns the implementation?
 Does this add a permission/role/privilege/dependency?
 Does this change product composition/default apps?
+Can the behavior be host/app verified before an Android product build?
 What exact tests/evidence close the requirement?
-What source/build identity will the evidence bind to?
+What source/build/artifact identity will the evidence bind to?
 ```
 
 If an answer cannot be found, update the requirements before implementation.
