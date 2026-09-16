@@ -6,6 +6,8 @@ This document exists to prevent implementation drift. Before starting work for a
 
 The `R6`, `R7`, `R8`, `R9`, and `R10+` names below are development milestones, not public semantic SableOS product versions. Public product versioning remains governed by `platform_sable/docs/RELEASE_MODEL.md` and exact complete builds remain identified by revision-pinned manifests and artifact hashes.
 
+Application reuse, pre-build verification, and integration-build budgeting are additionally governed by `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md`.
+
 ## 1. Immediate objective
 
 The current priority is to turn the validated Panther build into a dependable daily-driver phone as quickly as possible while preserving SableOS architecture boundaries and evidence-based validation.
@@ -16,8 +18,10 @@ The shortest path is not to replace every Android application. The shortest path
 2. finish the approved Sable Start production surfaces without reintroducing demo data or unnecessary privilege;
 3. prove core phone functionality on the validated substrate;
 4. establish one coherent Sable design/customization system before multiplying Sable-owned applications;
-5. build simple, high-value Sable utilities where replacement risk is low;
-6. replace complex inherited applications only when there is a clear privacy, UX, maintenance, or architectural benefit.
+5. reuse already-proven first-party application/domain code wherever it reduces duplication and risk;
+6. pre-verify Rust/Kotlin/application logic outside the Panther product graph whenever that proof is honest;
+7. batch coherent application work into fewer, more valuable full product builds;
+8. replace complex inherited applications only when there is a clear privacy, UX, maintenance, or architectural benefit.
 
 The daily-driver baseline is:
 
@@ -88,9 +92,11 @@ Sable-owned common code should provide stable semantics where the product benefi
 
 ### 2.3 Sable application responsibilities
 
-Sable-owned applications are appropriate when the application is sufficiently self-contained, can be maintained safely, and provides a clear product benefit. The first intended example is Sable Calculator.
+Sable-owned applications are appropriate when the application is sufficiently self-contained, can be maintained safely, and provides a clear product benefit.
 
-Do not create a new Sable application merely because an inherited application exists. The replacement must have an explicit purpose and acceptance criteria.
+Do not create a new Sable application merely because an inherited application exists. Prefer reuse of already-working first-party code when it can be adapted without importing inappropriate embedded/platform architecture.
+
+For Rust/Kotlin boundaries, follow `docs/RUST_APPLICATION_ARCHITECTURE.md`. For source-reuse decisions, follow `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md`.
 
 ## 3. Application-source policy
 
@@ -102,10 +108,12 @@ The default selection policy is:
 | --- | --- | --- |
 | Security/platform critical | use validated platform/substrate implementation | networking, telephony framework, permissions, Settings plumbing |
 | Complex interoperability application | retain/provision a proven implementation first | Phone, SMS/MMS, Camera, browser |
-| Simple self-contained utility | strong Sable-owned candidate | Calculator, Notes, selected Clock UI |
+| Simple/self-contained or already-proven first-party application | strong Sable-owned/reuse candidate | Calculator, Games, Reader, selected media/utilities |
 | Content/provider application | use explicit provider/adapter architecture; avoid hard dependency | Weather, Maps, search/content providers |
 
 AOSP-derived or GrapheneOS-derived application reuse must be evaluated component-by-component. Source availability alone is not sufficient; licensing, trademark/branding, privileged permissions, dependencies, update model, security ownership, and compatibility all matter.
+
+First-party code reuse from other owned projects still requires third-party dependency/data/license review.
 
 Maps and Weather applications currently installed for testing should remain installed through R6 because they provide useful third-party inventory fixtures. They are not baseline SableOS dependencies.
 
@@ -305,7 +313,7 @@ A working alarm/clock implementation is required for daily-driver readiness. It 
 
 #### Calculator
 
-A working calculator is part of the user baseline. R7 may temporarily use an inherited calculator if present. The first intended Sable-owned utility application is delivered in R9.
+A working calculator is part of the user baseline. R7 may temporarily use an inherited calculator if present. The Sable-owned Calculator is part of the consolidated R8 application foundation rather than requiring a separate product-build milestone.
 
 ### 5.4 R7 default-app selection gate
 
@@ -337,15 +345,19 @@ R7 is not blocked on:
 
 A working, secure, maintainable phone and a real, privacy-preserving Sable Start take priority.
 
-## 6. R8 — Sable design system and customization foundation
+## 6. R8 — Sable native application foundation
 
 ### 6.1 Goal
 
-Establish the shared visual/product contract before multiple Sable-owned applications independently invent styling and customization behavior.
+R8 establishes the shared Sable design/customization contract **and** proves a reusable application-development model through a coherent batch of host-qualified Sable applications.
 
-Detailed requirements live in `platform_sable/docs/R8_DESIGN_SYSTEM_AND_CUSTOMIZATION.md`.
+R8 is intentionally consolidated so that expensive Panther product builds validate a meaningful application tranche rather than one small feature at a time.
 
-### 6.2 Required first-stage theme capabilities
+Detailed design requirements live in `platform_sable/docs/R8_DESIGN_SYSTEM_AND_CUSTOMIZATION.md`.
+
+Application reuse/build-budget requirements live in `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md`.
+
+### 6.2 Shared design/customization foundation
 
 At minimum establish shared tokens/contracts for:
 
@@ -361,63 +373,179 @@ At minimum establish shared tokens/contracts for:
 - accent selection abstraction;
 - accessibility/contrast expectations.
 
-### 6.3 Initial customization scope
-
-The first user-facing customization scope should be small:
+Initial user-facing customization remains bounded:
 
 - Follow system / Light / Dark;
 - accent choice;
 - persistence of the chosen Sable setting;
-- shared consumption by Sable Start and later Sable applications.
+- shared consumption by Sable Start and R8 Sable applications.
 
-Later candidates include launcher density, tile sizing, icon treatment, Start layout, background style, greeting options, clock format, animation levels, and accessibility sizing. These are not automatically part of R8 merely because the architecture supports them.
+Theme/customization state must be product-owned and typed. Avoid scattering literal colors/dimensions and independent preference keys across applications.
 
-### 6.4 Architectural rule
+### 6.3 R8 application workstreams
 
-Theme/customization state must be product-owned and typed. Avoid scattering literal colors/dimensions and independent preference keys across applications. The point of R8 is to prevent Sable Start, Calculator, Notes, Clock, and later apps from drifting into separate design systems.
+The initial application tranche is:
 
-## 7. R9 — First native Sable utilities
+#### Sable Calculator + Convert
+
+- dedicated Sable Calculator application;
+- deterministic arithmetic/domain behavior;
+- unit conversion as a secondary surface unless requirements later justify a separate app;
+- reuse/refactor portable conversion logic where suitable;
+- no network or unnecessary sensitive permission for core functionality;
+- deterministic host tests before product integration.
+
+#### Sable Games
+
+Initial collection:
+
+- Sudoku;
+- Minesweeper;
+- 2048.
+
+Primary source inspiration/reuse comes from `aimindseye/rustmix-wave` native Rust game implementations.
+
+Use one Sable Games application initially. Reuse game rules/state while replacing embedded display/input/storage assumptions with Android/Compose adapters.
+
+**Do not include a Lua runtime, Lua application catalog, or Lua game scripting layer in SableOS.**
+
+Tilt Maze and Sokoban/Tilt are later candidates after Android sensor adapters are intentionally designed.
+
+#### Sable Reader
+
+Primary implementation source is `vaachak-platform/vaachak-mobile` rather than a new Android renderer built from the embedded Rustmix reader.
+
+Initial scope:
+
+- EPUB;
+- TXT;
+- library/recent books;
+- progress;
+- bookmarks;
+- highlights;
+- TOC;
+- search;
+- TTS where suitable;
+- reader appearance controls;
+- e-ink-oriented behavior where useful.
+
+Prefer shared-source/product-flavor reuse of Vaachak's proven Android/Compose/Readium implementation over copying it into an immediately divergent fork.
+
+Rustmix X4 reader code remains a source of reusable domain concepts, compact persistence ideas, and test cases; it is not the preferred Android EPUB renderer.
+
+#### PDF
+
+Keep PDF separate from Sable Reader in R8.
+
+Use the inherited/proven secure PDF viewer for normal PDF viewing. Do not add a second PDF rendering engine to Sable Reader merely for product unification.
+
+A future Sable Study application may be evaluated only when richer PDF highlighting, annotation, note-taking, organization, or study workflows justify a separate product.
+
+#### Sable Media
+
+One application may provide:
+
+- local Music;
+- Internet Radio.
+
+Reuse/refactor portable station/media domain logic from `aimindseye/ESP32-S3-Touch-LCD-1.85C-Assistant`, including station models/parsing and useful deterministic state.
+
+Do not port ESP hardware playback architecture such as FreeRTOS/PSRAM/I2S/PCM5101/HELIX glue into Android by default. Android owns media playback, MediaSession, audio focus, routing, lifecycle, MediaStore/SAF, and radio networking.
+
+#### Sable Dictionary
+
+Offline dictionary work from Rustmix and existing Vaachak dictionary interfaces may be unified when data/provenance and shared ownership are clear. Dictionary is desirable but may be explicitly deferred if it would block the first R8 integration freeze.
+
+### 6.4 Pre-build verification policy
+
+R8 establishes the rule that ordinary application/domain iteration is verified before invoking the Panther product graph.
+
+Applicable gates include:
+
+```text
+Rust:
+  rustfmt
+  clippy
+  cargo test
+  property/fuzz tests where justified
+
+Kotlin/Gradle:
+  JVM/unit tests
+  coroutine/state tests
+  static analysis/lint
+  Compose semantics tests
+  standalone APK build
+
+Android integration:
+  targeted Soong build only when platform/resource/JNI/product semantics require it
+```
+
+Host/standalone tests do not prove Android product integration; they exist to prevent expensive product builds from discovering ordinary domain/application defects.
+
+### 6.5 R8 full-build budget
+
+R8 source workstreams do **not** each receive a Panther full build.
+
+The intended sequence is:
+
+```text
+shared design/test foundation
+        +
+Calculator/Convert host-qualified
+        +
+Games host-qualified
+        +
+Reader app-qualified
+        +
+Media app-qualified
+        +
+Dictionary included or explicitly deferred
+        |
+        v
+R8 INTEGRATION FREEZE
+        |
+        v
+ONE normal Panther full integration build
+        |
+        v
+artifact fidelity
+        |
+        v
+ONE Device1 R8 integration campaign
+```
+
+If a workstream is not ready, defer it explicitly instead of lowering its acceptance criteria merely to preserve the batch.
+
+## 7. R9 — Next coherent application/productivity tranche
 
 ### 7.1 Goal
 
-Prove that the Sable application model can produce small, high-quality, low-privilege utilities that share the Sable design system and validation approach.
+R9 is not defined as one application followed by one full product build. It batches the next coherent set of host-qualified application/productivity improvements after the R8 application foundation is proven.
 
-### 7.2 First application: Sable Calculator
-
-Sable Calculator is the intended first native Sable utility because it is:
-
-- self-contained;
-- low privilege;
-- easy to validate deterministically;
-- broadly useful;
-- a good template for build integration, theming, accessibility, packaging, testing, and release provenance.
-
-Initial Calculator requirements should be written before source implementation. At minimum the requirements should specify:
-
-- supported arithmetic operations;
-- numeric/error behavior;
-- input model;
-- history policy, if any;
-- accessibility semantics;
-- orientation/window behavior;
-- theme integration;
-- no network permission;
-- no unnecessary sensitive permissions;
-- deterministic unit/host tests for expression behavior;
-- runtime smoke/interaction evidence.
-
-Do not expand the first calculator into a scientific/programmer/conversion suite unless the requirements are intentionally broadened first.
-
-### 7.3 Next utility candidates
-
-After Calculator is validated, candidates include:
+Candidates include:
 
 - Notes;
-- selected Clock UI/functionality;
-- Sable Files presentation/semantic layer;
-- other simple offline utilities.
+- Flashcards implemented with native Rust/Kotlin domain logic rather than Lua runtime execution;
+- Voice Notes using Android audio APIs with reusable domain/state logic;
+- Tilt Maze / Sokoban using Android sensor adapters;
+- Calendar only after provider/permission/data-ownership requirements are explicit;
+- selected Sable Start improvements;
+- Sable Study if a richer PDF study workflow is justified.
 
-Each is a separate decision. Candidate status is not authorization to implement it.
+Candidate status is not automatic authorization to implement every item. The selected R9 set must be written down before its integration freeze.
+
+### 7.2 R9 build policy
+
+Use the same application-development model established in R8:
+
+```text
+host/app qualification
+    -> exact source/artifact freeze
+    -> one coherent Panther integration build
+    -> one device campaign
+```
+
+Do not return to one-full-build-per-small-feature development unless a platform/security change genuinely requires it.
 
 ## 8. R10+ — Deliberate inherited-application replacement
 
@@ -452,30 +580,34 @@ R6  real Sable Start launcher + local-time greeting
 R7  Sable Start production surfaces + daily-driver phone validation + explicit default-app decisions
  |
  v
-R8  shared Sable design/theme/customization foundation
+R8  shared Sable design + native application foundation
+    (Calculator/Convert + Games + Reader + Media; Dictionary optional/deferable)
  |
  v
-R9  first native Sable utilities, beginning with Calculator
+R9  next coherent host-qualified application/productivity tranche
  |
  v
 R10+ deliberate replacement/expansion based on documented value
 ```
 
-Work may be researched in parallel, but closure claims must respect dependencies. For example, R8 design documentation may be drafted while R7 testing proceeds, but an unproven R7 daily-driver baseline must not be hidden by theme work.
+Work may be researched in parallel, but closure claims must respect dependencies. R8 source/app work may proceed while R7 device integration is finishing, but an unproven R7 daily-driver baseline must not be hidden by application expansion.
+
+Milestone names and product-build count are not one-to-one. Multiple source workstreams can intentionally converge on one integration artifact.
 
 ## 10. Repository ownership for this plan
 
 | Repository | Milestone responsibility |
 | --- | --- |
-| `.github` | organization-wide product direction, roadmap, contribution/process expectations |
+| `.github` | organization-wide product direction, roadmap, application reuse/build-budget policy, contribution/process expectations |
 | `packages_apps_SableStart` | R6 launcher inventory/search/greeting behavior and R7 production launcher surfaces/tests |
 | `platform_sable` | release model, common semantic contracts, R8 theme/customization contracts, cross-app product APIs |
-| `device_sable_panther` | R7 Panther runtime qualification and device-specific evidence |
-| `vendor_sable` | product composition/default package inclusion/overlays/common product configuration; no app source copies |
+| `device_sable_panther` | R7/R8 Panther runtime qualification and device-specific evidence |
+| `vendor_sable` | product composition/default package inclusion/overlays/common product configuration; no opaque app source copies |
 | `platform_manifest` | exact multi-repository composition and milestone/release revision pinning |
 | `build` | build/reconstruction/evidence gates and host tooling |
+| Sable application repositories / approved shared-source repositories | application-specific requirements, standalone tests, reproducible artifact provenance |
 
-Future Sable application repositories should own their application-specific requirements while referencing this document for product direction and `platform_sable` for common contracts.
+Future Sable application repositories should own their application-specific requirements while referencing this document, `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md`, and `platform_sable` common contracts.
 
 ## 11. Requirements precedence and change control
 
@@ -483,7 +615,7 @@ When building a milestone, use this precedence:
 
 1. explicit current user/product decision recorded in the repository;
 2. milestone-specific normative requirements in the owning repository;
-3. this organization-wide plan;
+3. this organization-wide plan and application-reuse plan;
 4. architecture/portability/release policies;
 5. implementation convenience.
 
@@ -510,9 +642,10 @@ Typical closure layers are:
 
 ```text
 source identity
-  -> build identity
-  -> package/artifact identity
-  -> install/integration identity
+  -> host/domain verification
+  -> standalone application artifact identity where applicable
+  -> product build identity
+  -> package/artifact integration identity
   -> runtime behavior
   -> user-visible behavior
   -> reconstruction from revision-pinned composition
@@ -520,7 +653,9 @@ source identity
 
 Not every small feature needs every layer independently, but a product-level milestone must not claim more than its evidence establishes.
 
-Exact hashes, commit/tree identities, manifest revisions, device/build identity, authorization boundaries, and test conditions should be recorded where they materially affect reproducibility.
+Exact hashes, commit/tree identities, manifest revisions, app artifact identities, device/build identity, authorization boundaries, and test conditions should be recorded where they materially affect reproducibility.
+
+A standalone app PASS does not prove product-image integration. Conversely, a full product build should not be used as the first-line detector for deterministic arithmetic, game-rule, parser, or ordinary application-state bugs that can be caught cheaply on the host.
 
 ## 13. Current fixtures and assumptions
 
@@ -528,9 +663,18 @@ The primary current reference target is Pixel 7 (`panther`) against the validate
 
 Maps and Weather applications that were added during location/live-surface work should remain installed through the initial R6 inventory validation unless there is a separate reason to remove them. They provide useful non-core applications for completeness, search, icon, launch, and package-removal testing. Their presence does not make either application part of the SableOS required default-app set.
 
+Current R8 reuse planning recognizes the following first-party source projects, with exact production-import revisions to be pinned at implementation time:
+
+- `aimindseye/rustmix-wave`;
+- `aimindseye/rustmix-x4-firmware`;
+- `aimindseye/ESP32-S3-Touch-LCD-1.85C-Assistant`;
+- `vaachak-platform/vaachak-mobile`.
+
+Third-party dependencies/assets inside those repositories remain subject to independent provenance/license/security review.
+
 ## 14. Definition of success for the current development train
 
-The current train has achieved its practical objective when a fresh, revision-pinned SableOS composition can be built and installed on the qualified Panther target and a user can reliably:
+The daily-driver objective is reached when a fresh, revision-pinned SableOS composition can be built and installed on the qualified Panther target and a user can reliably:
 
 - unlock and use Sable Start;
 - find and launch installed applications;
@@ -544,4 +688,6 @@ The current train has achieved its practical objective when a fresh, revision-pi
 - use a coherent Sable light/dark/accent foundation for Sable-owned UI;
 - reproduce the build and validation claims from recorded source identities and evidence.
 
-That baseline matters more than prematurely replacing every inherited Android application.
+The R8 application-foundation objective adds a second integration checkpoint: the selected R8 Calculator/Convert, Games, Reader, Media, and optional Dictionary workstreams are host/app-qualified, frozen to exact identities, integrated through one deliberate Panther build, and validated on Device1 without weakening the daily-driver baseline.
+
+That progression matters more than prematurely replacing every inherited Android application or repeatedly rebuilding the full product after each small application change.
