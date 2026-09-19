@@ -10,11 +10,12 @@ Before changing source, product composition, build tooling or device state:
 
 1. read the organization development plan;
 2. read the owning repository's architecture/requirements;
-3. identify the current stage: A1, A2, B1, B2/B3 or later release-signing work;
-4. bind exact source/upstream/artifact/toolchain baseline;
-5. identify permission, network, privilege, exported-component and data-ownership changes;
-6. identify unresolved `TBD` behavior and do not let implementation silently choose it;
-7. state validation and authorization boundaries before mutation.
+3. read the security/quality engineering policy for source, dependency, CI, coverage, fuzzing and performance obligations;
+4. identify the current stage: A1, A2, B1, B2/B3 or later release-signing work;
+5. bind exact source/upstream/artifact/toolchain baseline;
+6. identify permission, network, privilege, exported-component and data-ownership changes;
+7. identify unresolved `TBD` behavior and do not let implementation silently choose it;
+8. state validation and authorization boundaries before mutation.
 
 Requirements define intended behavior. Evidence records whether it was met.
 
@@ -57,6 +58,29 @@ Titan 2           = second R8 portability/runtime target
 ```
 
 There is no active `sable-signer-01`. OptiPlex is removed from the planned signing architecture. Production signing is deferred until development qualification is satisfactory on Panther and Titan 2.
+
+### Security, quality, test and performance engineering
+
+```text
+sableos-project/.github/docs/SECURITY_QUALITY_ENGINEERING.md
+```
+
+This is the normative assurance policy for:
+
+```text
+OWASP MASVS/MASTG mobile-security mapping
+least privilege / privacy review
+CodeQL / MobSF / Android Lint / detekt / ktlint
+Rust fmt / Clippy / advisory / dependency policy
+Kover + cargo-llvm-cov coverage reporting and ratchet
+property/fuzz testing / selective Miri/sanitizers
+secret scanning / action pinning / dependency provenance
+SBOM/artifact provenance
+performance measurement and regression budgets
+private-source / trusted-runner separation
+```
+
+A planned control is not treated as implemented merely because it appears in this policy. The policy contains an explicit implemented-vs-required-next status section.
 
 ### Application reuse/Rust-Kotlin architecture
 
@@ -104,7 +128,7 @@ Do not rewrite earlier evidence to fit the current architecture.
 sableos-project/device_sable_panther/docs/R7_DAILY_DRIVER_VALIDATION.md
 ```
 
-R7 remains the baseline for calls, contacts, SMS/MMS, Wi-Fi, cellular, browser/Internet, notifications, Settings, camera/photos, files, clock/alarm, Calculator baseline and Sable Start accessibility. Unexecuted cases remain unproven.
+R7 remains the baseline for calls, contacts, SMS/MMS, Wi-Fi, cellular, browser/Internet, notifications, Settings, camera/photos/files, clock/alarm, Calculator baseline and Sable Start accessibility. Unexecuted cases remain unproven.
 
 ### Build/product claim ladder
 
@@ -127,31 +151,23 @@ sableos-project/build/docs/MILESTONE_EVIDENCE_GATES.md
 
 ## 5. R8 application workstreams
 
+The application/product details continue to evolve from the validated Panther reference baseline. The current product direction is captured in the owning requirements before implementation.
+
 ### R8-A — shared design
 
 ```text
 sableos-project/platform_sable/docs/R8_DESIGN_SYSTEM_AND_CUSTOMIZATION.md
 ```
 
-Normative first-R8 appearance:
+Shared visual/interaction behavior remains bounded by accessibility, readability, localization and platform-security constraints.
 
-```text
-Follow system
-Light
-Dark
-bounded accent
-reset/default
-shared semantic roles
-accessibility/readability rules
-```
+### R8-B — Calculator
 
-### R8-B — Calculator + Convert
-
-Deterministic arithmetic/conversion domain behavior, Kotlin/Compose presentation, no network/sensitive permission for core operation. Unresolved Calculator interaction semantics remain requirements `TBD`.
+Current direction consolidates Standard + Scientific + offline conversion in one Sable Calculator product. Deterministic arithmetic/conversion domain behavior belongs in the Rust core where appropriate; Kotlin/Compose owns Android presentation/accessibility/lifecycle. No network/sensitive permission is required for core calculator/conversion behavior.
 
 ### R8-C — Games
 
-Sudoku, Minesweeper and 2048; deterministic Rust cores where useful; Compose/Android presentation/input; no Lua runtime.
+Sudoku, Mines and 2048 are moving toward separate application products with deterministic Rust cores where useful and Kotlin/Compose presentation/input. No Lua runtime is required.
 
 ### R8-D — Reader publication path
 
@@ -171,30 +187,37 @@ sableos-project/platform_sable/docs/SABLE_READER_TEXT_ACCESSIBILITY_CAPABILITY.m
 
 ### R8-E — Media
 
-Local Music + Internet Radio. Android owns Media3/MediaSession, codecs, storage/document access, audio routing, lifecycle/background behavior and networking.
+Local Music + Internet Radio. Android owns Media3/MediaSession, codecs, storage/document access, audio routing, lifecycle/background behavior and networking. Sable-owned deterministic metadata/playlist/station logic may live in Rust where that improves correctness without duplicating Android media plumbing.
 
 ## 6. R8-A1 — disposable qualification
 
-GitHub CI lanes may include:
+GitHub CI lanes should converge on independently diagnosable controls such as:
 
 ```text
+repository/workflow policy
+secret scanning
 Rust correctness
 Rust dependency/security
+Rust coverage
+selected Rust property/fuzz tests
 Android compile/tests
-Android static analysis
+Android static/code-quality analysis
+Android coverage
+CodeQL
+MobSF/mobsfscan
 Reader compile/tests
 Reader policy/static
 Text Reader compile/tests
 Text Reader policy/static
 qualification APK seal
-repository/workflow policy
+OWASP MASVS/MASTG evidence mapping where applicable
 ```
 
 A1 output is qualification evidence. It is not automatically the trusted artifact that enters the product.
 
 ## 7. R8-A2 — trusted standalone application build
 
-A2 runs on `ai-g732` after builder migration/preflight closure.
+A2 runs on `ai-g732` only after builder migration/private-source/runner preflight closure.
 
 For each accepted app bind:
 
@@ -212,9 +235,12 @@ JNI .so hashes
 native ABI inventory
 16 KiB ELF/APK compatibility
 dependency/provenance inventory
+security/static-analysis summary
+coverage provenance where applicable
+SBOM/provenance identity where available
 ```
 
-Where reproducible, compare A1 and A2 outputs. Do not promote unexplained differences into a release input.
+Where reproducible, compare A1 and A2 outputs. Do not promote unexplained differences into a product input.
 
 ## 8. R8 integration freeze
 
@@ -264,7 +290,9 @@ The requirement is verified output compatibility, not one hard-coded linker flag
 
 ## 11. R8-B2 — Panther
 
-After A1/A2/freeze/B1 close for the selected tranche, build one coherent Panther development image and run one bounded Panther campaign. Do not use the full image as the first compiler for ordinary app code.
+The first coherent R8 Panther development image and static/manual functional acceptance establish the current reference baseline. Further large source/UX expansion is preceded by private-source/CI/reproducibility hardening, followed by fresh Panther reconstruction and regression qualification.
+
+Panther acceptance includes the relevant R7 regressions plus exact R8 package/image/JNI/security/runtime evidence. Performance baselines become ratcheted only after representative measurements exist.
 
 ## 12. R8-B3 — Titan 2 portability
 
@@ -283,24 +311,41 @@ Where compatible, Titan 2 must consume the same frozen common R8 app artifacts a
 | square display | baseline | explicit gate |
 | Reader OCR/TTS | capability gate | capability gate |
 | Media3/audio | capability gate | capability gate |
+| performance | measured baseline | measured independently |
 
 Titan-specific secondary-display/program-key/FM features are not common R8 requirements unless separately approved.
 
 R8 portability closes only with bounded target adapters and no common application source fork.
 
-## 13. Build-host migration
+## 13. Build-host / private-source hardening
 
-Before using `ai-g732` for A2/B1/B2/B3, prove host/storage/source/tool/output identities, isolated OUT_DIR policy, free-space monitoring, target selection, application-freeze inputs and absence of accidental old-workspace-only dependencies.
+Before `ai-g732` is considered the fully commissioned trusted builder, prove:
+
+```text
+host/storage/source/tool/output identities
+private canonical Git source reconciliation
+protected review/required-check policy
+persistent-source at-rest protection decision
+isolated self-hosted runner/service account
+no arbitrary PR execution on trusted runner
+no production-signing material on ordinary builder
+isolated OUT_DIR policy
+free-space monitoring
+target selection / accepted application inputs
+absence of accidental old-workspace-only dependencies
+```
+
+A plain successful historical OUT is evidence, not a substitute for fresh reconstruction from canonical source.
 
 ## 14. Production signing — later
 
-Production APK keys, AVB hierarchy, OTA signing, `sign_target_files_apks`, key custody/backup/recovery/rotation and signed release handoff are deliberately deferred until Panther and Titan 2 development qualification is satisfactory.
+Production APK keys, AVB hierarchy, OTA signing, `sign_target_files_apks`, key custody/backup/recovery/rotation and signed release handoff are deliberately deferred until repeatable Panther and Titan 2 development qualification is satisfactory.
 
 The ThinkPad P50 is only a future signing-host candidate. Do not call it `sable-signer-01` until the role is designed and commissioned.
 
 ## 15. R9+
 
-R9 is the next coherent productivity/application tranche, not first Calculator. Candidate work remains Notes, Voice Notes, Flashcards, selected sensor games, Calendar after provider/data/permission design, future Sable Study/PDF workflow and selected Sable Start improvements.
+R9 is the next coherent productivity/application tranche rather than a place to move unfinished R8 infrastructure. Candidate work remains Notes, Voice Notes, Flashcards, selected sensor games, Calendar after provider/data/permission design, future Sable Study/PDF workflow and selected Sable Start improvements.
 
 ## 16. Anti-drift checklist
 
@@ -312,6 +357,9 @@ Which repository/layer owns it?
 A1, A2, B1, B2/B3 or later release work?
 What is still TBD?
 What privilege/network/data authority changes?
+Which OWASP/security-quality controls apply?
+What tests/coverage/fuzz/static-analysis evidence applies?
+What performance dimension can regress and how will it be measured?
 What exact source/artifact/toolchain identity is tested?
 What evidence closes this layer?
 What later claim remains unproven?
