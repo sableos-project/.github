@@ -35,12 +35,12 @@ No current Sable-owned application requires `android:sharedUserId`. Sable Start 
 The merged documentation/tooling defines the R8 plan; it does not pre-claim execution results that have not happened yet.
 
 ```text
-A1 disposable qualification              architecture/current CI path
-A2 trusted standalone app build          pending execution on ai-g732
-B1 pre-image Android integration gate     pending execution on ai-g732
-B2 Panther development image/runtime      not yet authorized by plan merge alone
-B3 Titan 2 portability image/runtime      follows Panther acceptance
+A1 disposable qualification              PASS for current R8 source tranche
+A2 trusted standalone app build/freeze   PASS for current Panther R8 app set; Media refreeze pending preview cleanup
+B1 pre-image Android integration gate     product composition PASS; corrected module compile pending
+B2 Panther development image/runtime      pending corrected module gate + final target-files build
+B3 Titan 2 portability image/runtime      follows Panther physical acceptance
 production signing                        deferred until dual-target development qualification
 ```
 
-The next evidence-producing work is therefore A2/B1 on the migrated, sealed `ai-g732` environment, not another broad image build.
+Current Panther work is beyond the original planning-only boundary. The active execution authority is the owning `aimindseye/sableos` R8 closure evidence; this organization document records the architecture and must not override newer target-specific evidence.
