@@ -59,6 +59,7 @@ Production AVB/OTA/application signing is intentionally deferred until developme
 - R8-D Reader publication path: Vaachak Mobile / Readium.
 - R8-D2 Reader text/accessibility: TXT / share/process-text / TTS / OCR.
 - R8-E Media: local Music + Internet Radio.
+- R8-F Sable Hub / Messages: SMS + People baseline, retained Android MMS/RCS transport, isolated WEB provider capsules; no default SMS role in R8.
 
 ## Titan 2 portability target
 
