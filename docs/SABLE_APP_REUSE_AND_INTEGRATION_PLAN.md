@@ -163,7 +163,11 @@ Network/model-download behavior is an explicit policy gate. On-device execution 
 
 Local Music + Internet Radio. Portable station/parser/probe concepts may be reused; Android owns Media3/codec playback, MediaSession, audio focus/routing, lifecycle/background behavior, SAF/MediaStore and networking.
 
-## 14. JNI/native integration
+## 14. R8-F — Sable Hub / Messages
+
+Sable Hub provides the common communication surface as `org.sableos.hub` / **Sable Messages**. R8 includes SMS/People capability where Android permissions permit it and isolated WEB provider capsules for WhatsApp, Instagram, Messenger and LinkedIn. The proven Android messaging transport remains available for MMS/RCS and fallback; R8-F does not seize the default SMS role and does not implement private provider protocols.
+
+## 15. JNI/native integration
 
 For Rust-backed apps prove as applicable:
 
@@ -179,7 +183,7 @@ representative Kotlin -> JNI -> Rust execution
 
 Do not introduce JNI merely to increase Rust usage.
 
-## 15. Native 16 KiB compatibility
+## 16. Native 16 KiB compatibility
 
 Every R8 APK containing native libraries must be verified compatible with 16 KiB page-size systems.
 
@@ -194,13 +198,13 @@ representative JNI execution
 
 Use the pinned NDK/toolchain's appropriate mechanism; do not hard-code one linker flag if the toolchain already emits compliant binaries.
 
-## 16. Common product ownership
+## 17. Common product ownership
 
 Common imported-module definitions and common `PRODUCT_PACKAGES` selection belong in `vendor_sable`.
 
 Panther and Titan 2 products inherit common Sable composition and add only documented target exceptions. Do not duplicate the common app list in every device repository.
 
-## 17. Build budget
+## 18. Build budget
 
 ```text
 A1 CI                               repeat freely
@@ -215,11 +219,11 @@ Titan 2 device campaign             once per accepted portability image
 
 A target-files/packaging target is not presumed cheap. Use graph/dry-run evidence first.
 
-## 18. Trusted builder transition
+## 19. Trusted builder transition
 
 Before A2/B1/B2/B3 on `ai-g732`, seal host/storage/source/tool/output identities, OUT/evidence roots, free-space floor/monitoring, target configuration and exact frozen app inputs. Do not copy ThinkPad-specific absolute path assumptions into generic tooling.
 
-## 19. Production signing — deferred
+## 20. Production signing — deferred
 
 Development/test signing may be used for functional engineering images.
 
@@ -227,12 +231,12 @@ Production application keys, AVB hierarchy, OTA signing, `sign_target_files_apks
 
 The ThinkPad P50 is a future signing-host candidate only after Android building moves to `ai-g732`. It is not yet `sable-signer-01`. OptiPlex is removed from the current signing plan.
 
-## 20. R8 closure
+## 21. R8 closure
 
 R8 development architecture closes only when selected workstreams have accepted A2 artifacts, B1 integration proof, Panther development-image/runtime acceptance and Titan 2 portability acceptance within stated boundaries.
 
 This still does not constitute a production signed release claim.
 
-## 21. R9 direction
+## 22. R9 direction
 
 R9 is the next coherent productivity/application tranche, not the first Calculator milestone. It follows the same A1 -> A2 -> freeze -> B1 -> image -> device evidence model.
