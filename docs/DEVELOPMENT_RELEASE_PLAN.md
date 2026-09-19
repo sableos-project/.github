@@ -196,6 +196,45 @@ Reuse `vaachak-platform/vaachak-mobile` / Readium for EPUB/publication behavior 
 
 Reuse qualified `vaachak-platform/vaachak-textreader` capability for TXT, share/process-text, TTS and OCR. Compose into one Sable Reader product. Translation/model-download/network behavior remains an explicit privacy gate.
 
+### R8-F — Sable Hub / central messaging baseline
+
+R8-F is now part of the first usable Panther/Titan common-app gate and must close before the next Panther full image.
+
+Product direction:
+
+```text
+user-visible surface: Sable Messages
+architecture:         Sable Hub
+package:              org.sableos.hub
+
+views:
+  ALL
+  MESSAGES
+  PEOPLE
+  SERVICES
+```
+
+The implementation retains mature Android transport/enforcement while Sable owns conversation/person/service presentation.
+
+Baseline capability:
+
+- SMS conversation/read/compose over supported Android Telephony capability;
+- ContactsProvider person identity;
+- underlying proven Android messaging transport retained for MMS/RCS until Sable fully qualifies those default-handler responsibilities;
+- isolated provider web capsules for WhatsApp, Instagram, Facebook/Messenger and LinkedIn where no appropriate consumer API exists;
+- explicit provider class: NATIVE_DATA / ANDROID_NOTIFICATION / SUPPORTED_API / WEB / UNAVAILABLE;
+- no private application database/protocol scraping;
+- no claim that WEB capability is a native unified inbox;
+- one common semantic implementation for Panther touch-first and Titan 2 keyboard-first presentation.
+
+R8-F must not become the default SMS role holder until the complete Android default-SMS responsibilities, including SMS/MMS receive/write behavior and rollback, are independently qualified.
+
+Required pre-image marker:
+
+```text
+R8_F_SABLE_HUB_MESSAGES=PASS
+```
+
 ### R8-E — Media
 
 Local Music + Internet Radio. Android owns Media3/MediaSession, codecs, audio focus/routing, lifecycle/background behavior, storage/document access and networking. Portable parsing/state logic may be reused where valuable.
