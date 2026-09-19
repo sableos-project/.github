@@ -37,6 +37,7 @@ R8 now qualifies a coherent set of Sable-owned/reused applications:
 - Reader publication capability from Vaachak Mobile;
 - Reader TXT/share/TTS/OCR capability from Vaachak Text Reader;
 - Media.
+- Sable Hub / Messages central communication surface, while retaining the proven Android messaging transport for MMS/RCS and fallback.
 
 Their inclusion in R8 source qualification does **not** automatically replace the inherited product application. Replacement/product adoption happens only after standalone gates, exact artifact freeze, product wiring and runtime validation.
 
@@ -129,9 +130,11 @@ The Internet permission is explicit and justified only for radio/network feature
 
 ## 10. Complex inherited applications
 
-Phone, Messaging, Browser and Camera remain proven-inherited-first categories. A future Sable replacement must show concrete privacy/security/UX/maintenance value and must qualify the additional privilege/interoperability burden.
+Phone, Browser and Camera remain proven-inherited-first categories. Messaging transport also remains proven-inherited-first for responsibilities Sable Hub does not yet own.
 
-A new implementation compiling successfully is not a replacement argument.
+R8-F Sable Hub is a user-facing central communication surface, not a claim of full messaging-stack replacement. It may read/send SMS when Android permissions permit it, organize People/services, and hand off/fall back to the proven Android messaging transport for MMS/RCS. It does not take the default SMS role in R8.
+
+A future full Sable replacement for Phone, Messaging transport, Browser or Camera must show concrete privacy/security/UX/maintenance value and qualify the additional privilege/interoperability burden. A new implementation compiling successfully is not a replacement argument.
 
 ## 11. Test fixtures and optional applications
 
