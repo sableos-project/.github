@@ -14,7 +14,7 @@ This is the organization-level current-state snapshot. Historical R5–R8 requir
 [![License](https://img.shields.io/static/v1?label=License&message=per-component&color=007ec6&style=flat-square)](../docs/LICENSING.md)
 [![Platform](https://img.shields.io/static/v1?label=Platform&message=Android%2017%20%2F%20SDK%2037&color=3DDC84&style=flat-square&logo=android&logoColor=white)](../docs/CURRENT_RELEASE_STATUS.md)
 [![Optimized for](https://img.shields.io/static/v1?label=Optimized%20for&message=Pixel%207%20%2F%20Panther&color=111111&style=flat-square)](https://github.com/sableos-project/device_sable_panther)
-[![Interaction](https://img.shields.io/static/v1?label=Interaction&message=Touch%20%2B%20Keyboard--First&color=6f42c1&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Interaction](https://img.shields.io/static/v1?label=Interaction&message=Touch%20%2B%20Keyboard-First&color=6f42c1&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 
 ## Current release train
 
