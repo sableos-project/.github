@@ -4,7 +4,7 @@
 > is no longer the active top-level milestone. **R9 is active**: Launcher3/Quickstep
 > HOME migration and Sable Start visual closure are complete, a source-bound fresh
 > Panther full build is in progress, physical Pixel 7 qualification follows, and
-> Titan 2 remains queued as the keyboard-first portability target. GitHub-hosted
+> Titan 2 and Titan 2 Elite remain queued as complementary keyboard-first portability targets. GitHub-hosted
 > build CI is retired; canonical qualification runs locally on the controlled build
 > machine. See [CURRENT_RELEASE_STATUS.md](CURRENT_RELEASE_STATUS.md).
 >
