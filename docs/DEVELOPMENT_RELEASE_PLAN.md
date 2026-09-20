@@ -1,5 +1,17 @@
 # SableOS development release plan
 
+> **2026-09-20 current execution overlay:** R8 application/design/product integration
+> is no longer the active top-level milestone. **R9 is active**: Launcher3/Quickstep
+> HOME migration and Sable Start visual closure are complete, a source-bound fresh
+> Panther full build is in progress, physical Pixel 7 qualification follows, and
+> Titan 2 remains queued as the keyboard-first portability target. GitHub-hosted
+> build CI is retired; canonical qualification runs locally on the controlled build
+> machine. See [CURRENT_RELEASE_STATUS.md](CURRENT_RELEASE_STATUS.md).
+>
+> Where older R8/A1 hosted-CI sequencing below conflicts with this overlay, treat
+> it as preserved architecture/history rather than the current execution order.
+
+
 Status: **normative product direction for the current development train.**
 
 This document defines the current milestone order, build/release workflow and ownership boundaries. Historical requirement/evidence documents remain valid records of what earlier gates required or proved; this document defines what work happens next.
@@ -8,47 +20,40 @@ The `R*` labels are internal development/validation milestones, not semantic Sab
 
 ## 1. Current program state
 
-- **R5/R6 foundation:** Sable Start source migration/build work established a canonical organization-owned launcher source path and real launcher/product direction.
-- **R7 product/build forensics:** Panther product graph work established strong firmware/product packaging provenance and reinforced the separation between module discovery, product selection, PRODUCT_OUT, target-files, image and runtime claims.
-- **R8 is active now:** shared design plus independently qualified native applications, followed by a trusted application build/freeze, bounded pre-image Android integration, one Panther development image/campaign and then a Titan 2 portability image/campaign.
+- **R5/R6 foundation:** launcher/source migration and early product architecture.
+- **R7 product/build forensics:** Panther product graph, target-files and runtime evidence discipline.
+- **R8 foundation:** shared design, first-party applications, artifact freeze and product composition.
+- **R9 is active now:** Launcher3/Quickstep HOME foundation + Sable Start visual closure are PASS; fresh Panther build causality is being proved next; physical Pixel 7 runtime acceptance follows.
+- **Titan 2:** queued after Panther R9 acceptance as the keyboard-first N0 portability/GSI lab.
 
 R7 daily-driver/runtime requirements remain valid where not yet exercised on an accepted image. Starting R8 does not turn untested R7 runtime cases into PASS.
 
 ## 2. Current development train
 
 ```text
-R5/R6  migration + real launcher foundation
+R8 foundation
+  shared design + Calculator/Games/Reader/Media/Hub/Mail + product composition
              |
              v
-R7     Panther product wiring + daily-driver evidence baseline
+R9-L
+  Launcher3/Quickstep HOME + Sable Start production presentation
+  visual gate PASS
              |
              v
-R8-A1  disposable standalone qualification
-       GitHub-hosted Rust/Kotlin/Gradle/static/security CI
+R9-P
+  local-CI qualified, source-bound fresh Panther full build
              |
              v
-R8-A2  trusted standalone application build on ai-g732
-       pinned toolchains + APK/JNI provenance + 16 KiB validation
+R9-D
+  physical Pixel 7 HOME / Overview / Recents / runtime acceptance
              |
              v
-       exact R8 application freeze
+Titan 2
+  T0 stock inventory -> keyboard-first N0 GSI portability qualification
              |
              v
-R8-B1  pre-image Android/Soong product-integration gate on ai-g732
-             |
-             v
-R8-B2  Panther development image + Panther qualification
-             |
-             v
-R8-B3  Titan 2 development integration/image + portability qualification
-             |
-             v
-LATER  production signing/release workstream
-       ThinkPad P50 is a future signing-host candidate only after
-       Panther + Titan 2 development qualification is satisfactory
-             |
-             v
-R9+    next coherent productivity/replacement tranche
+later
+  broader product tranche + production signing/OTA release engineering
 ```
 
 Do not reintroduce the superseded sequence `R8 theme only -> R9 first Calculator`. Calculator/Convert, Games, Reader and Media are part of R8.
