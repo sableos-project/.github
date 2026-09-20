@@ -19,7 +19,8 @@ Do not rewrite historical evidence merely to make it resemble the current plan.
 
 | Document | Class | Current meaning |
 | --- | --- | --- |
-| `profile/README.md` | CURRENT_NORMATIVE | public organization landing/current program summary |
+| `profile/README.md` | CURRENT_NORMATIVE | public organization landing/current program summary + gate badges |
+| `docs/CURRENT_RELEASE_STATUS.md` | CURRENT_NORMATIVE | exact current R9 gate state, local-CI model and Panther/Titan sequence |
 | `docs/DEVELOPMENT_RELEASE_PLAN.md` | CURRENT_NORMATIVE | milestone/build/release direction |
 | `docs/REQUIREMENTS_INDEX.md` | CURRENT_NORMATIVE | read-before-code index |
 | `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md` | CURRENT_NORMATIVE | organization R8 app qualification/integration policy |
@@ -56,7 +57,7 @@ Do not rewrite historical evidence merely to make it resemble the current plan.
 | `docs/R6_ALL_APPS_AND_GREETING.md` | HISTORICAL REQUIREMENTS | preserved R6 requirement baseline |
 | R3/R6 evidence/status documents | HISTORICAL | do not rewrite past evidence |
 
-The current R8 SableStart customization PR must be reconciled with R8-A before merge; Metro/Graphite/OLED and user-selectable corner styles are not current first-R8 requirements.
+The active launcher direction is R9 Launcher3/Quickstep foundation + Sable Start presentation. Historical standalone-HOME and R8 customization branches remain evidence/reference; current product HOME is `com.android.launcher3/.sable.SableQuickstepLauncher`.
 
 ## `vendor_sable`
 
@@ -104,11 +105,11 @@ Open R6 product-composition PRs remain implementation state and must not be desc
 ## Current cross-repository architecture
 
 ```text
-Process A: standalone app qualification
-  GitHub/local app workspace
-      -> tests/static/security
-      -> qualification APKs/native artifacts
-      -> exact freeze
+Process A: local direct qualification
+  controlled build machine
+      -> tests/static/security/app builds
+      -> source-bound evidence
+      -> exact artifact freeze
 
 Process B: OS product integration
   platform_sable contracts

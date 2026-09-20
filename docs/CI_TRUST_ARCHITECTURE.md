@@ -1,5 +1,16 @@
 # SableOS CI trust architecture
 
+> **Current execution mode (2026-09-20):** GitHub-hosted build/qualification
+> workflows are no longer the authoritative CI path, and no GitHub self-hosted
+> runner is active. SableOS runs direct local CI on the controlled build machine,
+> reusing the canonical pinned host toolchain and writing source-bound evidence.
+> GitHub remains source/review/issues/documentation infrastructure. The historical
+> T0 hosted-runner model below is retained as trust-model background and a possible
+> future disposable lane, not current release authority.
+>
+> Canonical current status: [CURRENT_RELEASE_STATUS.md](CURRENT_RELEASE_STATUS.md).
+
+
 Status: **normative CI/build/device/signing trust model.**
 
 SableOS separates disposable qualification, trusted standalone application builds, trusted Android product/image builds, physical-device validation and later production signing.
@@ -9,12 +20,13 @@ The detailed security/code-quality/coverage/performance policy is defined in [`S
 ## 1. Current infrastructure roles
 
 ```text
-GitHub hosted     = T0 disposable/untrusted A1 application/static/security CI
-ai-g732           = intended T1 trusted A2/B1/B2/B3 application + Android builder
-thinkpad-p50      = historical/reference builder during migration;
-                    future production-signing-host candidate only
-Pixel 7 / panther = T2 primary R8 runtime target
-Titan 2           = T2 second R8 portability/runtime target
+GitHub             = source hosting / review / issues / documentation
+local controlled CI= active source/static/app qualification
+ai-g732            = trusted development/build host
+GitHub self-hosted = disabled / deferred pending encryption + isolation
+thinkpad-p50       = historical/reference; future signing-host candidate only
+Pixel 7 / panther  = primary R9 runtime target
+Titan 2            = queued keyboard-first portability/runtime target
 ```
 
 There is no active `sable-signer-01` yet. OptiPlex is not part of the current signing plan.
