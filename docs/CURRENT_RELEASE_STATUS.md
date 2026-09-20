@@ -64,7 +64,10 @@ The internal R* names are development/validation milestones, not semantic public
 | Fresh Panther full-build causality | **IN PROGRESS** | must use an initially absent source-bound OUT and produce fresh target-files |
 | Pixel 7 R9 physical acceptance | **PENDING** | flashing/device mutation waits for fresh-build proof |
 | Titan 2 stock read-only inventory | **ALLOWED WHEN HARDWARE AVAILABLE** | observational T0 work may run without mutation |
-| Titan 2 GSI/flash | **QUEUED** | blocked until Panther R9 physical acceptance |
+| Titan 2 GSI/flash | **QUEUED** | community GSI feasibility demonstrated; Sable qualification waits for Panther |
+| Titan 2 Elite stock read-only inventory | **ALLOWED WHEN HARDWARE AVAILABLE** | independent T0 capture required |
+| Titan 2 Elite GSI/flash | **CANDIDATE / QUEUED** | Android 16/Treble architecture fits GSI; bootloader/fastboot/recovery + actual boot still require device proof |
+| Keyboard-device camera enhancement | **PLANNED** | Titan 2, Titan 2 Elite and Q27 share one capability-driven camera workstream |
 | Production signing / OTA | **DEFERRED** | not on the current development critical path |
 
 The earlier 53-second Panther target request is retained as useful **incremental product-composition evidence**, not as proof of a fresh full rebuild.
@@ -158,7 +161,7 @@ R9_FULL_BUILD_CAUSALITY=PASS_ABSENT_OUT_TO_FRESH_TARGET_FILES
 
 **Pixel 7 / panther** remains the authoritative full-stack Android 17 development and security target.
 
-**Titan 2** is the next portability target, classified initially as a keyboard-first N0 GSI/userspace lab:
+**Titan 2 and Titan 2 Elite** are the next portability targets, classified initially as keyboard-first N0 GSI/userspace labs:
 
 ```text
 navigation.primary=keyboard
@@ -189,3 +192,7 @@ Use this document together with:
 - `SECURITY_QUALITY_ENGINEERING.md` — engineering-assurance requirements.
 
 Historical evidence is preserved. It is not rewritten to make old milestones look current.
+
+### Camera workstream
+
+Titan 2, Titan 2 Elite and Zinwa Q27 now share a common camera-quality roadmap. SableOS will use an open-source camera baseline (preferably GrapheneOS Camera/CameraX) plus Camera2 capability probing and measured device tuning. Community GCam/LMC ports are reference behavior only, not redistributable Sable product code. The Titan 2 Elite community port is particularly useful for square-screen layout, tap-to-focus transform, preview resolution, stabilization and color-tuning lessons. If the Elite telephoto is truly advertised as Android `SYSTEM_CAMERA`, SableOS may be able to expose it through a narrowly privileged system camera app, subject to explicit permission and negative-access gates.

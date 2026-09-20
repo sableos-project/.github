@@ -13,6 +13,7 @@ SableOS is an experimental privacy- and security-focused Android-compatible mobi
 [![Platform](https://img.shields.io/static/v1?label=Platform&message=Android%2017%20%2F%20SDK%2037&color=3DDC84&style=flat-square&logo=android&logoColor=white)](../docs/CURRENT_RELEASE_STATUS.md)
 [![Optimized for](https://img.shields.io/static/v1?label=Optimized%20for&message=Pixel%207%20%2F%20Panther&color=111111&style=flat-square)](https://github.com/sableos-project/device_sable_panther)
 [![Interaction](https://img.shields.io/static/v1?label=Interaction&message=Touch%20%2B%20Keyboard-First&color=6f42c1&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Keyboard Targets](https://img.shields.io/static/v1?label=Keyboard%20Targets&message=Titan%202%20%2B%20Elite%20%2B%20Q27&color=6f42c1&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 
 > Applications provide capabilities; Sable organizes people, attention and actions.
 
@@ -120,14 +121,14 @@ Application compilation, product selection, target-files membership and physical
 
 **Pixel 7 / panther** is the primary Android 17 full-stack reference.
 
-**Titan 2** is the next portability lab and is explicitly keyboard-first:
+**Titan 2 and Titan 2 Elite** are the next portability labs and are explicitly keyboard-first:
 
 ```text
 navigation.primary=keyboard
 navigation.secondary=touch
 ```
 
-Its first purpose is to validate physical-QWERTY focus/navigation, printable-key type-to-search, pointer/touch coexistence and square/compact layout behavior using the same common Sable product contracts. Titan 2 mutation remains gated behind Panther R9 physical acceptance.
+Their first purpose is to validate physical-QWERTY focus/navigation, printable-key type-to-search, pointer/touch coexistence and square/compact layout behavior using the same common Sable product contracts. Titan 2 mutation remains gated behind Panther R9 physical acceptance.
 
 ## Repositories
 
