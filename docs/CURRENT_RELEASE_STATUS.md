@@ -4,12 +4,17 @@ Status date: **2026-09-20**
 
 This is the organization-level current-state snapshot. Historical R5–R8 requirement and evidence documents remain valid records, but this document defines the current execution state when older milestone wording conflicts with it.
 
-![Local CI](https://img.shields.io/badge/CI-local%20direct-active-2ea44f)
-![R9 Launcher](https://img.shields.io/badge/R9%20launcher%20visual-PASS-2ea44f)
-![Product composition](https://img.shields.io/badge/product%20composition-PASS-2ea44f)
-![Fresh Panther](https://img.shields.io/badge/fresh%20Panther%20build-IN%20PROGRESS-f0ad4e)
-![Pixel 7](https://img.shields.io/badge/Pixel%207%20physical-PENDING-lightgrey)
-![Titan 2](https://img.shields.io/badge/Titan%202-keyboard--first%20QUEUED-6f42c1)
+[![Local CI](https://img.shields.io/static/v1?label=CI&message=Local%20Direct&color=2ea44f&style=flat-square)](../docs/CI_TRUST_ARCHITECTURE.md)
+[![R9 Launcher](https://img.shields.io/static/v1?label=R9%20Launcher&message=Visual%20PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Product Composition](https://img.shields.io/static/v1?label=Product%20Composition&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Fresh Panther](https://img.shields.io/static/v1?label=Fresh%20Panther&message=IN%20PROGRESS&color=f0ad4e&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+
+[![CodeQL Security Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml)
+[![OWASP MobSF Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml)
+[![License](https://img.shields.io/static/v1?label=License&message=per-component&color=007ec6&style=flat-square)](../docs/LICENSING.md)
+[![Platform](https://img.shields.io/static/v1?label=Platform&message=Android%2017%20%2F%20SDK%2037&color=3DDC84&style=flat-square&logo=android&logoColor=white)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Optimized for](https://img.shields.io/static/v1?label=Optimized%20for&message=Pixel%207%20%2F%20Panther&color=111111&style=flat-square)](https://github.com/sableos-project/device_sable_panther)
+[![Interaction](https://img.shields.io/static/v1?label=Interaction&message=Touch%20%2B%20Keyboard-First&color=6f42c1&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 
 ## Current release train
 
