@@ -7,7 +7,7 @@ This is the organization-level current-state snapshot. Historical R5–R8 requir
 [![Local CI](https://img.shields.io/static/v1?label=CI&message=Local%20Direct&color=2ea44f&style=flat-square)](../docs/CI_TRUST_ARCHITECTURE.md)
 [![R9 Launcher](https://img.shields.io/static/v1?label=R9%20Launcher&message=Visual%20PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 [![Product Composition](https://img.shields.io/static/v1?label=Product%20Composition&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
-[![Fresh Panther](https://img.shields.io/static/v1?label=Fresh%20Panther&message=IN%20PROGRESS&color=f0ad4e&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Fresh Panther](https://img.shields.io/static/v1?label=Fresh%20Panther&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 
 [![CodeQL Security Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml)
 [![OWASP MobSF Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml)
@@ -20,7 +20,7 @@ This is the organization-level current-state snapshot. Historical R5–R8 requir
 
 The current development release is **R9**.
 
-R8 established the shared design/application/product-integration foundation. R9 is closing the launcher/home architecture and then proving the resulting full Panther product from a fresh source-bound Android output before physical-device acceptance.
+R8 established the shared design/application/product-integration foundation. R9 has closed the launcher/home architecture and proved the resulting Panther product from a fresh source-bound Android output. Physical-device acceptance is now the remaining R9 gate.
 
 ```text
 R8
@@ -61,8 +61,8 @@ The internal R* names are development/validation milestones, not semantic public
 | Standalone SableStart HOME APK | **RETIRED** | product target is Launcher3QuickStep; standalone SableStart product package is absent |
 | R8 first-party app composition | **PASS** | target-files composition has proven the eight-app set and package identities |
 | Incremental Panther product build | **PASS** | warmed-output product/target-files composition is healthy |
-| Fresh Panther full-build causality | **IN PROGRESS** | must use an initially absent source-bound OUT and produce fresh target-files |
-| Pixel 7 R9 physical acceptance | **PENDING** | flashing/device mutation waits for fresh-build proof |
+| Fresh Panther full-build causality | **PASS** | exact source `20f6ed40b78e205b39bf2d657eaad29432a0016a`; absent source-bound OUT produced fresh target-files SHA-256 `7a9b81c6f9f37c783bcf6d7bb8760a7bcf918dc56a1fc89bb6babc1d6e402e71` |
+| Pixel 7 R9 physical acceptance | **PENDING / NOW AUTHORIZED TO PROCEED** | fresh-build gate is closed; physical HOME/Overview/Recents/runtime acceptance remains independent |
 | Titan 2 stock read-only inventory | **ALLOWED WHEN HARDWARE AVAILABLE** | observational T0 work may run without mutation |
 | Titan 2 GSI/flash | **QUEUED** | community GSI feasibility demonstrated; Sable qualification waits for Panther |
 | Titan 2 Elite stock read-only inventory | **ALLOWED WHEN HARDWARE AVAILABLE** | independent T0 capture required |
@@ -71,6 +71,36 @@ The internal R* names are development/validation milestones, not semantic public
 | Production signing / OTA | **DEFERRED** | not on the current development critical path |
 
 The earlier 53-second Panther target request is retained as useful **incremental product-composition evidence**, not as proof of a fresh full rebuild.
+
+### Fresh Panther build evidence
+
+The source-bound full Panther build completed successfully on 2026-09-20:
+
+```text
+SOURCE=20f6ed40b78e205b39bf2d657eaad29432a0016a
+R8_FULL_BUILD_RC=0
+R8_FULL_BUILD=PASS
+R8_BUILD_SANDBOX=PASS
+R9_LAUNCHER3_HOME_PREFLIGHT=PASS
+R8_UI_MODULE_BUILD=PASS
+R8_FINAL_TARGET_FILES=PASS
+R9_TARGET_FILES_FRESHNESS=PASS
+R9_FRESH_FULL_BUILD=PASS
+R9_FULL_BUILD_CAUSALITY=PASS_ABSENT_OUT_TO_FRESH_TARGET_FILES
+PANTHER_FINAL_UI_BUILD=PASS
+R8_RELEASE_CANDIDATE=PASS
+SABLE_RELEASE_BUILD_RC=0
+```
+
+Target-files identity:
+
+```text
+out_sable_r9_full_20f6ed40b78e/target/product/panther/obj/PACKAGING/target_files_intermediates/panther-target_files.zip
+SHA256=7a9b81c6f9f37c783bcf6d7bb8760a7bcf918dc56a1fc89bb6babc1d6e402e71
+```
+
+The remaining R9 claim is physical Pixel 7 runtime acceptance; build success does not imply that runtime PASS.
+
 
 ## Launcher architecture
 
@@ -170,7 +200,7 @@ navigation.secondary=touch
 
 Titan acceptance must explicitly cover physical-keyboard focus, printable-key type-to-search, Enter/Back behavior, HOME navigation, pointer/touch coexistence and square/compact layout behavior. Panther touch-first success does not imply Titan 2 success.
 
-Titan 2 mutation/flash remains blocked until the R9 Panther fresh build and physical runtime gates close.
+Titan 2 mutation/flash remains blocked until the R9 Panther physical runtime gate closes. The fresh-build prerequisite is now PASS.
 
 ## Release plan after Panther R9
 

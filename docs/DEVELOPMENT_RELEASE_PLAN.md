@@ -2,8 +2,8 @@
 
 > **2026-09-20 current execution overlay:** R8 application/design/product integration
 > is no longer the active top-level milestone. **R9 is active**: Launcher3/Quickstep
-> HOME migration and Sable Start visual closure are complete, a source-bound fresh
-> Panther full build is in progress, physical Pixel 7 qualification follows, and
+> HOME migration and Sable Start visual closure are complete, the source-bound fresh
+> Panther full build is PASS, physical Pixel 7 qualification is next, and
 > Titan 2 and Titan 2 Elite remain queued as complementary keyboard-first portability targets. GitHub-hosted
 > build CI is retired; canonical qualification runs locally on the controlled build
 > machine. See [CURRENT_RELEASE_STATUS.md](CURRENT_RELEASE_STATUS.md).
@@ -23,7 +23,7 @@ The `R*` labels are internal development/validation milestones, not semantic Sab
 - **R5/R6 foundation:** launcher/source migration and early product architecture.
 - **R7 product/build forensics:** Panther product graph, target-files and runtime evidence discipline.
 - **R8 foundation:** shared design, first-party applications, artifact freeze and product composition.
-- **R9 is active now:** Launcher3/Quickstep HOME foundation + Sable Start visual closure are PASS; fresh Panther build causality is being proved next; physical Pixel 7 runtime acceptance follows.
+- **R9 is active now:** Launcher3/Quickstep HOME foundation + Sable Start visual closure + fresh Panther build causality are PASS; physical Pixel 7 runtime acceptance is next.
 - **Titan 2:** queued after Panther R9 acceptance as the keyboard-first N0 portability/GSI lab.
 
 R7 daily-driver/runtime requirements remain valid where not yet exercised on an accepted image. Starting R8 does not turn untested R7 runtime cases into PASS.
