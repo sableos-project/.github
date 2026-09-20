@@ -1,136 +1,141 @@
 # SableOS Project
 
-SableOS is an experimental privacy- and security-focused Android-compatible operating system built around portable Sable-owned applications and product contracts while retaining Android's mature security, hardware, telephony, media and application-sandbox boundaries.
+SableOS is an experimental privacy- and security-focused Android-compatible mobile OS built around a common Sable product core, narrow privilege boundaries, strong evidence/provenance rules and distinct touch-first / keyboard-first interaction profiles.
 
-SableOS is developed with an evidence-first engineering model: least privilege, narrow trust boundaries, measurable performance, reproducible artifact provenance and layered automated/runtime testing are product requirements rather than release-time add-ons.
+![Local CI](https://img.shields.io/badge/CI-local%20direct-active-2ea44f)
+![R9 Launcher](https://img.shields.io/badge/R9%20launcher%20visual-PASS-2ea44f)
+![Product composition](https://img.shields.io/badge/product%20composition-PASS-2ea44f)
+![Fresh Panther](https://img.shields.io/badge/fresh%20Panther%20build-IN%20PROGRESS-f0ad4e)
+![Pixel 7](https://img.shields.io/badge/Pixel%207%20physical-PENDING-lightgrey)
+![Titan 2](https://img.shields.io/badge/Titan%202-keyboard--first%20QUEUED-6f42c1)
 
-## Current state
+> Applications provide capabilities; Sable organizes people, attention and actions.
 
-The active development train is:
+## Current release
 
-```text
-R5/R6  source migration + real Sable Start foundation       historical base
-R7     Panther product wiring + daily-driver evidence       evidence baseline
-R8-A1  disposable GitHub app qualification                  established
-R8-A2  trusted standalone app build on ai-g732              established
-R8-B1  pre-image Android/Soong integration proof            established
-R8-B2  Panther development image + qualification            reference PASS
-R8-INFRA private-source/CI/security/reproducibility hardening ACTIVE
-R8-UX  Sable application/shell evolution                    next implementation tranche
-R8-B3  Titan 2 development image + portability qualification pending
-LATER  production signing/release workstream
-```
+**R9** is the active development milestone.
 
-`R*` names are internal development/validation milestones, not public product versions.
+R8 established the first-party application/design/product-composition foundation. R9 moves Sable Start onto the mature Launcher3/Quickstep HOME/Recents foundation, closes the production visual identity, proves a genuinely fresh Panther build, and then validates the exact image on a physical Pixel 7.
 
-Start with [`docs/DEVELOPMENT_RELEASE_PLAN.md`](../docs/DEVELOPMENT_RELEASE_PLAN.md), [`docs/REQUIREMENTS_INDEX.md`](../docs/REQUIREMENTS_INDEX.md) and [`docs/SECURITY_QUALITY_ENGINEERING.md`](../docs/SECURITY_QUALITY_ENGINEERING.md).
-
-## R8 execution model
+Current status:
 
 ```text
-A1 — disposable qualification
-GitHub-hosted Rust/Kotlin/Gradle/static/security CI
-        |
-        v
-A2 — trusted standalone application build
-ai-g732 with pinned toolchains
-        |
-        v
-exact trusted application freeze
-        |
-        v
-B1 — pre-image Soong/product integration proof
-        |
-        v
-B2 — Panther development image + runtime acceptance
-        |
-        v
-B3 — Titan 2 portability image + runtime acceptance
-        |
-        v
-later production signing
+LOCAL_DIRECT_CI=ACTIVE
+GITHUB_HOSTED_BUILD_CI=RETIRED
+SELF_HOSTED_GITHUB_ACTIONS_RUNNER=DISABLED
+
+R9_LAUNCHER3_FOUNDATION=PASS
+R9_SABLESTART_VISUAL_REVIEW_SET=PASS
+R9_SABLESTART_PRODUCT_IDENTITY=APPROVED
+R8_FIRST_PARTY_PRODUCT_COMPOSITION=PASS
+
+R9_FRESH_PANTHER_FULL_BUILD=IN_PROGRESS
+R9_PIXEL7_PHYSICAL_ACCEPTANCE=PENDING
+TITAN2_KEYBOARD_FIRST_PORTABILITY=QUEUED_AFTER_PANTHER
+PRODUCTION_SIGNING=DEFERRED
 ```
 
-GitHub artifacts are qualification evidence; they do not automatically enter the trusted product binary chain. The Panther/AOSP tree is an integration environment, not the everyday compiler for independently developed applications.
+See **[Current release status](../docs/CURRENT_RELEASE_STATUS.md)** for the exact claim boundaries.
 
-## Security, quality and performance engineering
+## CI is a product feature
 
-SableOS does not equate a successful build, a scanner result, a percentage-coverage number or use of Rust with security. Assurance is layered and evidence-based.
+SableOS treats CI/build qualification as part of the product architecture rather than a green checkmark at the end.
 
-The engineering contract includes:
-
-- OWASP MASVS/MASTG-aligned mobile-security requirements and evidence mapping;
-- least-privilege Android permissions, AppOps, exported-component and data-flow review;
-- Rust-by-risk architecture with narrow, reviewed JNI/FFI boundaries;
-- Rust `rustfmt`, Clippy, unit/property tests, RustSec advisory checks and targeted fuzzing;
-- Android/Kotlin compilation, Android Lint, CodeQL, MobSF and additional code-quality/static checks;
-- dependency provenance, immutable CI-action pinning, lock/verification policy and artifact hashing;
-- Kover/cargo-llvm-cov coverage reporting with a baseline/ratchet policy rather than arbitrary vanity thresholds;
-- Compose/instrumentation/UIAutomator tests plus physical-device acceptance;
-- 16 KiB native-library compatibility checks;
-- measured startup, frame/jank, memory, CPU/I/O and power behavior where relevant;
-- fresh-build reproducibility and exact source/toolchain/artifact provenance across trust boundaries;
-- strict separation between disposable PR CI, the trusted development builder, physical devices and any future production-signing environment.
-
-Some controls are already implemented across SableOS repositories; others are explicitly listed as required infrastructure consolidation before the next large source expansion. Documentation distinguishes implemented controls from planned controls instead of presenting a roadmap item as a completed security guarantee.
-
-See [`docs/SECURITY_QUALITY_ENGINEERING.md`](../docs/SECURITY_QUALITY_ENGINEERING.md) and [`docs/CI_TRUST_ARCHITECTURE.md`](../docs/CI_TRUST_ARCHITECTURE.md).
-
-## Current R8 workstreams
-
-The R8 application/shell plan is evolving from the validated Panther functional baseline. Current direction includes:
-
-- **Sable Start / shell:** Metro-influenced, Sable-owned Start/Home, app list, search and related system-surface integration while retaining mature Android enforcement boundaries;
-- **Calculator:** Standard + Scientific + offline conversion in one Sable Calculator product;
-- **Games:** separate Sudoku, Mines and 2048 applications with deterministic Rust cores where useful;
-- **Reader:** one Sable Reader product composing accepted publication and text/accessibility capabilities;
-- **Media:** local Media + Internet Radio with Android-owned Media3/platform integration and Sable-owned deterministic domain logic where appropriate.
-
-Substantial UX/source changes resume only after the private-source/CI/reproducibility infrastructure is canonicalized.
-
-## Native portability
-
-R8 native libraries must be verified compatible with 16 KiB page-size systems. The requirement is measured ELF/APK compatibility using the pinned toolchain, not one hard-coded linker flag for all environments.
-
-Where compatible, Panther and Titan 2 should consume the same frozen common R8 app artifacts and the same common `vendor_sable` product composition. Device repositories own only real target-specific adaptation.
-
-## Build and signing hosts
+The current model is intentionally local and evidence-bound:
 
 ```text
-GitHub hosted     = disposable/untrusted A1 CI
-ai-g732           = trusted-development builder after infrastructure hardening
-thinkpad-p50      = historical/reference builder during migration;
-                    future production-signing-host candidate only
-Pixel 7 / panther = primary R8 runtime target
-Titan 2           = second R8 portability/runtime target
+GitHub
+  source + review + issues + documentation
+
+controlled build machine
+  one pinned host toolchain
+  local CI lanes
+  trusted app builds
+  Soong/product gates
+  source-bound fresh Panther builds
+  hash/evidence retention
+
+physical devices
+  separately authorized runtime acceptance
 ```
 
-OptiPlex is no longer part of the planned signing architecture.
+GitHub-hosted Actions are no longer the authoritative build path, and a GitHub self-hosted runner is not active. Future remote execution must satisfy the existing encryption/isolation trust requirements before activation.
 
-Production AVB/OTA/application signing is deliberately deferred until repeatable development builds and runtime behavior are satisfactory on both Panther and Titan 2. The ThinkPad must not be called `sable-signer-01` until that later role is actually designed, secured and commissioned.
+The canonical release command is release-neutral:
 
-## Repository architecture
+```bash
+bash build/panther/run-release.sh R9
+```
 
-- **`.github`** — organization roadmap, trust, security/quality engineering and product policy.
-- **`platform_sable`** — shared Sable semantic/design/application architecture.
-- **`platform_manifest`** — exact OS source composition and accepted external-artifact provenance.
-- **`packages_apps_SableStart`** — Sable Start launcher/shell.
-- **`vendor_sable`** — common product integration and selection of qualified applications.
-- **`device_sable_*`** — bounded target adapters and runtime qualification.
-- **`build`** — trusted build, reconstruction, pre-image/product-wiring and evidence tooling.
+Only the release identifier changes between milestones.
 
-## Product principles
+## Current product architecture
 
-- Daily-driver reliability and Android security boundaries come before replacement branding.
-- Privacy and least privilege are default requirements, not optional modes.
-- Reuse proven code before rewriting it.
-- Rust is used where it materially improves correctness/risk, not as a branding target.
-- Android/Kotlin owns lifecycle, permissions, accessibility and framework integration where that boundary is safer.
-- Security, code quality, coverage, fuzzing and performance are layered engineering controls, not one-number release claims.
-- App compilation is not product-image proof.
-- Product selection is not image membership; image membership is not runtime correctness.
-- Panther success is not automatically Titan 2 portability proof.
-- Production signing is a later release-security workstream, not an R8 development dependency.
-- Requirements define behavior; evidence records whether it was achieved.
+### Sable Start
 
-For current-vs-historical document classification see [`docs/DOCUMENTATION_STATUS.md`](../docs/DOCUMENTATION_STATUS.md).
+Launcher3/Quickstep owns Android HOME, Overview/Recents, task/gesture integration and launcher lifecycle. Sable owns the product presentation rendered in the NORMAL launcher state:
+
+- Start;
+- All Apps + Sable Rail;
+- Search / Command;
+- Sable Peek;
+- Local Context;
+- Follow System / Light / Dark + bounded accent appearance.
+
+The standalone SableStart HOME APK is retired from the product graph.
+
+### First-party application set
+
+The current Panther product composition includes:
+
+- Sable Calculator — standard, scientific and conversion;
+- Sable Sudoku;
+- Sable Minesweeper;
+- Sable 2048;
+- Sable Media;
+- Sable Reader;
+- Sable Hub / Messages;
+- Sable Mail.
+
+Application compilation, product selection, target-files membership and physical runtime remain separate claims.
+
+## Hardware direction
+
+**Pixel 7 / panther** is the primary Android 17 full-stack reference.
+
+**Titan 2** is the next portability lab and is explicitly keyboard-first:
+
+```text
+navigation.primary=keyboard
+navigation.secondary=touch
+```
+
+Its first purpose is to validate physical-QWERTY focus/navigation, printable-key type-to-search, pointer/touch coexistence and square/compact layout behavior using the same common Sable product contracts. Titan 2 mutation remains gated behind Panther R9 physical acceptance.
+
+## Repositories
+
+- **platform_manifest** — exact OS source composition and release-input provenance.
+- **packages_apps_SableStart** — Sable Start presentation/source history and launcher requirements.
+- **platform_sable** — common design, semantic, application and portability contracts.
+- **vendor_sable** — common Sable product composition and imported app integration.
+- **device_sable_panther** — Pixel 7-specific adaptation and runtime qualification.
+- **build** — trusted build, local CI, reconstruction, product/freshness/evidence tooling.
+- **.github** — organization roadmap, trust, assurance and documentation authority.
+
+## Engineering principles
+
+- Preserve proven Android/vendor capability unless replacement has a concrete product/security reason.
+- Keep privileged execution behind narrow typed services and Android enforcement boundaries.
+- Use Rust where risk/correctness justify it, not as branding.
+- Never collapse source PASS, build PASS, product membership and runtime acceptance into one claim.
+- A warmed incremental output is not fresh-build proof.
+- Panther success is not Titan 2 portability proof.
+- Production signing is a later release-security workstream, not a development shortcut.
+
+Start with:
+
+- [Current release status](../docs/CURRENT_RELEASE_STATUS.md)
+- [Development release plan](../docs/DEVELOPMENT_RELEASE_PLAN.md)
+- [CI trust architecture](../docs/CI_TRUST_ARCHITECTURE.md)
+- [Security & quality engineering](../docs/SECURITY_QUALITY_ENGINEERING.md)
+- [Documentation status](../docs/DOCUMENTATION_STATUS.md)
