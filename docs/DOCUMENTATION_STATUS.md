@@ -27,6 +27,7 @@ Do not rewrite historical evidence merely to make it resemble the current plan.
 | `docs/RUST_APPLICATION_ARCHITECTURE.md` | CURRENT_NORMATIVE | Rust/Kotlin/FFI ownership policy |
 | `docs/DEFAULT_APP_AND_REPLACEMENT_POLICY.md` | CURRENT_NORMATIVE | app adoption/default/replacement policy |
 | `docs/CI_TRUST_ARCHITECTURE.md` | CURRENT_NORMATIVE | GitHub/builder/device/signer trust model |
+| `docs/LICENSING.md` | CURRENT_NORMATIVE | organization licensing-status note; per-component until an explicit repo-wide license is adopted |
 | `CONTRIBUTING.md` | CURRENT_NORMATIVE | contribution/requirements/evidence expectations |
 | `PULL_REQUEST_TEMPLATE.md` | CURRENT_NORMATIVE | PR claim/ownership/validation template |
 | `SECURITY.md` | REVIEWED_NO_CHANGE | private reporting and development security scope remains valid |
