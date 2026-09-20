@@ -5,7 +5,7 @@ SableOS is an experimental privacy- and security-focused Android-compatible mobi
 [![Local CI](https://img.shields.io/static/v1?label=CI&message=Local%20Direct&color=2ea44f&style=flat-square)](../docs/CI_TRUST_ARCHITECTURE.md)
 [![R9 Launcher](https://img.shields.io/static/v1?label=R9%20Launcher&message=Visual%20PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 [![Product Composition](https://img.shields.io/static/v1?label=Product%20Composition&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
-[![Fresh Panther](https://img.shields.io/static/v1?label=Fresh%20Panther&message=IN%20PROGRESS&color=f0ad4e&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
+[![Fresh Panther](https://img.shields.io/static/v1?label=Fresh%20Panther&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
 
 [![CodeQL Security Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml)
 [![OWASP MobSF Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml)
@@ -33,7 +33,7 @@ applicable licenses and notices. See [Licensing](../docs/LICENSING.md).
 
 **R9** is the active development milestone.
 
-R8 established the first-party application/design/product-composition foundation. R9 moves Sable Start onto the mature Launcher3/Quickstep HOME/Recents foundation, closes the production visual identity, proves a genuinely fresh Panther build, and then validates the exact image on a physical Pixel 7.
+R8 established the first-party application/design/product-composition foundation. R9 moves Sable Start onto the mature Launcher3/Quickstep HOME/Recents foundation, closes the production visual identity, and has now proved a genuinely fresh Panther build. The remaining R9 gate is validation of the exact built image on a physical Pixel 7.
 
 Current status:
 
@@ -47,7 +47,7 @@ R9_SABLESTART_VISUAL_REVIEW_SET=PASS
 R9_SABLESTART_PRODUCT_IDENTITY=APPROVED
 R8_FIRST_PARTY_PRODUCT_COMPOSITION=PASS
 
-R9_FRESH_PANTHER_FULL_BUILD=IN_PROGRESS
+R9_FRESH_PANTHER_FULL_BUILD=PASS
 R9_PIXEL7_PHYSICAL_ACCEPTANCE=PENDING
 TITAN2_KEYBOARD_FIRST_PORTABILITY=QUEUED_AFTER_PANTHER
 PRODUCTION_SIGNING=DEFERRED
