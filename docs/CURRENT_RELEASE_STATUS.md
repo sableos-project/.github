@@ -22,6 +22,21 @@ The accepted Panther image remains bound to its exact physically qualified
 source and artifact identity. Later documentation/tooling commits do not become
 new Panther image qualification sources.
 
+## Exact accepted / tooling identities
+
+```text
+R9_PANTHER_IMAGE_SOURCE=6f1d6d2f0f2525067874238c4b797ad58f2bcbc6
+R9_PANTHER_TARGET_FILES_SHA256=08ef429c7f9eef17de7ddad4ce9baa81911950e8d34b6751b6e4588f66821502
+R9_PANTHER_REFERENCE_BRANCH=reference/panther-r9-accepted-20260924
+
+K1_K2_FULL_CI_SOURCE=dec78f0f6a86c0236cd4783b14efb7ee86e45215
+K1_K2_PRIVATE_MERGE=f11502202e8913bdb2e7317d824d26577a98e7a1
+K1_K2_LOCAL_FULL_CI=PASS
+```
+
+Later public documentation commits do not change these image/tooling qualification
+identities.
+
 ## Accepted Panther architecture
 
 ```text
