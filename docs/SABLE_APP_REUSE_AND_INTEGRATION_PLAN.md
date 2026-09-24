@@ -1,6 +1,9 @@
 # SableOS application reuse and integration plan
 
-Status: **normative program policy for R8 application reuse, trusted standalone artifacts and later SableOS integration.**
+> **HISTORICAL R8 PROGRAM POLICY — superseded current-state note (2026-09-24):** Pixel 7 / Panther R9 is physically accepted and frozen. K1/K2 multi-device artifact/deployment foundation is merged. Active work is keyboard-first common-product design plus Titan 2 / Titan 2 Elite research. Current authority: `docs/CURRENT_RELEASE_STATUS.md` and `docs/DEVELOPMENT_RELEASE_PLAN.md`.
+
+
+Status: **HISTORICAL / SUPERSEDED PROGRAM POLICY — retained for R8 provenance.**
 
 This document defines organization-level rules. `platform_sable/docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md` owns the detailed shared application/platform architecture. The two documents must remain consistent.
 
