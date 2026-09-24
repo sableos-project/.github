@@ -1,5 +1,8 @@
 # R8 consolidated build-plan second-eye review
 
+> **HISTORICAL R8 REVIEW RECORD — superseded current-state note (2026-09-24):** Pixel 7 / Panther R9 is physically accepted and frozen. K1/K2 multi-device artifact/deployment foundation is merged. Active work is keyboard-first common-product design plus Titan 2 / Titan 2 Elite research. Current authority: `docs/CURRENT_RELEASE_STATUS.md` and `docs/DEVELOPMENT_RELEASE_PLAN.md`.
+
+
 Status: **review brief for experienced Android build engineering feedback.**
 
 The normative details are in `DEVELOPMENT_RELEASE_PLAN.md`, `CI_TRUST_ARCHITECTURE.md`, `SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md` and the owning repository documents.
