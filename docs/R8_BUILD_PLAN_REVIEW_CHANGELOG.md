@@ -1,5 +1,8 @@
 # R8 consolidated build-plan changelog
 
+> **HISTORICAL R8 REVIEW RECORD — superseded current-state note (2026-09-24):** Pixel 7 / Panther R9 is physically accepted and frozen. K1/K2 multi-device artifact/deployment foundation is merged. Active work is keyboard-first common-product design plus Titan 2 / Titan 2 Elite research. Current authority: `docs/CURRENT_RELEASE_STATUS.md` and `docs/DEVELOPMENT_RELEASE_PLAN.md`.
+
+
 This revision changes the prior R8 plan in these material ways:
 
 1. Splits standalone app work into **A1 disposable qualification** and **A2 trusted standalone build**.
