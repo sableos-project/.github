@@ -5,6 +5,8 @@ Status date: **2026-09-24**
 This index classifies public documentation so historical milestone evidence is
 not mistaken for current product architecture.
 
+Deep-dive reconciliation record: `docs/DOCUMENTATION_AUDIT_20260924.md`.
+
 ## Classification vocabulary
 
 ```text
