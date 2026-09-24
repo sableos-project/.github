@@ -246,3 +246,34 @@ SABLEOS_CURRENT_STALE_K1_K2_FUTURE_ONLY=ABSENT
 SABLEOS_HISTORICAL_RECORDS_PRESERVED=YES
 SABLEOS_DOCUMENTATION_RECONCILIATION=PASS
 ```
+
+
+## Post-reconciliation verification
+
+A second pass re-read every current/normative authority document after the
+updates and checked specifically for obsolete current-state assertions.
+
+Verified absent from current authority:
+
+```text
+R9 is active / Panther acceptance pending
+fresh Panther build in progress
+Panther is current PRIMARY
+Launcher3/Quickstep owns HOME
+SableStart remains shipping HOME
+one-Reader product model
+K1/K2 described as future-only
+generic deployment described as Panther flashall
+```
+
+The phrase "No new PRIMARY is declared" in the current device-support document
+was reviewed as an intentional negation, not a stale PRIMARY claim.
+
+Historical documents still contain original R3-R8/R9 wording where required for
+evidence fidelity, but each such file now carries an explicit historical or
+superseded classification at the top.
+
+```text
+SABLEOS_CURRENT_AUTHORITY_SECOND_PASS=PASS
+SABLEOS_CURRENT_AUTHORITY_STALE_CLAIM_COUNT=0
+```
