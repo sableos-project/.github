@@ -1,5 +1,8 @@
 # Default application and replacement policy
 
+> **Current execution overlay — 2026-09-24:** Panther R9 has completed product/runtime acceptance. The active first-party set includes standalone SableLauncher plus Calculator, Games, Media, Reader, Text Reader, Hub/Messages, Mail, Weather and Calendar. Reader/Text Reader are separate products. K1/K2 is merged; new default/replacement work must remain common-product-first and device-adapter-bounded.
+
+
 Status: **normative product/application selection framework.**
 
 SableOS does not require every user-facing application to be Sable-owned. Application selection is capability-by-capability and must distinguish standalone qualification from product adoption/default-role replacement.
@@ -84,7 +87,7 @@ sealed APK
  -> runtime package/component identity
 ```
 
-The Android 17 / GrapheneOS prebuilt mechanism is still to be proven. `android_app_import` is a candidate, not a policy guarantee.
+The accepted Panther R9 integration proved the product import/composition path used by that release. Future substrates or artifact kinds must still prove their own exact import/signing/partition semantics rather than assuming Panther behavior.
 
 Do not drop manually built APKs into `vendor_sable` without reproducible source/workflow/hash provenance.
 
