@@ -9,7 +9,7 @@ third-party application/components.
 
 ## Current organization state
 
-As of 2026-09-20, the public `sableos-project` repositories do **not** declare
+As of 2026-09-24, the public `sableos-project` repositories do **not** declare
 one organization-wide repository license. The organization README therefore uses:
 
 ```text
