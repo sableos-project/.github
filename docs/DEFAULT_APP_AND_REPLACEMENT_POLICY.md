@@ -1,99 +1,107 @@
-# Default application and replacement policy
+# SableOS default application and replacement policy
 
 Status: **current normative policy — 2026-09-24**
 
-SableOS replaces an inherited application because the replacement has a better
-qualified product/security/UX boundary, not merely because Sable branding exists.
+This policy separates capability ownership, product composition and replacement
+decisions. A Sable-branded implementation does not become a product default
+merely because it builds successfully.
 
-## Evidence ladder
+## Current accepted Panther reference
 
-A replacement decision distinguishes:
-
-```text
-source qualified
-  != trusted artifact
-  != product selected
-  != image/artifact membership
-  != default role
-  != runtime acceptance
-```
-
-Each layer is proven separately.
-
-## Accepted Panther reference
-
-The frozen Panther R9 reference includes the accepted Sable application family:
+The physically accepted R9 Panther product includes the current Sable
+first-party family:
 
 ```text
 SableLauncher
-Calculator
-Sudoku
-Minesweeper
-2048
-Media
-Reader
-Text Reader
-Hub / Messages
-Mail
-Weather
-Calendar
+Sable Calculator
+Sable Sudoku
+Sable Minesweeper
+Sable 2048
+Sable Media
+Sable Reader
+Sable Text Reader
+Sable Hub / Messages
+Sable Mail
+Sable Weather
+Sable Calendar
 ```
 
-Current HOME is standalone `org.sableos.launcher`. Launcher3QuickStep is
-Recents/Overview/task substrate only.
+Current HOME is standalone `org.sableos.launcher` / SableLauncher.
+Launcher3QuickStep remains Recents/Overview/task/gesture substrate only.
 
-Vanadium is the accepted browser reference on Panther.
+Reader and Text Reader are separate products.
 
-Panther Camera remains the documented upstream/preprocessed presentation
-exception for the frozen image.
+## Replacement rule
 
-## Reader products
+For any inherited/substrate application, prove replacement as a sequence:
 
-Sable Reader and Sable Text Reader are distinct accepted products. Do not merge
-or duplicate them merely because historical planning proposed one Reader
-identity.
+```text
+source/application qualification
+  -> trusted artifact identity
+  -> product selection
+  -> install path / image membership
+  -> role/default behavior
+  -> runtime acceptance
+```
 
-## Replacement requirements
+A compile PASS or launcher-visible icon is never sufficient.
 
-Before replacing an inherited app/default, prove as applicable:
+## Reuse over rewrite
 
-- exact source/upstream provenance;
-- package/component identity;
-- required permissions and privilege;
-- local/network data behavior;
-- lifecycle/background behavior;
-- import/product selection;
-- image membership;
-- role/default ownership;
-- upgrade/migration behavior;
-- runtime functionality;
-- accessibility and keyboard-first behavior where relevant;
-- security/update ownership.
+Do not replace a proven Android/substrate implementation merely to increase
+Sable branding or Rust usage.
+
+Prefer replacement when there is a clear product/security/privacy/interaction
+benefit and Sable can own the resulting maintenance/security burden.
+
+## Current inherited/reference applications
+
+Where no Sable replacement has been accepted, inherited applications remain
+valid product components.
+
+Examples from the frozen Panther reference include Vanadium as the browser and
+the documented upstream/preprocessed Camera presentation exception.
+
+Keyboard-first devices move toward a common Sable Camera and Sable Keyboard /
+input stack, but that does not retroactively reopen the frozen Panther image.
+
+## Product composition ownership
+
+Common application selection/integration belongs in `vendor_sable`.
+
+Device repositories may add only bounded target-specific exceptions. A
+device-specific workaround must not duplicate the common application family.
 
 ## Privilege
 
-Do not add `sharedUserId`, privileged permissions, system UID or custom SELinux
-authority merely to make replacement easier.
+Default/replacement status does not justify broader privilege.
 
-A future Sable Camera may use `SYSTEM_CAMERA` only on a device where physical
-evidence proves a system-only camera capability is valuable and negative
-third-party access tests preserve the boundary.
+New privileged permissions, signer-based access, system-only APIs or special
+SELinux domains require explicit architecture/security evidence.
 
 ## Multi-device rule
 
-Common app/replacement policy is device-independent.
+Panther is REFERENCE_FROZEN.
 
-Panther is frozen. Titan 2 and Titan 2 Elite should consume the same common
-qualified app source where compatible. Device adapters may change hardware
-integration, not clone application ownership.
+Titan 2 and Titan 2 Elite should consume the same common application source and
+product semantics where compatible. Keyboard-first presentation is an
+interaction profile, not a per-device application fork.
 
-## Artifact classes
+Q27 remains research-only.
 
-K1 registry v2 means a product may be carried by target-files, full-device
-images, GSI/system images or bounded bundles. Artifact class does not change the
-replacement evidence requirements.
+## Artifact/import semantics
+
+The accepted Panther R9 release proved its own Android 17/product integration
+mechanism.
+
+Future substrates and artifact kinds must independently prove module/import,
+signing, partition, dexpreopt/uses-library and runtime semantics rather than
+assuming Panther behavior.
+
+K1 registry schema v2 can represent multiple artifact classes, but generic
+registry support is not replacement/default-app qualification.
 
 ## Production signing
 
-Development acceptance does not imply production release signing/update
-ownership. That remains a later program.
+Development/test signing is separate from production application/AVB/OTA
+signing. Production signing remains deferred.
