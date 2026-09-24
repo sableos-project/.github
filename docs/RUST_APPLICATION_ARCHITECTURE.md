@@ -1,5 +1,8 @@
 # SableOS Rust application architecture
 
+> **Current architecture overlay — 2026-09-24:** this document remains useful for Rust/Kotlin ownership boundaries. Product HOME is now standalone `org.sableos.launcher` / SableLauncher; Launcher3QuickStep is Recents-only. Panther is frozen and keyboard-first Titan work must reuse common app/domain code rather than fork by device.
+
+
 Status: **normative product/security architecture for Rust and Kotlin/Compose application development.**
 
 SableOS uses Rust where it materially reduces risk or improves correctness, and uses Kotlin/Compose where Android framework integration is safer, simpler, and more maintainable.
@@ -316,13 +319,13 @@ This does **not** mean every R8 application should contain Rust. Vaachak/Readium
 
 Browser engines, core platform Settings, Keyguard/SystemUI, and complex security-critical privileged components are not default rewrite targets.
 
-## 14. SableStart precedent
+## 14. Launcher presentation precedent
 
 SableStart may use a small Rust core while retaining Kotlin/Compose for launcher lifecycle, Android package/profile APIs, permissions, and UI.
 
 This is the intended pattern: Rust can own deterministic/security-sensitive logic without attempting to replace Android's launcher APIs or Compose UI framework.
 
-SableStart must remain the Sable product HOME/UI while Launcher3 Quickstep remains the underlying recents/gesture provider unless a separately approved architecture change supersedes that boundary.
+The approved architecture change has occurred: SableLauncher is the Sable product HOME/UI, while Launcher3 Quickstep remains the underlying Recents/gesture/task substrate.
 
 ## 15. Testing architecture
 
