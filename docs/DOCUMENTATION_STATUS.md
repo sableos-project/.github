@@ -124,3 +124,8 @@ Historical:
   -> per-device adapter docs
   -> historical evidence only when investigating prior claims
 ```
+
+
+## Audit record
+
+| `docs/DOCUMENTATION_AUDIT_20260924.md` | HISTORICAL_EVIDENCE / AUDIT_RECORD | organization-wide 2026-09-24 reconciliation of all public docs |
