@@ -1,5 +1,8 @@
 # SableOS security, quality, performance and test engineering
 
+> **Current execution overlay — 2026-09-24:** Panther is a frozen accepted reference; Titan 2 / Titan 2 Elite are independent N0 portability targets. K1/K2 now separates generic artifact identity from adapter-owned deployment transport. Security/quality evidence must preserve that separation and must not treat a booting GSI as production qualification.
+
+
 Status: **normative engineering-assurance policy.**
 
 SableOS is built around privacy, least privilege, narrow trust boundaries, reproducible evidence and measurable behavior. Security is not treated as a marketing claim or as something supplied by one language, one scanner or one build stage. Quality, performance, testability and provenance are part of the same engineering system.
@@ -305,7 +308,7 @@ Gradle dependency verification/locking
 SBOM/provenance output
 trusted self-hosted runner isolation
 persistent-source at-rest protection decision
-fresh Panther reconstruction from canonical Git source
+fresh source-bound reconstruction when a claim requires it
 ```
 
 ### Selective/later assurance controls
@@ -316,7 +319,7 @@ Miri/sanitizer jobs
 continuous fuzzing infrastructure
 module-specific hard coverage floors
 performance-regression budgets after stable baselines
-Titan 2 hardware performance/portability gates
+Titan 2 and Titan 2 Elite independent hardware performance/portability gates
 ```
 
 ## 13. Claim discipline
@@ -344,6 +347,7 @@ image boots
 
 Panther passes
     != Titan 2 passes
+    != Titan 2 Elite passes
 
 Panther + Titan development passes
     != production release/signing closure
