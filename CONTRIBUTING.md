@@ -1,5 +1,8 @@
 # Contributing to SableOS
 
+> **Current contribution context — 2026-09-24:** Panther is a frozen reference. K1/K2 is merged. New feature work should target common keyboard-first product architecture or bounded Titan research/adapters without enabling unqualified device mutation. Historical R8/R9 sequencing below is reference only where explicitly labeled.
+
+
 SableOS uses evidence-driven development, requirements-first implementation, explicit repository ownership and a strict distinction between standalone application qualification and operating-system product integration.
 
 ## Read before code
@@ -133,9 +136,9 @@ Do not rewrite historical PASS/FAIL results, hashes or acceptance boundaries mer
 
 ## Full image builds
 
-Full Panther image builds are integration checkpoints, not ordinary application feedback loops. R8 uses standalone qualification and an exact integration freeze before the trusted builder runs the image.
+Full Android image builds are integration checkpoints, not ordinary application feedback loops. Panther is frozen; future Titan-family image work must retain source-bound qualification and adapter-owned artifact/deployment evidence.
 
-During the current host transition, `ai-g732` is the intended trusted R8 Android builder after its storage/source/tooling environment is sealed; the ThinkPad P50 remains a historical/reference host.
+`ai-g732` is the controlled local CI/build host. The ThinkPad P50 is historical/reference only. Production signing remains separately deferred.
 
 ## Pull requests
 
