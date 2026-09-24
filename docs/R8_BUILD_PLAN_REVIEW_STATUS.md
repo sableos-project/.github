@@ -3,7 +3,7 @@
 > **HISTORICAL R8 REVIEW RECORD — superseded current-state note (2026-09-24):** Pixel 7 / Panther R9 is physically accepted and frozen. K1/K2 multi-device artifact/deployment foundation is merged. Active work is keyboard-first common-product design plus Titan 2 / Titan 2 Elite research. Current authority: `docs/CURRENT_RELEASE_STATUS.md` and `docs/DEVELOPMENT_RELEASE_PLAN.md`.
 
 
-Status: **MERGED / AUTHORITATIVE — second-eye review complete and corrections incorporated.**
+Status: **HISTORICAL_EVIDENCE — review was authoritative for the closed R8 planning milestone, not current execution.**
 
 The experienced Android build-engineer review confirmed the A1/A2/B1/B2/B3 architecture and did not identify a blocking structural gap. The resulting corrections were verified against current AOSP/Android behavior where needed, all coordinated documentation/tooling PRs passed their required CI/policy checks, and the consolidated R8 revision has been merged into the owning default branches.
 
