@@ -2,162 +2,144 @@
 
 Status date: **2026-09-24**
 
+This file is the organization-level current-status authority. Historical R3-R9
+documents remain evidence records and must not be read as current execution
+state when they conflict with this file.
+
 ## Executive state
 
-Pixel 7 / Panther R9 physical acceptance is complete. Panther is now a frozen
-touch-first reference / regression target rather than the active feature target.
-
 ```text
-R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS
-R9_PANTHER_DEVELOPMENT=HOLD_REFERENCE_MAINTENANCE_ONLY
-ACTIVE_PRODUCT_DIRECTION=KEYBOARD_FIRST
-ACTIVE_DEVICE_1=TITAN2
-ACTIVE_DEVICE_2=TITAN2_ELITE
-FUTURE_DEVICE=Q27
-LOCAL_DIRECT_CI=ACTIVE
-PRODUCTION_SIGNING=DEFERRED
+Pixel 7 / Panther        R9 PHYSICAL ACCEPTANCE PASS / REFERENCE_FROZEN
+K1 artifact foundation  PASS / MERGED
+K2 deployment boundary  PASS / MERGED
+Titan 2                  ACTIVE KEYBOARD-FIRST PORTABILITY / N0 RESEARCH
+Titan 2 Elite            NEXT INDEPENDENT KEYBOARD-FIRST PORTABILITY TARGET
+Q27                      RESEARCH / FUTURE PRODUCT CANDIDATE
+Production signing       DEFERRED
 ```
 
-The accepted Panther image proved standalone SableLauncher HOME, Quickstep
-Recents-only, the current first-party application composition, Settings-hosted
-global appearance, Network Manager, SableOS developer-notification identity,
-Reader/Text Reader separation, Phone/People alphabet navigation and physical
-Light/Dark propagation.
+The accepted Panther image remains bound to its exact physically qualified
+source and artifact identity. Later documentation/tooling commits do not become
+new Panther image qualification sources.
 
-## Active device roles
-
-| Device | Role | Current state |
-| --- | --- | --- |
-| Pixel 7 / panther | frozen reference | R9 physical acceptance PASS; maintenance/regression only |
-| Unihertz Titan 2 | PORTABILITY / N0 | active keyboard-first target; stock/camera research underway |
-| Unihertz Titan 2 Elite | PORTABILITY candidate / N0 | independent physical baseline starts when device is available |
-| Zinwa Q27 | RESEARCH / future product candidate | deferred until shipped hardware/firmware qualifies |
-| Pixel 4a 5G / bramble | historical reference | frozen |
-
-Titan 2 and Titan 2 Elite share common keyboard-first product semantics but are
-separate hardware qualification targets.
-
-## Current interaction architecture
-
-SableOS uses one product core with multiple interaction profiles:
-
-```text
-touch-first
-    Panther reference
-
-keyboard-first
-    Titan 2
-    Titan 2 Elite
-    future Q27
-```
-
-Common application/service semantics should not fork because a device has a
-physical keyboard, square display, different SoC or different vendor BSP.
-
-Keyboard-first work adds deterministic focus, type-to-search, shortcut/command
-navigation, square/near-square responsive layouts and hardware-key adapters
-while preserving touch as a secondary path.
-
-## Launcher architecture
-
-The accepted R9 product architecture is:
+## Accepted Panther architecture
 
 ```text
 org.sableos.launcher / SableLauncher
-    user-facing HOME / Start / All Apps / Search / Peek / app context
+    HOME / Start / All Apps / Search / Peek / app context
 
 Launcher3QuickStep
-    retained privately for Overview / Recents / task/gesture substrate
-    not HOME-eligible
+    retained privately for Recents / Overview / task/gesture substrate
+    not HOME eligible
 ```
 
-Historical public documents that describe Launcher3 as the user-facing HOME
-owner are superseded by this status.
+The standalone `org.sableos.start` runtime product is retired. Historical
+SableStart repositories/documents remain presentation/history references.
 
-## Multi-device build/deployment contract
+The accepted first-party composition includes SableLauncher plus the qualified
+Sable Calculator, Sudoku, Minesweeper, 2048, Media, Reader, Text Reader,
+Hub/Messages, Mail, Weather and Calendar product set. Reader and Text Reader are
+separate products: publication/Readium capability belongs to Sable Reader;
+TXT/share/process-text/TTS/audio/OCR belongs to Sable Text Reader.
 
-The canonical private integration entry point is device/release neutral:
+Global appearance authority is Settings. Follow-system/Light/Dark propagation
+was physically confirmed on Panther. Vanadium is the browser reference.
+Camera remains the documented upstream/preprocessed dark-presentation exception
+for the frozen Panther R9 image.
+
+## K1/K2 multi-device foundation
+
+K1/K2 is merged in the private integration baseline.
+
+Artifact registry v2 supports:
 
 ```text
-build/sable.sh <device> <release> <function> [options]
+target-files
+full-device-images
+gsi-system-image
+system-product-bundle
+boot-recovery-bundle
 ```
 
-Known canonical device IDs:
+Artifact identity is based on device + release + source + exact artifact hashes.
+A physical serial is never part of image identity.
+
+The deployment architecture is now split:
 
 ```text
-panther
-titan2
-titan2-elite
-q27
+common deployment policy
+    authorization
+    artifact verification
+    exact selected-serial binding
+    evidence sealing
+    preserved-data baseline where supported
+    boot/credential-encrypted-data return
+    callback dispatch
+
+device adapter
+    artifact kind
+    partition/slot model
+    flash transport
+    AVB/vbmeta requirements
+    restore strategy
+    target-specific post-boot acceptance
 ```
 
-A physical serial is intentionally not part of build/image identity. It is
-required only for device-contact operations such as flash and runtime
-acceptance. Device adapters remain fail-closed until their build/flash contract
-is physically qualified.
+Panther is the qualified `target-files` / A-B fastboot adapter. Titan 2,
+Titan 2 Elite and Q27 remain fail-closed for release artifact registration,
+flash planning and flashing until their own contracts are proven.
 
-The next tooling work is to generalize artifact descriptors beyond Panther
-target-files and split deployment into common safety/evidence policy plus
-device-specific flash transport/partition logic.
+## Active direction
 
-## Keyboard-first system applications
+Active SableOS product work is now keyboard-first design plus parallel Titan
+family research.
 
-Two capabilities move onto the active product path:
+The keyboard-first profile is common product architecture, not a per-device app
+fork. Required primitives include deterministic visible focus, arrow/D-pad
+movement, Enter/Space activation, Back/Escape, type-to-search, shortcut/command
+navigation, stable focus restoration, no focus traps and touch as a secondary
+path.
 
-**Sable Camera**
-- common Camera2/vendor-HAL based camera application;
-- square/near-square keyboard-first UI;
-- device capability profiles;
-- optional SYSTEM_CAMERA privilege only where physical evidence proves it is
-  necessary and safe.
+Two system-image capabilities are explicit workstreams:
 
-**Sable Keyboard / input**
-- offline-capable IME included in keyboard-first system images;
-- common text composition separated from device-specific keylayout/keycharacter,
-  Fn/Sym, shortcut, backlight and pointer behavior.
+- **Sable Camera** — common Camera2/capability architecture, stock vendor
+  HAL/ISP initially, device profiles below the common core, SYSTEM_CAMERA only
+  where physical evidence proves value and negative-access tests pass.
+- **Sable Keyboard / input** — offline-capable common IME/text composition
+  separated from device-specific keylayout/keycharacter/Fn/Sym/backlight/
+  pointer behavior.
 
-Titan 2 camera research already supports a capability-driven camera-core /
-device-profile direction. Titan 2 Elite requires its own independent evidence.
+## Device roles
 
-## Non-Pixel support levels
+| Device | Role | Assurance | Current state |
+| --- | --- | --- | --- |
+| Pixel 7 / panther | REFERENCE_FROZEN | accepted R9 reference | maintenance/regression only |
+| Titan 2 | PORTABILITY | N0 active | keyboard/display/camera/restore research in parallel |
+| Titan 2 Elite | PORTABILITY candidate | N0 pending | independent baseline required on retail hardware |
+| Q27 | RESEARCH | unqualified | future candidate after shipped-hardware evidence |
+| Pixel 4a 5G / bramble | historical reference | frozen | no active investment |
 
-```text
-N0_GSI_USERSPACE_LAB
-N1_INTEGRATED_VENDOR_BSP_PORT
-N2_PRODUCTION_QUALIFIED
-```
-
-A booting GSI proves neither N1 nor N2. Kernel/vendor/firmware/AVB/recovery/
-telephony/security lifecycle remain independent support gates.
+No new PRIMARY device is declared by the transition.
 
 ## Repository ownership
 
-Current transition policy:
+`sableos-project` is the target canonical public home for reusable Sable
+source, architecture and build contracts.
 
-- `sableos-project` is the target canonical public home for reusable Sable
-  source, architecture and build contracts;
-- the private integration repository remains the integration/release authority
-  while source is being decomposed and publication-reviewed;
-- do **not** publish the private monorepo wholesale;
-- migrate components individually after provenance, licensing, secret/private
-  path review and independent build/test closure;
-- raw firmware, device serials, private evidence and unreviewed vendor
-  diagnostics stay outside public Git.
+The private integration repository remains the integration/release authority
+during decomposition and publication review. Do not publish that monorepo
+wholesale. Components migrate only after provenance, licensing, secret/private
+path review, independent build/test instructions and parity are closed.
 
-See `SOURCE_OWNERSHIP_AND_PUBLICATION.md`.
-
-## Execution order
+## Current execution order
 
 ```text
-Panther frozen reference
-  -> public/private documentation reconciliation
-  -> multi-device artifact + deployment abstraction
-  -> Titan 2 keyboard-first N0 qualification
-  -> Titan 2 Elite independent qualification
-  -> Sable Camera + Sable Keyboard system integration
-  -> Q27 after shipped-hardware acceptance
-  -> production signing/OTA before public release
+K1/K2 merged
+  -> organization documentation reconciliation
+  -> keyboard-first SableOS design
+  -> Titan 2 adapter-input research / N0 bring-up planning
+  -> Titan 2 first controlled Sable artifact + deployment qualification
+  -> Titan 2 Elite independent sequence
+  -> Q27 only after shipped hardware qualifies
+  -> production signing / OTA release engineering later
 ```
-
-Historical R5-R9 documents remain evidence records. This file is the current
-organization-level execution authority.
