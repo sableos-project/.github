@@ -1,3 +1,5 @@
+<!-- Current project state: Panther is REFERENCE_FROZEN; K1/K2 is merged; Titan 2/Elite remain fail-closed until qualified. For device-contact changes, state serial-binding, restore and mutation authorization explicitly. -->
+
 ## Milestone / requirement
 
 Identify the current milestone/workstream and exact requirement/document section this change satisfies. If behavior was not specified, link the requirements update that defines it.
@@ -90,7 +92,7 @@ Bind important evidence to exact source/build/artifact identities.
 
 ## Integration freeze impact
 
-For R8 application work:
+For Sable application/product work:
 
 - [ ] does not change a frozen input
 - [ ] changes an application candidate that is not yet frozen
