@@ -82,3 +82,7 @@ Start with:
 - [Development release plan](../docs/DEVELOPMENT_RELEASE_PLAN.md)
 - [CI trust architecture](../docs/CI_TRUST_ARCHITECTURE.md)
 - [Security & quality engineering](../docs/SECURITY_QUALITY_ENGINEERING.md)
+
+## Multi-device foundation — current
+
+K1/K2 is merged. Artifact registry schema v2 supports multiple artifact kinds; deployment safety/evidence is common while partition/transport semantics are device-adapter-owned. Panther is the qualified target-files/A-B adapter. Titan 2, Titan 2 Elite and Q27 remain fail-closed for release artifact registration and flashing until independently qualified.
