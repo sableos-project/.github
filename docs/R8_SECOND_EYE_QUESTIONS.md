@@ -1,5 +1,8 @@
 # R8 second-eye questions
 
+> **HISTORICAL R8 REVIEW RECORD — superseded current-state note (2026-09-24):** Pixel 7 / Panther R9 is physically accepted and frozen. K1/K2 multi-device artifact/deployment foundation is merged. Active work is keyboard-first common-product design plus Titan 2 / Titan 2 Elite research. Current authority: `docs/CURRENT_RELEASE_STATUS.md` and `docs/DEVELOPMENT_RELEASE_PLAN.md`.
+
+
 1. Is A1 -> A2 -> B1 -> B2 -> B3 the right boundary for Android 17/GrapheneOS development?
 2. Should the trusted standalone app build remain outside the Android tree on the same trusted host?
 3. Which Soong intermediates/configs/graph queries should B1 capture for `android_app_import`?
