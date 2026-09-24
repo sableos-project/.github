@@ -1,228 +1,163 @@
-# SableOS current development release status
+# SableOS current development status
 
-Status date: **2026-09-20**
+Status date: **2026-09-24**
 
-This is the organization-level current-state snapshot. Historical R5–R8 requirement and evidence documents remain valid records, but this document defines the current execution state when older milestone wording conflicts with it.
+## Executive state
 
-[![Local CI](https://img.shields.io/static/v1?label=CI&message=Local%20Direct&color=2ea44f&style=flat-square)](../docs/CI_TRUST_ARCHITECTURE.md)
-[![R9 Launcher](https://img.shields.io/static/v1?label=R9%20Launcher&message=Visual%20PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
-[![Product Composition](https://img.shields.io/static/v1?label=Product%20Composition&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
-[![Fresh Panther](https://img.shields.io/static/v1?label=Fresh%20Panther&message=PASS&color=2ea44f&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
-
-[![CodeQL Security Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/codeql.yml)
-[![OWASP MobSF Scan](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml/badge.svg?branch=main)](https://github.com/sableos-project/packages_apps_SableStart/actions/workflows/mobsfscan.yml)
-[![License](https://img.shields.io/static/v1?label=License&message=per-component&color=007ec6&style=flat-square)](../docs/LICENSING.md)
-[![Platform](https://img.shields.io/static/v1?label=Platform&message=Android%2017%20%2F%20SDK%2037&color=3DDC84&style=flat-square&logo=android&logoColor=white)](../docs/CURRENT_RELEASE_STATUS.md)
-[![Optimized for](https://img.shields.io/static/v1?label=Optimized%20for&message=Pixel%207%20%2F%20Panther&color=111111&style=flat-square)](https://github.com/sableos-project/device_sable_panther)
-[![Interaction](https://img.shields.io/static/v1?label=Interaction&message=Touch%20%2B%20Keyboard-First&color=6f42c1&style=flat-square)](../docs/CURRENT_RELEASE_STATUS.md)
-
-## Current release train
-
-The current development release is **R9**.
-
-R8 established the shared design/application/product-integration foundation. R9 has closed the launcher/home architecture and proved the resulting Panther product from a fresh source-bound Android output. Physical-device acceptance is now the remaining R9 gate.
+Pixel 7 / Panther R9 physical acceptance is complete. Panther is now a frozen
+touch-first reference / regression target rather than the active feature target.
 
 ```text
-R8
-  shared design + first-party app suite + product composition foundation
-  Calculator / Sudoku / Minesweeper / 2048 / Media / Reader / Hub / Mail
-        |
-        v
-R9-L
-  Launcher3/Quickstep foundation
-  + Sable Start production presentation
-  + visual review
-        |
-        v
-R9-P
-  fresh source-bound Panther full-product build
-        |
-        v
-R9-D
-  physical Pixel 7 HOME / Overview / Recents / runtime acceptance
-        |
-        v
-Titan 2
-  keyboard-first N0 portability/GSI lab
-        |
-        v
-later production signing / OTA release engineering
+R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS
+R9_PANTHER_DEVELOPMENT=HOLD_REFERENCE_MAINTENANCE_ONLY
+ACTIVE_PRODUCT_DIRECTION=KEYBOARD_FIRST
+ACTIVE_DEVICE_1=TITAN2
+ACTIVE_DEVICE_2=TITAN2_ELITE
+FUTURE_DEVICE=Q27
+LOCAL_DIRECT_CI=ACTIVE
+PRODUCTION_SIGNING=DEFERRED
 ```
 
-The internal R* names are development/validation milestones, not semantic public product versions.
+The accepted Panther image proved standalone SableLauncher HOME, Quickstep
+Recents-only, the current first-party application composition, Settings-hosted
+global appearance, Network Manager, SableOS developer-notification identity,
+Reader/Text Reader separation, Phone/People alphabet navigation and physical
+Light/Dark propagation.
 
-## Current gate state
+## Active device roles
 
-| Gate | State | Current claim |
+| Device | Role | Current state |
 | --- | --- | --- |
-| Local direct CI | **ACTIVE** | canonical source/static/app qualification runs on the controlled build machine |
-| R9 Launcher3 foundation | **PASS** | Launcher3/Quickstep owns HOME/Overview/Recents; Sable provides the NORMAL-state presentation |
-| R9 Sable Start visual set | **PASS** | Start, All Apps, rail active state, Search, Peek, Local Context, Appearance, light/dark, alternate accent reviewed |
-| Standalone SableStart HOME APK | **RETIRED** | product target is Launcher3QuickStep; standalone SableStart product package is absent |
-| R8 first-party app composition | **PASS** | target-files composition has proven the eight-app set and package identities |
-| Incremental Panther product build | **PASS** | warmed-output product/target-files composition is healthy |
-| Fresh Panther full-build causality | **PASS** | exact source `20f6ed40b78e205b39bf2d657eaad29432a0016a`; absent source-bound OUT produced fresh target-files SHA-256 `7a9b81c6f9f37c783bcf6d7bb8760a7bcf918dc56a1fc89bb6babc1d6e402e71` |
-| Pixel 7 R9 physical acceptance | **PENDING / NOW AUTHORIZED TO PROCEED** | fresh-build gate is closed; physical HOME/Overview/Recents/runtime acceptance remains independent |
-| Titan 2 stock read-only inventory | **ALLOWED WHEN HARDWARE AVAILABLE** | observational T0 work may run without mutation |
-| Titan 2 GSI/flash | **QUEUED** | community GSI feasibility demonstrated; Sable qualification waits for Panther |
-| Titan 2 Elite stock read-only inventory | **ALLOWED WHEN HARDWARE AVAILABLE** | independent T0 capture required |
-| Titan 2 Elite GSI/flash | **CANDIDATE / QUEUED** | Android 16/Treble architecture fits GSI; bootloader/fastboot/recovery + actual boot still require device proof |
-| Keyboard-device camera enhancement | **PLANNED** | Titan 2, Titan 2 Elite and Q27 share one capability-driven camera workstream |
-| Production signing / OTA | **DEFERRED** | not on the current development critical path |
+| Pixel 7 / panther | frozen reference | R9 physical acceptance PASS; maintenance/regression only |
+| Unihertz Titan 2 | PORTABILITY / N0 | active keyboard-first target; stock/camera research underway |
+| Unihertz Titan 2 Elite | PORTABILITY candidate / N0 | independent physical baseline starts when device is available |
+| Zinwa Q27 | RESEARCH / future product candidate | deferred until shipped hardware/firmware qualifies |
+| Pixel 4a 5G / bramble | historical reference | frozen |
 
-The earlier 53-second Panther target request is retained as useful **incremental product-composition evidence**, not as proof of a fresh full rebuild.
+Titan 2 and Titan 2 Elite share common keyboard-first product semantics but are
+separate hardware qualification targets.
 
-### Fresh Panther build evidence
+## Current interaction architecture
 
-The source-bound full Panther build completed successfully on 2026-09-20:
+SableOS uses one product core with multiple interaction profiles:
 
 ```text
-SOURCE=20f6ed40b78e205b39bf2d657eaad29432a0016a
-R8_FULL_BUILD_RC=0
-R8_FULL_BUILD=PASS
-R8_BUILD_SANDBOX=PASS
-R9_LAUNCHER3_HOME_PREFLIGHT=PASS
-R8_UI_MODULE_BUILD=PASS
-R8_FINAL_TARGET_FILES=PASS
-R9_TARGET_FILES_FRESHNESS=PASS
-R9_FRESH_FULL_BUILD=PASS
-R9_FULL_BUILD_CAUSALITY=PASS_ABSENT_OUT_TO_FRESH_TARGET_FILES
-PANTHER_FINAL_UI_BUILD=PASS
-R8_RELEASE_CANDIDATE=PASS
-SABLE_RELEASE_BUILD_RC=0
+touch-first
+    Panther reference
+
+keyboard-first
+    Titan 2
+    Titan 2 Elite
+    future Q27
 ```
 
-Target-files identity:
+Common application/service semantics should not fork because a device has a
+physical keyboard, square display, different SoC or different vendor BSP.
 
-```text
-out_sable_r9_full_20f6ed40b78e/target/product/panther/obj/PACKAGING/target_files_intermediates/panther-target_files.zip
-SHA256=7a9b81c6f9f37c783bcf6d7bb8760a7bcf918dc56a1fc89bb6babc1d6e402e71
-```
-
-The remaining R9 claim is physical Pixel 7 runtime acceptance; build success does not imply that runtime PASS.
-
+Keyboard-first work adds deterministic focus, type-to-search, shortcut/command
+navigation, square/near-square responsive layouts and hardware-key adapters
+while preserving touch as a secondary path.
 
 ## Launcher architecture
 
-R9 deliberately moved away from a standalone custom HOME implementation.
+The accepted R9 product architecture is:
 
 ```text
-Launcher3 AllAppsStore
-    product inventory/update authority
+org.sableos.launcher / SableLauncher
+    user-facing HOME / Start / All Apps / Search / Peek / app context
 
-Launcher3/Quickstep
-    HOME role
-    Overview/Recents
-    task/gesture integration
-    lifecycle/state authority
-
-SableStartScreen
-    Start
-    All Apps + Sable Rail
-    Search / Command
-    Sable Peek
-    Local Context
-    Appearance
+Launcher3QuickStep
+    retained privately for Overview / Recents / task/gesture substrate
+    not HOME-eligible
 ```
 
-Product HOME identity:
+Historical public documents that describe Launcher3 as the user-facing HOME
+owner are superseded by this status.
+
+## Multi-device build/deployment contract
+
+The canonical private integration entry point is device/release neutral:
 
 ```text
-package:  com.android.launcher3
-activity: com.android.launcher3.sable.SableQuickstepLauncher
-module:   Launcher3QuickStep
+build/sable.sh <device> <release> <function> [options]
 ```
 
-The old standalone SableStart HOME APK is not part of the product graph.
-
-## CI and build execution model
-
-SableOS no longer uses GitHub-hosted Actions as the authoritative build/qualification path.
+Known canonical device IDs:
 
 ```text
-GitHub
-  source hosting
-  code review
-  issues / planning
-  documentation
-
-controlled local build machine
-  canonical host toolchain
-  build/local-ci/run.sh
-  source-bound evidence
-  trusted application builds
-  Soong/product integration
-  Panther full product builds
+panther
+titan2
+titan2-elite
+q27
 ```
 
-A GitHub self-hosted runner is also **not active**. The earlier trusted-runner plan remains deferred until storage encryption/isolation and runner trust requirements are explicitly satisfied.
+A physical serial is intentionally not part of build/image identity. It is
+required only for device-contact operations such as flash and runtime
+acceptance. Device adapters remain fail-closed until their build/flash contract
+is physically qualified.
 
-The operator-facing release build interface is release-neutral:
+The next tooling work is to generalize artifact descriptors beyond Panther
+target-files and split deployment into common safety/evidence policy plus
+device-specific flash transport/partition logic.
 
-```bash
-bash build/panther/run-release.sh R9
-```
+## Keyboard-first system applications
 
-The release identifier is the release-specific input. Do not create a new build script or a new /tmp driver command sequence for every milestone.
+Two capabilities move onto the active product path:
 
-## Fresh-build rule
+**Sable Camera**
+- common Camera2/vendor-HAL based camera application;
+- square/near-square keyboard-first UI;
+- device capability profiles;
+- optional SYSTEM_CAMERA privilege only where physical evidence proves it is
+  necessary and safe.
 
-A successful Ninja/Soong target request against an existing output directory proves target satisfiability, not fresh-build causality.
+**Sable Keyboard / input**
+- offline-capable IME included in keyboard-first system images;
+- common text composition separated from device-specific keylayout/keycharacter,
+  Fn/Sym, shortcut, backlight and pointer behavior.
 
-For R9 release qualification:
+Titan 2 camera research already supports a capability-driven camera-core /
+device-profile direction. Titan 2 Elite requires its own independent evidence.
+
+## Non-Pixel support levels
 
 ```text
-out_sable_r9_full_<source-sha12>
+N0_GSI_USERSPACE_LAB
+N1_INTEGRATED_VENDOR_BSP_PORT
+N2_PRODUCTION_QUALIFIED
 ```
 
-must be absent before the build starts. The release runner and inner build both fail closed if it already exists. Target-files freshness must be newer than the recorded build start.
+A booting GSI proves neither N1 nor N2. Kernel/vendor/firmware/AVB/recovery/
+telephony/security lifecycle remain independent support gates.
 
-Required closing evidence:
+## Repository ownership
+
+Current transition policy:
+
+- `sableos-project` is the target canonical public home for reusable Sable
+  source, architecture and build contracts;
+- the private integration repository remains the integration/release authority
+  while source is being decomposed and publication-reviewed;
+- do **not** publish the private monorepo wholesale;
+- migrate components individually after provenance, licensing, secret/private
+  path review and independent build/test closure;
+- raw firmware, device serials, private evidence and unreviewed vendor
+  diagnostics stay outside public Git.
+
+See `SOURCE_OWNERSHIP_AND_PUBLICATION.md`.
+
+## Execution order
 
 ```text
-R9_RELEASE_CANDIDATE_FRESH_OUT=PASS_ABSENT
-R9_FRESH_FULL_BUILD_OUT_PRECONDITION=PASS_ABSENT
-R9_TARGET_FILES_FRESHNESS=PASS
-R9_FRESH_FULL_BUILD=PASS
-R9_FULL_BUILD_CAUSALITY=PASS_ABSENT_OUT_TO_FRESH_TARGET_FILES
+Panther frozen reference
+  -> public/private documentation reconciliation
+  -> multi-device artifact + deployment abstraction
+  -> Titan 2 keyboard-first N0 qualification
+  -> Titan 2 Elite independent qualification
+  -> Sable Camera + Sable Keyboard system integration
+  -> Q27 after shipped-hardware acceptance
+  -> production signing/OTA before public release
 ```
 
-## Panther and Titan 2
-
-**Pixel 7 / panther** remains the authoritative full-stack Android 17 development and security target.
-
-**Titan 2 and Titan 2 Elite** are the next portability targets, classified initially as keyboard-first N0 GSI/userspace labs:
-
-```text
-navigation.primary=keyboard
-navigation.secondary=touch
-```
-
-Titan acceptance must explicitly cover physical-keyboard focus, printable-key type-to-search, Enter/Back behavior, HOME navigation, pointer/touch coexistence and square/compact layout behavior. Panther touch-first success does not imply Titan 2 success.
-
-Titan 2 mutation/flash remains blocked until the R9 Panther physical runtime gate closes. The fresh-build prerequisite is now PASS.
-
-## Release plan after Panther R9
-
-After the Panther R9 launcher/runtime closure:
-
-1. run Titan 2 T0 read-only stock/device inventory when hardware is available;
-2. qualify the keyboard-first interaction profile and a bounded N0 GSI path;
-3. carry forward the same common Sable application/product contracts without device-name forks;
-4. continue broader Sable Flow/Hub/productivity work on the common core;
-5. return production signing/OTA/key-custody engineering to the critical path only when development qualification is mature enough to justify a release candidate.
-
-## Documentation authority
-
-Use this document together with:
-
-- `DEVELOPMENT_RELEASE_PLAN.md` — current milestone sequence and ownership;
-- `CI_TRUST_ARCHITECTURE.md` — local CI / trusted build / device / signing boundaries;
-- `DOCUMENTATION_STATUS.md` — current-vs-historical document map;
-- `SECURITY_QUALITY_ENGINEERING.md` — engineering-assurance requirements.
-
-Historical evidence is preserved. It is not rewritten to make old milestones look current.
-
-### Camera workstream
-
-Titan 2, Titan 2 Elite and Zinwa Q27 now share a common camera-quality roadmap. SableOS will use an open-source camera baseline (preferably GrapheneOS Camera/CameraX) plus Camera2 capability probing and measured device tuning. Community GCam/LMC ports are reference behavior only, not redistributable Sable product code. The Titan 2 Elite community port is particularly useful for square-screen layout, tap-to-focus transform, preview resolution, stabilization and color-tuning lessons. If the Elite telephoto is truly advertised as Android `SYSTEM_CAMERA`, SableOS may be able to expose it through a narrowly privileged system camera app, subject to explicit permission and negative-access gates.
+Historical R5-R9 documents remain evidence records. This file is the current
+organization-level execution authority.
