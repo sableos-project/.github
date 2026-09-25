@@ -1,11 +1,36 @@
 # SableOS documentation status
 
-Status date: **2026-09-24**
+Status date: **2026-09-25**
 
 This index classifies public documentation so historical milestone evidence is
 not mistaken for current product architecture.
 
-Deep-dive reconciliation record: `docs/DOCUMENTATION_AUDIT_20260924.md`.
+Current deep-dive reconciliation record: `docs/DOCUMENTATION_AUDIT_20260925.md`.
+Prior reconciliation record: `docs/DOCUMENTATION_AUDIT_20260924.md`.
+
+## Current authority chain
+
+```text
+.github/docs/CURRENT_RELEASE_STATUS.md
+  -> aimindseye/sableos CURRENT_STATUS.md while private integration remains release authority
+  -> accepted ADR-0010 / ADR-0011 in the private integration repository
+  -> platform_sable architecture/support/portability/release docs
+  -> build multi-device/evidence contracts
+  -> vendor_sable common product composition
+  -> per-device adapter docs
+  -> historical evidence only when investigating prior claims
+```
+
+## Current release authority
+
+```text
+R9_PANTHER_HUB_V1_CLOSURE=MERGED_PR_110
+R9_PANTHER_IMAGE_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
+R9_PANTHER_TARGET_FILES_SHA256=a0b359613c4f30e9a834fba212e0b044a97d63ed0537c59471c31b99b627d285
+R10_KEYBOARD_FIRST_DESIGN_V1=MERGED_PR_108
+PANTHER_ROLE=FROZEN_TOUCH_FIRST_REFERENCE
+TITAN2_ROLE=ACTIVE_KEYBOARD_FIRST_N0_TARGET
+```
 
 ## Classification vocabulary
 
@@ -22,6 +47,7 @@ RESEARCH_CONTEXT
 
 | Document | Class |
 | --- | --- |
+| `profile/README.md` | CURRENT_STATUS |
 | `docs/CURRENT_RELEASE_STATUS.md` | CURRENT_STATUS |
 | `docs/DEVELOPMENT_RELEASE_PLAN.md` | CURRENT_NORMATIVE |
 | `docs/CI_TRUST_ARCHITECTURE.md` | CURRENT_NORMATIVE |
@@ -34,6 +60,8 @@ RESEARCH_CONTEXT
 | `docs/SABLE_APP_REUSE_AND_INTEGRATION_PLAN.md` | HISTORICAL_SUPERSEDED |
 | `docs/R8_BUILD_PLAN_REVIEW_*.md` | HISTORICAL_EVIDENCE |
 | `docs/R8_SECOND_EYE_QUESTIONS.md` | HISTORICAL_EVIDENCE |
+| `docs/DOCUMENTATION_AUDIT_20260924.md` | HISTORICAL_EVIDENCE / AUDIT_RECORD |
+| `docs/DOCUMENTATION_AUDIT_20260925.md` | CURRENT_STATUS / AUDIT_RECORD |
 
 ## platform_sable
 
@@ -61,15 +89,14 @@ Historical/superseded milestone material:
 ## packages_apps_SableStart
 
 `README.md` and `docs/ARCHITECTURE.md` describe the current repository role:
-presentation/history reference, not the current HOME package.
+presentation/history reference, not the current HOME package authority.
 
 All R3/R5/R6 migration/runtime/HOME-adoption files are
-`HISTORICAL_EVIDENCE` or `HISTORICAL_SUPERSEDED`. Current HOME authority is
-`org.sableos.launcher` / SableLauncher; Launcher3QuickStep is Recents-only.
+`HISTORICAL_EVIDENCE` or `HISTORICAL_SUPERSEDED`.
 
 ## vendor_sable
 
-- `README.md` — CURRENT_NORMATIVE.
+- `README.md` — CURRENT_STATUS / CURRENT_NORMATIVE.
 - `docs/DEFAULT_APPLICATION_COMPOSITION.md` — CURRENT_NORMATIVE.
 - `docs/OWNERSHIP_BOUNDARY.md` — CURRENT_NORMATIVE.
 
@@ -80,7 +107,8 @@ All R3/R5/R6 migration/runtime/HOME-adoption files are
 - `docs/VALIDATION_MODEL.md` — CURRENT_NORMATIVE frozen-reference model.
 - `docs/R7_DAILY_DRIVER_VALIDATION.md` — HISTORICAL_EVIDENCE.
 
-Panther is REFERENCE_FROZEN, not PRIMARY.
+Panther is REFERENCE_FROZEN, not PRIMARY. The current Panther reference image is
+bound to `edf62e5b` and target-files SHA-256 `a0b359...`.
 
 ## build
 
@@ -113,19 +141,9 @@ Current:
 Historical:
 - `docs/R5_R3_RECONSTRUCTION_PLAN.md`
 
-## Current authority chain
+## Open issue policy
 
-```text
-.github/docs/CURRENT_RELEASE_STATUS.md
-  -> .github/docs/DEVELOPMENT_RELEASE_PLAN.md
-  -> platform_sable architecture/support/portability/release docs
-  -> build multi-device/evidence contracts
-  -> vendor_sable common product composition
-  -> per-device adapter docs
-  -> historical evidence only when investigating prior claims
-```
-
-
-## Audit record
-
-| `docs/DOCUMENTATION_AUDIT_20260924.md` | HISTORICAL_EVIDENCE / AUDIT_RECORD | organization-wide 2026-09-24 reconciliation of all public docs |
+Remaining open issues in the private integration repository are intentionally
+left open until Titan 2 SableOS install closure. They represent active Titan
+qualification, keyboard-first platform work and Panther/Titan-shared polish
+follow-ups rather than stale R8/R9 broad blockers.
