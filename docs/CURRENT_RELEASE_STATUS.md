@@ -1,17 +1,18 @@
 # SableOS current development status
 
-Status date: **2026-09-24**
+Status date: **2026-09-25**
 
-This file is the organization-level current-status authority. Historical R3-R9
+This file is the organization-level current-status authority. Historical R3-R10
 documents remain evidence records and must not be read as current execution
 state when they conflict with this file.
 
 ## Executive state
 
 ```text
-Pixel 7 / Panther        R9 PHYSICAL ACCEPTANCE PASS / REFERENCE_FROZEN
-K1 artifact foundation  PASS / MERGED
-K2 deployment boundary  PASS / MERGED
+Pixel 7 / Panther        R9 HUB V1 PHYSICAL ACCEPTANCE PASS / REFERENCE_FROZEN
+R9 Hub V1 closure        MERGED / PR #110
+Keyboard-first design    MERGED / PR #108
+K1/K2 foundation         MERGED
 Titan 2                  ACTIVE KEYBOARD-FIRST PORTABILITY / N0 RESEARCH
 Titan 2 Elite            NEXT INDEPENDENT KEYBOARD-FIRST PORTABILITY TARGET
 Q27                      RESEARCH / FUTURE PRODUCT CANDIDATE
@@ -22,45 +23,44 @@ The accepted Panther image remains bound to its exact physically qualified
 source and artifact identity. Later documentation/tooling commits do not become
 new Panther image qualification sources.
 
-## Exact accepted / tooling identities
+## Exact accepted identities
 
 ```text
-R9_PANTHER_IMAGE_SOURCE=6f1d6d2f0f2525067874238c4b797ad58f2bcbc6
-R9_PANTHER_TARGET_FILES_SHA256=08ef429c7f9eef17de7ddad4ce9baa81911950e8d34b6751b6e4588f66821502
-R9_PANTHER_REFERENCE_BRANCH=reference/panther-r9-accepted-20260924
-
-K1_K2_FULL_CI_SOURCE=dec78f0f6a86c0236cd4783b14efb7ee86e45215
-K1_K2_PRIVATE_MERGE=f11502202e8913bdb2e7317d824d26577a98e7a1
-K1_K2_LOCAL_FULL_CI=PASS
+PRIVATE_INTEGRATION_MAIN=2624e1af
+R10_KEYBOARD_FIRST_DESIGN_SOURCE=20da2daa
+R10_KEYBOARD_FIRST_DESIGN_MERGE=2624e1af
+R9_PANTHER_HUB_V1_MERGE=f175b00f
+R9_PANTHER_IMAGE_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
+R9_PANTHER_TARGET_FILES_SHA256=a0b359613c4f30e9a834fba212e0b044a97d63ed0537c59471c31b99b627d285
+R9_PANTHER_STANDARD_PRESERVED_DATA_FLASH=PASS
+R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
 ```
 
-Later public documentation commits do not change these image/tooling qualification
-identities.
+The previous `6f1d6d2f` / `08ef...` Panther acceptance image remains historical
+evidence. It is superseded as the current R9 reference by the final Hub V1
+closure source `edf62e5b` and target-files hash above.
 
 ## Accepted Panther architecture
 
-```text
-org.sableos.launcher / SableLauncher
-    HOME / Start / All Apps / Search / Peek / app context
+Panther is the frozen touch-first reference. It proves the common application
+family, Sable Hub V1 and the canonical build/deploy evidence chain. It is no
+longer the active feature-design target.
 
-Launcher3QuickStep
-    retained privately for Recents / Overview / task/gesture substrate
-    not HOME eligible
+Sable Hub V1 is the accepted communications model:
+
+```text
+Priority | Messages | Email | People
 ```
 
-The standalone `org.sableos.start` runtime product is retired. Historical
-SableStart repositories/documents remain presentation/history references.
+Hub is an aggregator and interaction surface. Sable Mail owns mail accounts,
+protocols, MIME/storage/security behavior and credentials. Hub consumes bounded
+local summaries and/or notification-derived state and must not scrape private
+provider databases or manufacture delivery/read semantics.
 
-The accepted first-party composition includes SableLauncher plus the qualified
-Sable Calculator, Sudoku, Minesweeper, 2048, Media, Reader, Text Reader,
-Hub/Messages, Mail, Weather and Calendar product set. Reader and Text Reader are
-separate products: publication/Readium capability belongs to Sable Reader;
-TXT/share/process-text/TTS/audio/OCR belongs to Sable Text Reader.
-
-Global appearance authority is Settings. Follow-system/Light/Dark propagation
-was physically confirmed on Panther. Vanadium is the browser reference.
-Camera remains the documented upstream/preprocessed dark-presentation exception
-for the frozen Panther R9 image.
+The preserved-data physical device intentionally kept user-installed Play state,
+so clean-baseline AppStore claims are not made from that device. Appearance and
+other polish issues remain open follow-ups and will be closed with Titan 2
+SableOS install work where they are proven or superseded.
 
 ## K1/K2 multi-device foundation
 
@@ -79,7 +79,7 @@ boot-recovery-bundle
 Artifact identity is based on device + release + source + exact artifact hashes.
 A physical serial is never part of image identity.
 
-The deployment architecture is now split:
+The deployment architecture is split:
 
 ```text
 common deployment policy
@@ -128,8 +128,8 @@ Two system-image capabilities are explicit workstreams:
 
 | Device | Role | Assurance | Current state |
 | --- | --- | --- | --- |
-| Pixel 7 / panther | REFERENCE_FROZEN | accepted R9 reference | maintenance/regression only |
-| Titan 2 | PORTABILITY | N0 active | keyboard/display/camera/restore research in parallel |
+| Pixel 7 / panther | REFERENCE_FROZEN | accepted R9 Hub V1 reference | maintenance/regression only |
+| Titan 2 | PORTABILITY | N0 active | keyboard/display/camera/restore/radio research in parallel |
 | Titan 2 Elite | PORTABILITY candidate | N0 pending | independent baseline required on retail hardware |
 | Q27 | RESEARCH | unqualified | future candidate after shipped-hardware evidence |
 | Pixel 4a 5G / bramble | historical reference | frozen | no active investment |
@@ -146,14 +146,22 @@ during decomposition and publication review. Do not publish that monorepo
 wholesale. Components migrate only after provenance, licensing, secret/private
 path review, independent build/test instructions and parity are closed.
 
+## Open issue policy
+
+Open issues are intentionally kept open until Titan 2 SableOS install closure.
+The open set covers active Titan qualification and keyboard-first work plus
+physical/polish follow-ups that should be proven or superseded by the Titan 2
+install path.
+
 ## Current execution order
 
 ```text
-K1/K2 merged
+R9 Hub V1 Panther closure merged
+  -> keyboard-first design V1 merged
   -> organization documentation reconciliation
-  -> keyboard-first SableOS design
-  -> Titan 2 adapter-input research / N0 bring-up planning
+  -> Titan 2 read-only evidence / restore / input / display / camera / radio
   -> Titan 2 first controlled Sable artifact + deployment qualification
+  -> close remaining open issues where Titan 2 proves or supersedes them
   -> Titan 2 Elite independent sequence
   -> Q27 only after shipped hardware qualifies
   -> production signing / OTA release engineering later
