@@ -30,6 +30,14 @@ R9_PANTHER_HUB_V1_CLOSURE=MERGED_PR_110
 R10_KEYBOARD_FIRST_DESIGN_V1=MERGED_PR_108
 ```
 
+Public demo:
+
+- [Panther R9 Hub V1 overall UI/UX demo](https://github.com/sableos-project/.github/releases/tag/panther-r9-hub-v1-demo-20260925)
+
+This video is a product/UI demonstration for the accepted Panther R9 Hub V1
+reference. It is not a new image qualification artifact and does not supersede
+the accepted source or target-files identity above.
+
 Later documentation-only and keyboard-first planning commits do not become new
 Panther image qualification sources.
 
