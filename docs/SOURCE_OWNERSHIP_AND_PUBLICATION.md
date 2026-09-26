@@ -1,6 +1,6 @@
 # Source ownership and publication transition
 
-Status: **active policy — 2026-09-24**
+Status: **active policy — 2026-09-25**
 
 ## Decision
 
@@ -28,6 +28,11 @@ source repositories plus explicitly identified private/proprietary binary inputs
 and local evidence. When that is true, the private integration repository should
 shrink substantially or become archival/release-only.
 
+Public source must not be treated as publication-ready merely because code has
+been copied out of the private integration repository. It also needs build,
+signing, verification and installation documentation. The detailed gate is
+maintained in [Source publication build and signing gate](SOURCE_PUBLICATION_BUILD_SIGNING_GATE.md).
+
 ## Why not publish the monorepo now
 
 The integration repository currently mixes several concerns:
@@ -51,9 +56,17 @@ A component moves to `sableos-project` only when:
 3. secret/private-path/device-serial/raw-evidence review is clean;
 4. no unreviewed proprietary firmware or vendor diagnostic data is included;
 5. independent build/test instructions exist;
-6. the destination repository has a clear ownership boundary;
-7. the private integration manifest/build pins the public revision;
-8. parity is proven before the private duplicate is retired.
+6. signing and verification boundaries are documented;
+7. public docs state whether the component is dev-signed, release-candidate
+   signed, production-signed or not publicly reproducible;
+8. the destination repository has a clear ownership boundary;
+9. the private integration manifest/build pins the public revision;
+10. parity is proven before the private duplicate is retired.
+
+A repository may exist publicly before this gate is complete, but it must be
+labeled as research, documentation, historical evidence or
+`NOT_PUBLICATION_READY_SOURCE`; it must not imply that users can reproduce an
+accepted SableOS image.
 
 ## Preferred public decomposition
 
@@ -88,6 +101,8 @@ Do not publish by default:
   permitted;
 - unreviewed vendor diagnostics;
 - credentials, signing material or host secrets;
+- production signing keys, release signing keys or private key-management
+  procedures;
 - evidence paths that imply a public artifact exists when it does not.
 
 ## Migration order
@@ -95,9 +110,10 @@ Do not publish by default:
 ```text
 1. documentation + common contracts
 2. reusable build/device-adapter framework
-3. common applications and design libraries
-4. keyboard-first Camera / Keyboard components
-5. mature device adapters
-6. manifest/release composition
-7. retire redundant private copies only after parity
+3. build/sign/verify documentation for each moved component
+4. common applications and design libraries
+5. keyboard-first Camera / Keyboard components
+6. mature device adapters
+7. manifest/release composition
+8. retire redundant private copies only after parity
 ```
