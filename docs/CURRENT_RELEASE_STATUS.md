@@ -36,13 +36,11 @@ R9_PANTHER_STANDARD_PRESERVED_DATA_FLASH=PASS
 R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
 ```
 
-Public product/UI demo:
-
-- [Panther R9 Hub V1 overall UI/UX demo](https://github.com/sableos-project/.github/releases/tag/panther-r9-hub-v1-demo-20260925)
-
-This release asset is a public product demonstration for the accepted Panther R9
-Hub V1 reference. It is not a new image qualification artifact and does not
-supersede the exact source, merge or target-files identities above.
+Public product/UI demo publication is deferred until production-release-ready
+video hosting is available through the SableOS.org / Cloudflare publication
+path. GitHub Releases must not be used for demo-only videos because release tags
+automatically expose source archives and can be confused with source
+publication.
 
 The previous `6f1d6d2f` / `08ef...` Panther acceptance image remains historical
 evidence. It is superseded as the current R9 reference by the final Hub V1
