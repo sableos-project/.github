@@ -104,6 +104,33 @@ Sable Keyboard is the first-party critical-entry/direct-boot qualification path.
 A third-party IME may be selected by the user but does not automatically inherit
 Sable's pre-unlock, pairing, lockscreen or physical-keyboard acceptance claims.
 
+## Current Sable Hub portability policy
+
+Panther Hub V1 is the common-product reference for Connected Apps semantics.
+Titan 2 / Titan 2 Elite may change presentation for keyboard-first interaction
+but must not drop or replace those common semantics.
+
+```text
+SABLE_HUB_PANTHER_V1_SEMANTICS_REQUIRED=YES
+SABLE_HUB_CONNECTED_APPS=REQUIRED
+SABLE_HUB_GENERIC_NOTIFICATION_ADAPTER=REQUIRED
+SABLE_HUB_REMOTEINPUT_REPLY=REQUIRED
+SABLE_HUB_OPEN_APP_FALLBACK=REQUIRED
+SABLE_HUB_PACKAGE_USER_POLICY=REQUIRED
+SABLE_HUB_LOCAL_BOUNDED_HISTORY=REQUIRED
+SABLE_HUB_DYNAMIC_PROVIDER_DISCOVERY=REQUIRED
+SABLE_HUB_PROVIDER_SPECIFIC_ALLOWLIST=NO
+```
+
+WhatsApp, Signal, Telegram and LinkedIn are compatibility/evidence targets, not
+a source-code allowlist. Sable Messages is a separate product surface and must
+not replace, subsume, disable or weaken Sable Hub.
+
+Public semantic authority belongs in
+`sableos-project/platform_sable/docs/SABLE_HUB_PORTABILITY_CONTRACT.md`; the
+private integration repository owns source/gate enforcement and device runtime
+qualification remains target-specific.
+
 ## Current Sable Camera policy
 
 Keyboard-first Sable Camera uses the **Camera Control Deck** product direction:
