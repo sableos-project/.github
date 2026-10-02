@@ -1,6 +1,6 @@
 # SableOS default application and replacement policy
 
-Status: **current normative policy — 2026-09-24**
+Status: **current normative policy — 2026-10-02**
 
 This policy separates capability ownership, product composition and replacement
 decisions. A Sable-branded implementation does not become a product default
@@ -26,8 +26,20 @@ Sable Weather
 Sable Calendar
 ```
 
-Current HOME is standalone `org.sableos.launcher` / SableLauncher.
-Launcher3QuickStep remains Recents/Overview/task/gesture substrate only.
+The frozen Panther image historically used standalone
+`org.sableos.launcher` / SableLauncher at that accepted milestone.
+
+Current Sable **first-party** HOME architecture is newer:
+
+```text
+SABLE_FIRST_PARTY_HOME=Launcher3QuickStep hosting Sable Start
+STANDALONE_SABLELAUNCHER_RUNTIME=RETIRED
+THIRD_PARTY_HOME_SELECTION_ALLOWED=YES
+FORCE_SABLE_HOME_AFTER_USER_SELECTION=NO
+```
+
+The historical Panther image is not rewritten by this later architecture
+decision.
 
 Reader and Text Reader are separate products.
 
@@ -62,8 +74,27 @@ valid product components.
 Examples from the frozen Panther reference include Vanadium as the browser and
 the documented upstream/preprocessed Camera presentation exception.
 
-Keyboard-first devices move toward a common Sable Camera and Sable Keyboard /
-input stack, but that does not retroactively reopen the frozen Panther image.
+Keyboard-first devices move toward the common Sable Camera / Camera Control
+Deck and Sable Keyboard/input stack, but that does not retroactively reopen the
+frozen Panther image.
+
+## Default versus user-selected application
+
+A Sable first-party/factory default is not a lock on user choice.
+
+```text
+THIRD_PARTY_HOME_INSTALL_ALLOWED=YES
+THIRD_PARTY_HOME_SELECTION_ALLOWED=YES
+THIRD_PARTY_IME_INSTALL_ALLOWED=YES
+THIRD_PARTY_IME_ENABLE_ALLOWED=YES
+THIRD_PARTY_IME_SELECTION_ALLOWED=YES
+FORCE_SABLE_HOME_AFTER_USER_SELECTION=NO
+FORCE_SABLE_IME_AFTER_USER_SELECTION=NO
+```
+
+Third-party launchers do not automatically receive privileged Quickstep,
+SystemUI or Private-Space integration. Third-party IMEs do not automatically
+inherit Sable's direct-boot/critical-entry qualification.
 
 ## Product composition ownership
 

@@ -6,11 +6,11 @@ separate touch-first / keyboard-first interaction profiles.
 
 > Applications provide capabilities; Sable organizes people, attention and actions.
 
-## Current state — 2026-09-25
+## Current state — 2026-10-02
 
 ```text
 Pixel 7 / Panther      R9 HUB V1 PHYSICAL ACCEPTANCE PASS / FROZEN TOUCH-FIRST REFERENCE
-Titan 2                ACTIVE KEYBOARD-FIRST N0 PORTABILITY TARGET
+Titan 2                ACTIVE N1D/C3B KEYBOARD-FIRST ENGINEERING TARGET
 Titan 2 Elite          NEXT INDEPENDENT KEYBOARD-FIRST N0 TARGET
 Q27                    RESEARCH / FUTURE PRODUCT CANDIDATE
 Local direct CI        ACTIVE
@@ -42,6 +42,21 @@ The active product question is now: **how does the same Sable product become a
 first-class physical-keyboard OS without becoming a separate ROM/application
 fork?**
 
+Current synchronization authority:
+
+- [Current cross-repository authority](../docs/CURRENT_CROSS_REPO_AUTHORITY.md)
+
+Current Titan/product-source state:
+
+```text
+C3B_ENGINEERING_SYSTEMIMAGE=IN_PROGRESS_NOT_ACCEPTED
+C3B_RELEASE_ELIGIBLE=NO
+D1B_PRODUCT_SOURCE=OPERATOR_QUALIFIED_AND_MERGED
+D1B_ACCEPTED_HEAD=8e31cb253b9a6e720fed9a1be23fd6967c621317
+PUBLIC_TITAN_BUILD_IMAGE=NO
+PUBLIC_TITAN_FLASH=NO
+```
+
 ## Product architecture
 
 ```text
@@ -61,6 +76,9 @@ Android framework + vendor HAL/BSP + hardware
 Keyboard-first work adds deterministic focus, type-to-search, shortcuts,
 square-display behavior, an image-integrated Sable Keyboard/input stack and a
 capability-driven Sable Camera while preserving common app/data semantics.
+Sable Camera now has an accepted **Camera Control Deck** direction: portrait
+remains supported, while landscape uses a viewfinder-first physical-keyboard
+control surface with full touch fallback.
 
 ## Sable Hub V1
 
@@ -97,8 +115,10 @@ performance PASS.
 - **device_sable_panther** — frozen Pixel 7 reference adapter/evidence.
 - **build** — trusted CI/build/artifact/deployment contracts.
 - **packages_apps_SableStart** — historical/common Sable Start presentation
-  source; current product HOME ownership is documented there.
-- **.github** — organization status, roadmap, trust and publication policy.
+  source; current first-party HOME is Launcher3-hosted Sable Start.
+- **device_sable_titan2** — public Titan 2 device boundary and preserved bring-up evidence; active canonical engineering is N1D/C3B.
+- **treble_restlessos** — Restless/Treble compatibility reference; not Sable product/security authority.
+- **.github** — organization status, current cross-repo authority, roadmap, trust and publication policy.
 
 Reusable Sable source is intended to converge here over time. The private
 integration repository is retained temporarily for release composition,
@@ -107,6 +127,7 @@ remain the permanent home of all reusable product code.
 
 Start with:
 
+- [Current cross-repository authority](../docs/CURRENT_CROSS_REPO_AUTHORITY.md)
 - [Current release status](../docs/CURRENT_RELEASE_STATUS.md)
 - [Documentation status](../docs/DOCUMENTATION_STATUS.md)
 - [Source ownership and publication](../docs/SOURCE_OWNERSHIP_AND_PUBLICATION.md)
@@ -125,12 +146,15 @@ flashing until independently qualified.
 ## Open issue policy
 
 Remaining open issues are intentionally left open until the Titan 2 SableOS
-install path proves or supersedes them. This includes Titan qualification,
+install path proves or supersedes them. Current post-D1b product work includes
+D2 quality/dependency verification, D3 critical text-entry hardening, D5 icons,
+and non-blocking D6 keyboard/Camera Control Deck follow-ons. This includes Titan qualification,
 keyboard-first input/focus work, Sable Tools, Camera/Keyboard integration and
 open Panther/Titan-shared polish follow-ups.
 
 ## Documentation authority
 
-The 2026-09-25 organization-wide sync updates the public docs to the final
-Panther R9 Hub V1 closure and merged keyboard-first design state. Historical
+The 2026-10-02 organization-wide sync reconciles the public docs with the
+current N1D/C3B, Launcher3-hosted Sable Start, third-party HOME/IME user-choice,
+Camera Control Deck and Pastiera 0.86 reference decisions. Historical
 R8/R9 documents remain evidence records, not current execution authority.
