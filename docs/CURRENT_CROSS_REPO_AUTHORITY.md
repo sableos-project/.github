@@ -24,8 +24,8 @@ Use these repositories for their stated responsibilities:
 | public common product composition | `sableos-project/vendor_sable` | `main` / `b9a4b5b0417e6c2e0d32822710424ad03fe50fe8` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `81b43ff7c8fbd68b798496e84e32d5b8ad0cc734` |
 | public Titan 2 device boundary/evidence | `sableos-project/device_sable_titan2` | `main` / `e9bf74b21d238ebbdfdb44ac1c5e438dedc8ff66` |
-| public build/deploy contracts | `sableos-project/build` | `main` / `0b66000f129a2de5821685ae175113e756914c70` |
-| frozen Panther device reference | `sableos-project/device_sable_panther` | `main` / `8cd9be2b9520015958da810051753f8c4f14eaf7` |
+| public build/deploy contracts | `sableos-project/build` | `main` / `2432b1cfbcaebb8e4b8c7819f2949192f0f49519` |
+| frozen Panther device reference | `sableos-project/device_sable_panther` | `main` / `1c69a82344aac26f3af5d4fbba17615716d17469` |
 | Restless/Treble compatibility reference | `sableos-project/treble_restlessos` | `android-17.0` / `d2fde7acd77029fabb951d181da6417800c4193c` |
 
 The exact heads above identify the synchronized 2026-10-02 documentation state.
