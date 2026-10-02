@@ -1,19 +1,21 @@
 # SableOS documentation status
 
-Status date: **2026-09-25**
+Status date: **2026-10-02**
 
 This index classifies public documentation so historical milestone evidence is
 not mistaken for current product architecture.
 
-Current deep-dive reconciliation record: `docs/DOCUMENTATION_AUDIT_20260925.md`.
-Prior reconciliation record: `docs/DOCUMENTATION_AUDIT_20260924.md`.
+Current cross-repository authority: `docs/CURRENT_CROSS_REPO_AUTHORITY.md`.
+The 2026-09-25 and 2026-09-24 audit files remain historical reconciliation
+records.
 
 ## Current authority chain
 
 ```text
-.github/docs/CURRENT_RELEASE_STATUS.md
-  -> aimindseye/sableos CURRENT_STATUS.md while private integration remains release authority
-  -> accepted ADR-0010 / ADR-0011 in the private integration repository
+.github/docs/CURRENT_CROSS_REPO_AUTHORITY.md
+  -> .github/docs/CURRENT_RELEASE_STATUS.md
+  -> aimindseye/sableos current execution/architecture authority
+  -> accepted ADR-0010 / ADR-0011 / ADR-0012 in the private integration repository
   -> platform_sable architecture/support/portability/release docs
   -> build multi-device/evidence contracts
   -> vendor_sable common product composition
@@ -48,6 +50,7 @@ RESEARCH_CONTEXT
 | Document | Class |
 | --- | --- |
 | `profile/README.md` | CURRENT_STATUS |
+| `docs/CURRENT_CROSS_REPO_AUTHORITY.md` | CURRENT_NORMATIVE / CURRENT_STATUS |
 | `docs/CURRENT_RELEASE_STATUS.md` | CURRENT_STATUS |
 | `docs/DEVELOPMENT_RELEASE_PLAN.md` | CURRENT_NORMATIVE |
 | `docs/CI_TRUST_ARCHITECTURE.md` | CURRENT_NORMATIVE |
@@ -68,6 +71,7 @@ RESEARCH_CONTEXT
 Current:
 - `README.md`
 - `docs/ARCHITECTURE.md`
+- `docs/C3B_INTEGRATION_BOUNDARY.md`
 - `docs/DEVICE_SUPPORT_LEVELS.md`
 - `docs/PORTABILITY_RULES.md`
 - `docs/RELEASE_MODEL.md`
@@ -88,8 +92,10 @@ Historical/superseded milestone material:
 
 ## packages_apps_SableStart
 
-`README.md` and `docs/ARCHITECTURE.md` describe the current repository role:
-presentation/history reference, not the current HOME package authority.
+`README.md`, `docs/ARCHITECTURE.md` and `docs/CURRENT_STATUS.md` describe the
+current repository role: presentation/history reference whose Sable Start
+source is hosted by Launcher3/Quickstep; standalone SableLauncher is not current
+HOME authority.
 
 All R3/R5/R6 migration/runtime/HOME-adoption files are
 `HISTORICAL_EVIDENCE` or `HISTORICAL_SUPERSEDED`.
@@ -110,6 +116,23 @@ All R3/R5/R6 migration/runtime/HOME-adoption files are
 Panther is REFERENCE_FROZEN, not PRIMARY. The current Panther reference image is
 bound to `edf62e5b` and target-files SHA-256 `a0b359...`.
 
+## device_sable_titan2
+
+- `README.md` — CURRENT_STATUS: public device/evidence boundary; active
+  canonical engineering is N1D/C3B while public build/flash remains fail-closed.
+- `docs/TITAN_FAMILY_BASE_CAPABILITY_MATRIX.md` — current device capability
+  inventory plus Camera Control Deck product-binding notes.
+- N0/N1 bring-up, Restless and first-write documents remain historical evidence
+  unless explicitly marked current.
+
+## platform_manifest
+
+- `README.md` — CURRENT_STATUS / CURRENT_NORMATIVE.
+- `docs/SOURCE_COMPOSITION_MODEL.md` — CURRENT_NORMATIVE.
+- `docs/DEVELOPMENT_MILESTONE_COMPOSITION.md` — CURRENT_NORMATIVE.
+- `docs/TITAN2_N0_COMPOSITION_PLACEHOLDER.md` — HISTORICAL_SUPERSEDED by
+  active N1D/C3B engineering.
+
 ## build
 
 Current:
@@ -128,18 +151,6 @@ Historical:
 - `docs/R8_B1_COMMAND_REFERENCE.md`
 - `docs/R8_BUILD_ENGINEER_REVIEW.md`
 - `docs/R8_PREIMAGE_GATE.md`
-
-## platform_manifest
-
-Current:
-- `README.md`
-- `docs/DEVELOPMENT_MILESTONE_COMPOSITION.md`
-- `docs/MANIFEST_HIERARCHY.md`
-- `docs/RELEASE_MANIFEST_POLICY.md`
-- `docs/SOURCE_COMPOSITION_MODEL.md`
-
-Historical:
-- `docs/R5_R3_RECONSTRUCTION_PLAN.md`
 
 ## Open issue policy
 
