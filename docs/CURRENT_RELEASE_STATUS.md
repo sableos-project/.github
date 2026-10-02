@@ -1,6 +1,6 @@
 # SableOS current development status
 
-Status date: **2026-09-25**
+Status date: **2026-10-02**
 
 This file is the organization-level current-status authority. Historical R3-R10
 documents remain evidence records and must not be read as current execution
@@ -13,7 +13,7 @@ Pixel 7 / Panther        R9 HUB V1 PHYSICAL ACCEPTANCE PASS / REFERENCE_FROZEN
 R9 Hub V1 closure        MERGED / PR #110
 Keyboard-first design    MERGED / PR #108
 K1/K2 foundation         MERGED
-Titan 2                  ACTIVE KEYBOARD-FIRST PORTABILITY / N0 RESEARCH
+Titan 2                  ACTIVE N1D/C3B KEYBOARD-FIRST ENGINEERING
 Titan 2 Elite            NEXT INDEPENDENT KEYBOARD-FIRST PORTABILITY TARGET
 Q27                      RESEARCH / FUTURE PRODUCT CANDIDATE
 Production signing       DEFERRED
@@ -26,7 +26,10 @@ new Panther image qualification sources.
 ## Exact accepted identities
 
 ```text
-PRIVATE_INTEGRATION_MAIN=2624e1af
+CURRENT_PRIVATE_INTEGRATION_MAIN=648aec147765361676b51fb428b7ac177883f6f2
+CURRENT_PARALLEL_PRODUCT_MAIN=09617ecd2d1e4774fb8a8cd9e92ddae003abccde
+D1B_ACCEPTED_HEAD=8e31cb253b9a6e720fed9a1be23fd6967c621317
+D1B_MERGE_COMMIT=acec8e1c62b2aa5e2cf478df880149cd9f7274fc
 R10_KEYBOARD_FIRST_DESIGN_SOURCE=20da2daa
 R10_KEYBOARD_FIRST_DESIGN_MERGE=2624e1af
 R9_PANTHER_HUB_V1_MERGE=f175b00f
@@ -110,6 +113,25 @@ Panther is the qualified `target-files` / A-B fastboot adapter. Titan 2,
 Titan 2 Elite and Q27 remain fail-closed for release artifact registration,
 flash planning and flashing until their own contracts are proven.
 
+## Current Titan C3B status
+
+```text
+TITAN2_ACTIVE_ENGINEERING_LANE=N1D_C3B
+C3B_ENGINEERING_SYSTEMIMAGE=IN_PROGRESS_NOT_ACCEPTED
+C3B_RELEASE_ELIGIBLE=NO
+PUBLIC_BUILD_IMAGE_AUTHORIZED=NO
+PUBLIC_FLASH_AUTHORIZED=NO
+PRODUCTION_SIGNING_AUTHORIZED=NO
+```
+
+D1b product-source Android compile/test/lint and full offline qualification
+passed on ai-g732 before merge. That qualification does not imply a C3B image or
+device-runtime PASS.
+
+The N0/AOSP-first public planning documents remain historical precursor/evidence
+records; current integration uses the Graphene/AOSP-derived C3B base plus bounded
+Treble compatibility peel.
+
 ## Active direction
 
 Active SableOS product work is now keyboard-first design plus parallel Titan
@@ -123,19 +145,36 @@ path.
 
 Two system-image capabilities are explicit workstreams:
 
-- **Sable Camera** — common Camera2/capability architecture, stock vendor
-  HAL/ISP initially, device profiles below the common core, SYSTEM_CAMERA only
-  where physical evidence proves value and negative-access tests pass.
+- **Sable Camera** — common Sable-owned Camera2/capability architecture, stock
+  vendor HAL/ISP initially, and a keyboard-device **Camera Control Deck**:
+  portrait supported, landscape viewfinder-first physical controls, focus-point
+  movement/AF-AE lock roadmap, and full touch fallback. SYSTEM_CAMERA remains
+  evidence-gated.
 - **Sable Keyboard / input** — offline-capable common IME/text composition
   separated from device-specific keylayout/keycharacter/Fn/Sym/backlight/
-  pointer behavior.
+  pointer behavior. Pastiera 0.86 is pinned behavioral/product reference only;
+  D6 compact input/SYM-emoji-snippet/dictionary work is non-blocking.
+
+### User-selectable HOME and IME
+
+```text
+SABLE_FIRST_PARTY_HOME=Launcher3QuickStep hosting Sable Start
+THIRD_PARTY_HOME_SELECTION_ALLOWED=YES
+FORCE_SABLE_HOME_AFTER_USER_SELECTION=NO
+SABLE_FIRST_PARTY_IME=SableKeyboard
+THIRD_PARTY_IME_SELECTION_ALLOWED=YES
+FORCE_SABLE_IME_AFTER_USER_SELECTION=NO
+```
+
+Third-party components do not automatically inherit Sable's privileged
+Quickstep/Private-Space or critical-entry/direct-boot qualification.
 
 ## Device roles
 
 | Device | Role | Assurance | Current state |
 | --- | --- | --- | --- |
 | Pixel 7 / panther | REFERENCE_FROZEN | accepted R9 Hub V1 reference | maintenance/regression only |
-| Titan 2 | PORTABILITY | N0 active | keyboard/display/camera/restore/radio research in parallel |
+| Titan 2 | ACTIVE ENGINEERING | N1D/C3B | systemimage compatibility peel + parallel product source; image/device acceptance pending |
 | Titan 2 Elite | PORTABILITY candidate | N0 pending | independent baseline required on retail hardware |
 | Q27 | RESEARCH | unqualified | future candidate after shipped-hardware evidence |
 | Pixel 4a 5G / bramble | historical reference | frozen | no active investment |
@@ -164,9 +203,11 @@ install path.
 ```text
 R9 Hub V1 Panther closure merged
   -> keyboard-first design V1 merged
-  -> organization documentation reconciliation
-  -> Titan 2 read-only evidence / restore / input / display / camera / radio
-  -> Titan 2 first controlled Sable artifact + deployment qualification
+  -> Titan 2 evidence / N0-N1 learning
+  -> N1D C3B compatibility-peel systemimage engineering
+  -> D1b product-source qualification merged
+  -> D2/D3/D5 in parallel + non-blocking D6/Camera Control Deck roadmap
+  -> Titan 2 first controlled integrated Sable artifact + deployment qualification
   -> close remaining open issues where Titan 2 proves or supersedes them
   -> Titan 2 Elite independent sequence
   -> Q27 only after shipped hardware qualifies
