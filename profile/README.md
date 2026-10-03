@@ -20,7 +20,7 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=f08aac781e58b549e63d7104d495993917d43353
+PRIVATE_MAIN=0b3f3439e4df34644131fa43bd6a9cf9cf7f8ba0
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
@@ -97,8 +97,7 @@ See [Current roadmap and assignments](../docs/CURRENT_ROADMAP_AND_ASSIGNMENTS.md
 
 ## Current developer-delivery checkpoint
 
-`aimindseye/titan2-temp` main is `4089c1274a9e4a402a2c617cc00a7c166112f195`
-after P5E. Two follow-up PRs are intentionally draft:
+`aimindseye/titan2-temp` P5E feature baseline is `4089c1274a9e4a402a2c617cc00a7c166112f195`; later docs-only commits do not change that qualified feature baseline. Two follow-up PRs are intentionally draft:
 
 ```text
 PR_28=P5F Reader runtime-readiness

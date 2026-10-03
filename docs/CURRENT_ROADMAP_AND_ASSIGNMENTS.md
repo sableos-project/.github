@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=f08aac781e58b549e63d7104d495993917d43353
+aimindseye/sableos main=0b3f3439e4df34644131fa43bd6a9cf9cf7f8ba0
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
@@ -102,9 +102,8 @@ The existing 23-screen SableScreens catalog is an explicit design/reference base
 
 ## Current developer-delivery status
 
-The current product-source main is
-`aimindseye/titan2-temp@4089c1274a9e4a402a2c617cc00a7c166112f195`
-after the accepted P5E merge.
+The accepted P5E product-source feature baseline is
+`aimindseye/titan2-temp@4089c1274a9e4a402a2c617cc00a7c166112f195`; later docs-only commits do not change that qualified feature baseline.
 
 ```text
 PR_28=P5F_READER_RUNTIME_READINESS_DRAFT
