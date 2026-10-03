@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=26d11bed93ef4eab924fc63100113bd94e8ae88b
+aimindseye/sableos main=107464223295b29e2f8a04738d804abe47249603
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -45,7 +45,7 @@ P1-P4 proceed continuously without waiting for ai-g732 between stages. Each
 stage is frozen separately; after P4 the operator runs one batched exact-head
 ai-g732 qualification before canonical admission.
 
-P5 is currently design/scope work only:
+P5 architecture is accepted:
 
 ```text
 Sable Reader v2
@@ -57,8 +57,20 @@ Sable Text Reader
   remains a separate lightweight text/TTS/accessibility product
 ```
 
-Comic direction is local-first and may use Mihon as product/UX inspiration
-without importing an unreviewed executable extension ecosystem.
+Comic direction is local-first and may use Mihon as product/UX inspiration without importing Mihon runtime or an executable extension ecosystem.
+
+P5 sequence:
+
+```text
+P5A  baseline/privacy/dependency cleanup + common library model
+P5B  keyboard-first EPUB/PDF UX
+P5C  CBZ/image comic engine + manga/webtoon UX
+P5D  audiobook engine + background MediaSession
+P5E  unified backup/collections/progress + quality gates
+P5F  exact-head ai-g732 qualification
+```
+
+The existing 23-screen SableScreens catalog is an explicit design/reference baseline. It does not replace canonical Launcher3, SystemUI, Keyguard, Settings, Telecom or SetupWizard2 runtime owners. Weather and the dedicated Reader v2 product surface are additive to that catalog.
 
 ## Engineering roadmap
 
