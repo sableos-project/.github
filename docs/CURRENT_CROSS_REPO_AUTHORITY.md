@@ -9,9 +9,9 @@ with this authority map.
 
 | Responsibility | Repository | Current ref / exact head |
 | --- | --- | --- |
-| private integration / current execution | `aimindseye/sableos` | `main` / `34b4b6f0e539400b4d8cb5adf1cb3b84aae6354b` |
+| private integration / current execution | `aimindseye/sableos` | `main` / `62a3ec76f6a8065596810f2b2ae555cbd7784233` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
-| public common platform/design | `sableos-project/platform_sable` | `main` / `72188d70d2184f52ca267755ccafaaa7924d8a33` |
+| public common platform/design | `sableos-project/platform_sable` | `main` / `126d91bfaedc98edc83fd38bb9c6eee8e5c1a008` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `771892d726f1220e5c1f2ccb686134c9481c3d08` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
@@ -91,6 +91,24 @@ Public semantic authority belongs in
 `sableos-project/platform_sable/docs/SABLE_HUB_PORTABILITY_CONTRACT.md`;
 private integration owns source/gate enforcement and device runtime
 qualification remains target-specific.
+
+## Keyboard-first design closure authority
+
+```text
+DESIGN_KF_A_NOTIFICATION_ATTENTION_HUB=ACCEPTED
+DESIGN_KF_B_SYSTEMUI_CONVERGENCE=ACCEPTED
+DESIGN_KF_C_SABLE_TOOLS_CONSOLIDATION=ACCEPTED
+DESIGN_KF_D_ALL_APPS_RESPONSIVE_POLISH=ACCEPTED
+KEYBOARD_FIRST_V1_FOUNDATIONAL_DESIGN=COMPLETE
+TITAN2_V1_PRODUCT_DESIGN=COMPLETE
+```
+
+Normative public contracts live under
+`sableos-project/platform_sable/docs/design/` at
+`126d91bfaedc98edc83fd38bb9c6eee8e5c1a008`.
+
+Private future-assignment sequencing lives in
+`aimindseye/sableos/docs/titan2/KEYBOARD_FIRST_DESIGN_IMPLEMENTATION_QUEUE.md`.
 
 ## Current HOME / IME policy
 

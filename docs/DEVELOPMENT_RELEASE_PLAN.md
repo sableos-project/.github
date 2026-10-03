@@ -41,9 +41,18 @@ The developer continues in `aimindseye/titan2-temp`:
 P1-P4 proceed continuously. Each stage is frozen. After P4, all four exact heads
 receive one batched ai-g732 qualification session before merge/admission.
 
-P5 is a separate design track for Sable Reader v2. Current direction: common
-keyboard-first books, comics/manga/webtoons and audiobooks; Text Reader remains
-separate. P5 implementation waits for a dedicated scope/design package.
+P5 Sable Reader v2 architecture is accepted and proceeds as the separate P5A-P5F implementation train; Text Reader remains separate.
+
+## Completed keyboard-first design closure
+
+```text
+DESIGN-KF-A  Notification Policy + Attention + Hub ownership        ACCEPTED
+DESIGN-KF-B  SystemUI visual convergence                            ACCEPTED
+DESIGN-KF-C  Sable Tools / Toolbox consolidation                    ACCEPTED
+DESIGN-KF-D  All Apps privacy row + responsive app polish           ACCEPTED
+```
+
+No additional broad design phase is planned before implementation. These packages wait for the current P1-P4 and P5 developer trains to finish and qualify.
 
 ## Engineering sequence after E3
 

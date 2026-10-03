@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=34b4b6f0e539400b4d8cb5adf1cb3b84aae6354b
+aimindseye/sableos main=62a3ec76f6a8065596810f2b2ae555cbd7784233
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -78,6 +78,27 @@ P5F  exact-head ai-g732 qualification
 ```
 
 The existing 23-screen SableScreens catalog is an explicit design/reference baseline. It does not replace canonical Launcher3, SystemUI, Keyguard, Settings, Telecom or SetupWizard2 runtime owners. Weather and the dedicated Reader v2 product surface are additive to that catalog.
+
+## Keyboard-first design closure
+
+The following contracts are accepted and implementation-ready:
+
+```text
+DESIGN-KF-A  Notification Policy + Attention + Hub ownership
+DESIGN-KF-B  SystemUI visual convergence
+DESIGN-KF-C  Sable Tools / Toolbox consolidation
+DESIGN-KF-D  All Apps privacy row + responsive app polish
+```
+
+Authority: `sableos-project/platform_sable@126d91bfaedc98edc83fd38bb9c6eee8e5c1a008`.
+
+They remain intentionally unassigned until:
+- Developer A completes and operator-qualifies P1-P4;
+- Developer B completes P5A-P5E and operator-qualifies P5F.
+
+Recommended later handoff:
+`Developer A -> KF-D-I -> KF-A-I -> KF-B-I`;
+`Developer B -> KF-C-I1..I5`.
 
 ## Engineering roadmap
 
