@@ -10,7 +10,7 @@ separate touch-first / keyboard-first interaction profiles.
 
 ```text
 Pixel 7 / Panther      R9 PHYSICAL ACCEPTANCE PASS / FROZEN TOUCH-FIRST REFERENCE
-Titan 2                ACTIVE N1D/C3B E5A PASS / SEALED; E5B OFFLINE DECISION
+Titan 2                ACTIVE N1D/C3B RUNTIME RECOVERY; N1B CURRENT-FIRMWARE CONTROL NEXT
 Titan 2 Elite          INDEPENDENT KEYBOARD-FIRST TARGET PENDING
 Q27                    RESEARCH / FUTURE PRODUCT CANDIDATE
 Local direct CI        ACTIVE
@@ -20,7 +20,7 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=094e42f778ea4b2a16997401351fc2578b86f66f
+PRIVATE_MAIN=f08aac781e58b549e63d7104d495993917d43353
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
@@ -33,10 +33,16 @@ R9_PANTHER_TARGET_FILES_SHA256=a0b359613c4f30e9a834fba212e0b044a97d63ed0537c5947
 R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
 ```
 
-Titan 2 C3B E3 is sealed with system SHA-256
+Titan 2 C3B E3 remains a sealed build artifact with system SHA-256
 `998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5`.
-E4 deployment readiness is also sealed PASS. Private E5A read-only device-state revalidation completed with `PASS_REVIEW_READY` and left the device in fastbootd. Titan 2's Virtual A/B layout is now explicitly bound to the proven current-slot active-system deployment model; `system_b=0` is not treated as an inactive flash target. E5B flash/LP/AVB/slot mutation remains unauthorized.
-Public repositories do not themselves authorize device contact or flashing.
+The first private N1D physical attempt did not establish a stable boot and entered
+a reboot loop. The current recovery plan does not treat the `COUNT=0`
+compatibility decision as a proven root cause: the next physical control is the
+exact sealed N1B system artifact on current V01.00.14. Only if that boots is a
+minimal N1E build authorized; N1E retains the N1B product/lunch identity and adds
+only the five C3B apps. If N1B fails, N1E stops and firmware/boot-chain/current-
+state differences are investigated. Public repositories do not themselves
+authorize device contact or flashing.
 
 ## Current roadmap
 
@@ -71,20 +77,42 @@ Implementation remains queued until the current P1-P4 and P5 qualification train
 Engineering path:
 
 ```text
-E3 sealed
- -> E4 sealed
- -> E5A read-only revalidation PASS / SEALED
- -> offline E5B authorization package
- -> separate E5B mutation authorization
- -> first physical C3B boot
+N1D sealed build evidence
+ -> N1D physical reboot-loop evidence
+ -> exact sealed N1B control on current V01.00.14
+ -> if N1B PASS: minimal N1E = N1B product + five C3B apps
+ -> N1E G0/G1/G2 pre-flash qualification
+ -> if N1E boots: resume controlled runtime/product deltas
  -> E6 runtime baseline
  -> E7 evidence-driven compatibility
  -> E8 product closure
  -> N1D Beta 1
  -> production release engineering later
+
+if N1B FAIL:
+ -> stop N1E and investigate firmware/boot-chain/current-device-state delta
 ```
 
 See [Current roadmap and assignments](../docs/CURRENT_ROADMAP_AND_ASSIGNMENTS.md).
+
+## Current developer-delivery checkpoint
+
+`aimindseye/titan2-temp` main is `4089c1274a9e4a402a2c617cc00a7c166112f195`
+after P5E. Two follow-up PRs are intentionally draft:
+
+```text
+PR_28=P5F Reader runtime-readiness
+PR_28_OPERATOR_ANDROID_QUALIFICATION=PENDING
+PR_28_DEVICE_RUNTIME=NOT_RUN
+
+PR_29=non-Reader C3B runtime-readiness/handoff tooling
+PR_29_STATIC_MUTATION=PASS_DEVELOPER
+PR_29_OPERATOR_ANDROID_OFFLINE=PENDING
+PR_29_DEVICE_RUNTIME=NOT_RUN
+```
+
+Neither draft is canonical runtime admission and neither changes the N1B -> N1E
+recovery sequence.
 
 ## Product architecture
 
