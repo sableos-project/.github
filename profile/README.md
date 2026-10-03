@@ -35,8 +35,7 @@ R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
 
 Titan 2 C3B E3 is sealed with system SHA-256
 `998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5`.
-E4 deployment readiness is also sealed PASS. The user/operator has explicitly
-authorized private E5A read-only device-state revalidation completed with PASS_REVIEW_READY and left the device in fastbootd. E5B flash/LP/AVB/slot mutation remains unauthorized.
+E4 deployment readiness is also sealed PASS. Private E5A read-only device-state revalidation completed with `PASS_REVIEW_READY` and left the device in fastbootd. E5B flash/LP/AVB/slot mutation remains unauthorized.
 Public repositories do not themselves authorize device contact or flashing.
 
 ## Current roadmap
