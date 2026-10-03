@@ -10,7 +10,7 @@ Exact build/runtime authority remains in `aimindseye/sableos`.
 
 ```text
 Panther           R9 frozen touch-first reference
-Titan 2           active N1D/C3B E5A read-only revalidation
+Titan 2           active N1D/C3B E5B offline decision preparation
 Titan 2 Elite     independent portability target pending
 Q27               research / future candidate
 Production signing deferred
@@ -25,9 +25,7 @@ C3B_E3_STATUS=SEALED_PASS
 ```
 
 C3B E1 systemimage qualification and E2 source admission are complete. E3 is
-sealed PASS, and E4 deployment readiness is sealed PASS. Private E5A read-only
-device-state revalidation is now explicitly authorized; E5B mutation remains
-unauthorized.
+sealed PASS, and E4 deployment readiness is sealed PASS. Private E5A read-only device-state revalidation completed cleanly and is sealed PASS; E5B mutation remains unauthorized.
 
 Public Titan build/flash/signing/release remain closed.
 
@@ -165,7 +163,7 @@ E5A evidence review.
 | --- | --- | --- |
 | E3 | first Sable-composed Titan 2 systemimage | **PASS / SEALED** |
 | E4 | artifact seal + deployment readiness | **PASS / SEALED** |
-| E5 | E5A read-only revalidation then separately authorized first boot | **E5A AUTHORIZED / E5B CLOSED** |
+| E5 | E5A sealed read-only evidence, offline E5B decision package, then separately authorized first boot | **E5A PASS / SEALED; E5B CLOSED** |
 | E6 | runtime baseline: radio/input/display/camera/setup/security | after E5 |
 | E7 | smallest evidence-backed compatibility changes | after E6 |
 | E8 | product-closure waves | parallel source work / later integration |
