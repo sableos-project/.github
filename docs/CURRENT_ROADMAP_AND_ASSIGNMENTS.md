@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70
+aimindseye/sableos main=a6eba44d7c575bf97c9b66ae25a16e1bea5cadc4
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
@@ -125,7 +125,7 @@ DEVICE_CONTACT_AUTHORIZED=NO
 RELEASE_ELIGIBLE=NO
 ```
 
-E4 deployment readiness is next. E3 PASS does not authorize device contact or flash.
+E4 deployment readiness is sealed PASS. E5A read-only device-state revalidation is authorized; E5B flash/mutation remains unauthorized.
 
 ## E4 sealed / E5 authorization boundary
 
@@ -146,8 +146,18 @@ E5B_SLOT_MUTATION_AUTHORIZED=NO
 
 E5A has been explicitly authorized in the private execution lane for fresh
 read-only device-state revalidation and the mode transitions needed to reach
-fastbootd. E5B mutation/first boot still requires another explicit authorization
-after E5A evidence review.
+fastbootd. The fail-closed E5A collector/qualifier is now merged and ready for
+exact-head operator execution.
+
+```text
+E5A_IMPLEMENTATION=READY
+E5A_FINAL_DEVICE_MODE=FASTBOOTD
+E5A_REBOOT_BACK_TO_ANDROID=NO_NOT_AUTHORIZED
+E5B_MUTATION_AUTHORIZED=NO
+```
+
+E5B mutation/first boot still requires another explicit authorization after
+E5A evidence review.
 
 ## Engineering roadmap
 
