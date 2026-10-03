@@ -20,7 +20,7 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=34b4b6f0e539400b4d8cb5adf1cb3b84aae6354b
+PRIVATE_MAIN=62a3ec76f6a8065596810f2b2ae555cbd7784233
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -54,6 +54,19 @@ P1-P4 proceed without per-stage operator waits and are later batch-qualified on
 ai-g732 before canonical admission. P5 is now authorized as a separate sibling implementation train; it is not stacked into P1-P4.
 
 The existing `titan2-temp/apps/titan2/screens` 23-screen catalog is now an explicit design/behavior baseline, not a shipping runtime. P1-P5 and E8 consume its applicable focus/privacy/theme/profile semantics.
+
+Keyboard-first/Titan 2 V1 foundational design is now closed:
+
+```text
+DESIGN_KF_A_NOTIFICATION_ATTENTION_HUB=ACCEPTED
+DESIGN_KF_B_SYSTEMUI_CONVERGENCE=ACCEPTED
+DESIGN_KF_C_SABLE_TOOLS_CONSOLIDATION=ACCEPTED
+DESIGN_KF_D_ALL_APPS_RESPONSIVE_POLISH=ACCEPTED
+KEYBOARD_FIRST_V1_FOUNDATIONAL_DESIGN=COMPLETE
+TITAN2_V1_PRODUCT_DESIGN=COMPLETE
+```
+
+Implementation remains queued until the current P1-P4 and P5 qualification trains finish.
 
 Engineering path:
 
