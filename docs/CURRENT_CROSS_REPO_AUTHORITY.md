@@ -9,13 +9,13 @@ with this authority map.
 
 | Responsibility | Repository | Current ref / exact head |
 | --- | --- | --- |
-| private integration / current execution | `aimindseye/sableos` | `main` / `4adeb39b1f0bd1504076d68229e2e248d47862c3` |
+| private integration / current execution | `aimindseye/sableos` | `main` / `094e42f778ea4b2a16997401351fc2578b86f66f` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
 | public common platform/design | `sableos-project/platform_sable` | `main` / `80e3097bdef4cd2d5cbfd8ebde16390c29767918` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `771892d726f1220e5c1f2ccb686134c9481c3d08` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
-| public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `16c7668319b35b7053b5e59d45fe87e9ef852637` |
+| public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `67a3eba31963d2b094c2758e93d7433f27dff7ed` |
 | public build/deploy contracts | `sableos-project/build` | `main` / `13444f1418f3a6c5a205b437b866ceac467881d4` |
 | frozen Panther device reference | `sableos-project/device_sable_panther` | `main` / `1c69a82344aac26f3af5d4fbba17615716d17469` |
 | Restless/Treble compatibility reference | `sableos-project/treble_restlessos` | `android-17.0` / `88007e8636dc567851b9fced539229ac15defbdb` |
@@ -39,6 +39,11 @@ E5B_FLASH_AUTHORIZED=NO
 E5B_LP_MUTATION_AUTHORIZED=NO
 E5B_AVB_MUTATION_AUTHORIZED=NO
 E5B_SLOT_MUTATION_AUTHORIZED=NO
+E5B_DEPLOYMENT_MODEL=ACTIVE_CURRENT_SYSTEM_VIRTUAL_AB
+E5B_TARGET_LOGICAL_PARTITION=system_a
+E5B_SLOT_POLICY=KEEP_CURRENT_SLOT_NO_SLOT_SWITCH
+E5B_HISTORICAL_PROVEN_PATH=N1B_ACTIVE_SYSTEM_COW_CLEANUP_RESIZE_WRITE_FACTORY_RESET
+E5B_N1C_WHOLE_SUPER_PRIMARY_PATH=NO
 PUBLIC_BUILD_IMAGE_AUTHORIZED=NO
 PUBLIC_FLASH_AUTHORIZED=NO
 PRODUCTION_SIGNING_AUTHORIZED=NO
