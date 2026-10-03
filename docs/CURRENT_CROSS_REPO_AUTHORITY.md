@@ -15,8 +15,8 @@ with this authority map.
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `771892d726f1220e5c1f2ccb686134c9481c3d08` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
-| public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `e0f3153db7a248b9fe0ebadb3f7e7fa83939579e` |
-| public build/deploy contracts | `sableos-project/build` | `main` / `e677f91f04aba648080c0e3028597ff74d52fcf1` |
+| public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `16c7668319b35b7053b5e59d45fe87e9ef852637` |
+| public build/deploy contracts | `sableos-project/build` | `main` / `13444f1418f3a6c5a205b437b866ceac467881d4` |
 | frozen Panther device reference | `sableos-project/device_sable_panther` | `main` / `1c69a82344aac26f3af5d4fbba17615716d17469` |
 | Restless/Treble compatibility reference | `sableos-project/treble_restlessos` | `android-17.0` / `88007e8636dc567851b9fced539229ac15defbdb` |
 
