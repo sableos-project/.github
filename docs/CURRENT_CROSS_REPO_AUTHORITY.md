@@ -11,11 +11,11 @@ with this authority map.
 | --- | --- | --- |
 | private integration / current execution | `aimindseye/sableos` | `main` / `34b4b6f0e539400b4d8cb5adf1cb3b84aae6354b` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
-| public common platform/design | `sableos-project/platform_sable` | `main` / `160f86f99384def22261266d43206987a7e63e82` |
-| public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `092ed0bb8d322da19c816f2afd3891c4434220a1` |
+| public common platform/design | `sableos-project/platform_sable` | `main` / `72188d70d2184f52ca267755ccafaaa7924d8a33` |
+| public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `771892d726f1220e5c1f2ccb686134c9481c3d08` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
-| public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `6652b63bb486595315586195ad9a61c5212047c6` |
+| public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `e0f3153db7a248b9fe0ebadb3f7e7fa83939579e` |
 | public build/deploy contracts | `sableos-project/build` | `main` / `e677f91f04aba648080c0e3028597ff74d52fcf1` |
 | frozen Panther device reference | `sableos-project/device_sable_panther` | `main` / `1c69a82344aac26f3af5d4fbba17615716d17469` |
 | Restless/Treble compatibility reference | `sableos-project/treble_restlessos` | `android-17.0` / `88007e8636dc567851b9fced539229ac15defbdb` |
@@ -61,6 +61,36 @@ P5_TEXT_READER_BOUNDARY=SEPARATE
 ```
 
 Common product architecture is published in `sableos-project/platform_sable/docs/SABLE_READER_V2_ARCHITECTURE.md` and `docs/SABLESCREENS_REFERENCE_BASELINE.md`.
+
+## Current Sable Hub portability policy
+
+Panther Hub V1 is the common-product reference for Connected Apps semantics.
+Titan 2 / Titan 2 Elite may change presentation for keyboard-first interaction
+but must not drop or replace those common semantics.
+
+```text
+SABLE_HUB_PANTHER_V1_SEMANTICS_REQUIRED=YES
+SABLE_HUB_CONNECTED_APPS=REQUIRED
+SABLE_HUB_GENERIC_NOTIFICATION_ADAPTER=REQUIRED
+SABLE_HUB_REMOTEINPUT_REPLY=REQUIRED
+SABLE_HUB_OPEN_APP_FALLBACK=REQUIRED
+SABLE_HUB_PACKAGE_USER_POLICY=REQUIRED
+SABLE_HUB_LOCAL_BOUNDED_HISTORY=REQUIRED
+SABLE_HUB_DYNAMIC_PROVIDER_DISCOVERY=REQUIRED
+SABLE_HUB_PROVIDER_SPECIFIC_ALLOWLIST=NO
+SABLE_MESSAGES_AND_SABLE_HUB_ARE_SEPARATE_PRODUCT_SURFACES=YES
+D4_MESSAGES_REPLACES_SABLE_HUB=NO
+D4_MESSAGES_WEAKENS_CONNECTED_APPS=NO
+```
+
+WhatsApp, Signal, Telegram and LinkedIn are compatibility/evidence targets, not
+a source-code allowlist. Sable Messages is a separate product surface and must
+not replace, subsume, disable or weaken Sable Hub.
+
+Public semantic authority belongs in
+`sableos-project/platform_sable/docs/SABLE_HUB_PORTABILITY_CONTRACT.md`;
+private integration owns source/gate enforcement and device runtime
+qualification remains target-specific.
 
 ## Current HOME / IME policy
 
