@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=0d9d9b8754567d0784543dcace4aa10f1d36efc4
+aimindseye/sableos main=1bcd36b0978b98357a32705b65f4b18291be7921
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -112,6 +112,19 @@ AI_G732_P1_P4_BATCH_QUALIFICATION=HOLD_UNTIL_RESTACK
 ```
 
 No device/runtime/release claim is affected.
+
+## E3 sealed artifact
+
+```text
+N1D_C3B_E3_SYSTEMIMAGE=PASS
+SYSTEM_SHA256=998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5
+SYSTEM_BYTES=2994405376
+MODULES_IN_SYSTEM_TREE=PASS count=5
+DEVICE_CONTACT_AUTHORIZED=NO
+RELEASE_ELIGIBLE=NO
+```
+
+E4 deployment readiness is next. E3 PASS does not authorize device contact or flash.
 
 ## Engineering roadmap
 
