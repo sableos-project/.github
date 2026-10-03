@@ -9,7 +9,7 @@ milestone documents remain evidence but do not override this state.
 
 ```text
 Panther                   R9 REFERENCE_FROZEN / PHYSICAL PASS
-Titan 2                   ACTIVE N1D/C3B E3 ENGINEERING
+Titan 2                   ACTIVE N1D/C3B E5A READ-ONLY REVALIDATION
 Titan 2 Elite             INDEPENDENT TARGET PENDING
 Q27                       RESEARCH
 Production signing        DEFERRED
@@ -18,7 +18,7 @@ Production signing        DEFERRED
 ## Exact current identities
 
 ```text
-PRIVATE_INTEGRATION_MAIN=34b4b6f0e539400b4d8cb5adf1cb3b84aae6354b
+PRIVATE_INTEGRATION_MAIN=e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70
 PARALLEL_PRODUCT_MAIN=dbbb96cc01a0e366ea56817b54028b5686cb4035
 
 R9_PANTHER_IMAGE_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
@@ -29,12 +29,13 @@ C3B_E1_SYSTEMIMAGE=PASS
 C3B_E1_SYSTEM_SHA256=9ce0144220b3a5bf531a1b0da7ec97543a89c9181ab9d69b6390ea5a86ad45dd
 C3B_E2_SOURCE_ADMISSION=PASS
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
-C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
+C3B_E3_STATUS=SEALED_PASS
 C3B_RUNTIME_PATCH_ALLOWLIST_COUNT=0
 ```
 
-E3 passed compatibility/product/module prerequisites before entering the long
-fresh build. It is not yet a sealed artifact and has not been run on a device.
+E3 is sealed PASS. E4 offline deployment readiness is sealed PASS. The private
+execution lane has explicit authorization for E5A read-only device-state
+revalidation; no C3B image has yet been deployed.
 
 ## Current assignments
 
@@ -54,8 +55,10 @@ Reader v2 is one local-first keyboard-first library for EPUB/PDF, CBZ comics/man
 ## Next engineering phases
 
 ```text
-E3 -> E4 artifact/deployment readiness
-   -> E5 first physical C3B boot
+E3 sealed -> E4 sealed
+   -> E5A fresh read-only device-state revalidation
+   -> separate E5B mutation authorization
+   -> first physical C3B boot
    -> E6 runtime baseline
    -> E7 evidence-backed compatibility
    -> E8 product closure
@@ -92,8 +95,11 @@ E4 artifact/deployment readiness is the next engineering phase.
 
 ```text
 E4_DEPLOYMENT_READINESS=PASS_REVIEW_READY
-E5A_DEVICE_CONTACT_AUTHORIZED=NO
+E5A_DEVICE_CONTACT_AUTHORIZED=YES_READ_ONLY_PRIVATE_AUTHORIZATION
+E5A_REBOOT_BOOTLOADER_AUTHORIZED=YES
+E5A_REBOOT_FASTBOOTD_AUTHORIZED=YES
 E5B_FLASH_AUTHORIZED=NO
 E5B_LP_MUTATION_AUTHORIZED=NO
 E5B_AVB_MUTATION_AUTHORIZED=NO
+E5B_SLOT_MUTATION_AUTHORIZED=NO
 ```
