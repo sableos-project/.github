@@ -1,132 +1,77 @@
 # SableOS development plan
 
-Status: **current execution plan — 2026-09-24**
+Status: **current execution plan — 2026-10-02 ET / 2026-10-03 UTC**
 
-Internal R-labels are development/qualification milestones, not semantic public
-release versions. Exact engineering claims remain bound to source, artifact and
-physical evidence.
+Internal labels are engineering/qualification milestones, not semantic public
+release versions.
 
-## Completed foundation
+## Completed foundations
 
-```text
-R8
-  common design/application/product foundation
+- Panther R9 Hub V1 physical closure — frozen touch-first reference.
+- Keyboard-first architecture V1.
+- K1/K2 multi-device artifact/deployment foundation.
+- Titan 2 C3A public-functional control.
+- Titan 2 C3B E1 minimal Sable baseline systemimage.
+- Titan 2 C3B E2 five-module source admission.
 
-R9 Panther
-  standalone SableLauncher HOME
-  Quickstep Recents-only
-  source-bound full CI
-  fresh full image
-  controlled preserved-data flash
-  physical runtime/branding/appearance acceptance
-  REFERENCE_FROZEN
+## Active phase — Titan 2 C3B E3
 
-K1
-  multi-device artifact registry v2
-  legacy Panther registry compatibility
-  generic artifact kinds + manifest verification
-
-K2
-  common deployment safety/evidence orchestration
-  adapter-owned transport/partition semantics
-  Panther A/B fastboot behavior moved behind panther adapter
-  Titan/Elite/Q27 remain fail-closed
-```
-
-Historical R8 build-plan/review files are retained for provenance. They no longer
-describe the active execution order.
-
-## Active phase — keyboard-first common product
-
-Active product design now targets keyboard-first devices while preserving one
-common Sable application/semantic core.
+E3 is the first Sable-composed Titan 2 engineering systemimage.
 
 ```text
-common Sable semantics
-    |
-    +-- touch-first profile      -> frozen Panther reference
-    |
-    +-- keyboard-first profile   -> Titan 2 / Titan 2 Elite / future Q27
-    |
-    v
-bounded device adapters
+BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
+PRODUCT=sable_titan2
+LUNCH=sable_titan2-bp4a-userdebug
+STATUS=BUILD_RUNNING_NOT_YET_SEALED
+RUNTIME_PATCH_ALLOWLIST_COUNT=0
 ```
 
-The first keyboard-first design tranche covers:
+The long build started only after cheap compatibility/product/module gates
+passed. Device contact and flash remain unauthorized.
 
-1. SableLauncher Start/Home/All Apps/Search/Peek geometry;
-2. deterministic focus and focus restoration;
-3. type-to-search and command/shortcut model;
-4. keyboard-only navigation and accessibility;
-5. square/near-square responsive layouts;
-6. SystemUI/keyguard/notification interaction implications;
-7. Sable Keyboard common IME boundary;
-8. Sable Camera keyboard-first/system-image boundary;
-9. application-wide keyboard interaction contract.
+## Parallel product train
 
-## Titan 2
+The developer continues in `aimindseye/titan2-temp`:
 
-Titan 2 is the active PORTABILITY/N0 research target.
+1. P1 — Launcher3-hosted Sable Start keyboard-first source/handoff.
+2. P2 — Sable Keyboard first-boot/default-provisioning readiness.
+3. P3 — GrapheneOS SetupWizard2 keyboard/square-display integration preparation.
+4. P4 — Weather user-managed cities and keyboard-first closure.
 
-Parallel research should now favor evidence that fills future adapter fields:
-physical input pipeline, keyboard touch/mouse mode, display/input topology,
-rear SubScreen ownership, stock keyboard/vendor-service ownership, restore/
-fastbootd/super/AVB strategy and stock runtime parity baselines.
+P1-P4 proceed continuously. Each stage is frozen. After P4, all four exact heads
+receive one batched ai-g732 qualification session before merge/admission.
 
-The first SableOS N0 deployment must preserve stock kernel/vendor/ODM/firmware
-unless evidence requires otherwise.
+P5 is a separate design track for Sable Reader v2. Current direction: common
+keyboard-first books, comics/manga/webtoons and audiobooks; Text Reader remains
+separate. P5 implementation waits for a dedicated scope/design package.
 
-No Titan mutation is enabled by K1/K2.
-
-## Titan 2 Elite
-
-Titan 2 Elite is an independent target, not a Titan 2 variant assumed equivalent
-by name. When hardware is available, create a separate stock/boot/AVB/partition/
-input/display/camera/telephony baseline before enabling any adapter capability.
-
-A Titan 2 PASS never implies Elite PASS.
-
-## Q27
-
-Q27 remains RESEARCH/future PRODUCT_CANDIDATE. Do not activate build/flash
-support from prototype/community evidence alone.
-
-## Multi-device build/deployment contract
-
-Canonical operator interface:
+## Engineering sequence after E3
 
 ```text
-build/sable.sh <device> <release> <function> [options]
+E4  seal artifact + image membership + partition/restore/fastbootd readiness
+E5  controlled first physical C3B boot
+E6  untouched runtime baseline: radio/input/display/camera/setup/security
+E7  smallest evidence-backed compatibility changes
+E8A core OS usability closure
+E8B daily-driver apps/privacy closure
+E8C evidence-gated hardware enhancements
+N1D Beta 1 integrated daily-driver candidate
+Release engineering later
 ```
 
-Build/artifact identity never contains a physical serial.
+## Historical plan classification
 
-Serial is required only for device-contact operations and must be explicitly
-selected. Multiple attached devices are permitted; tooling must never fall back
-to the first attached device.
-
-## Non-Pixel assurance
-
-```text
-N0_GSI_USERSPACE_LAB
-N1_INTEGRATED_VENDOR_BSP_PORT
-N2_PRODUCTION_QUALIFIED
-```
-
-A successful GSI boot is not N1 or N2.
-
-## Production release work
-
-Production application signing, AVB key hierarchy, OTA signing/update service,
-rollback policy, signing-host custody and public release support remain a later
-program. They do not block keyboard-first N0 engineering.
+N0/N1A/N1B/N1B2/N1B3/N1C documents remain historical evidence and may provide
+requirements or deployment lessons. They are not current execution authority.
 
 ## Stop conditions
 
 Do not:
-- reopen Panther feature development by default;
-- enable Titan/Elite/Q27 mutation before adapter/restore evidence exists;
-- fork common applications by device model;
-- treat a historical warmed OUT as fresh-build evidence;
-- treat generic artifact-schema support as device release qualification;
-- publish private firmware/evidence/serials through public repositories.
+
+- treat E3 build progress as E3 PASS;
+- authorize device contact or flash from public documentation;
+- import the Restless patch stack wholesale;
+- fork common apps by device model;
+- create a second HOME or SetupWizard runtime;
+- force Sable HOME/IME after explicit user choice;
+- claim production signing or OTA readiness.

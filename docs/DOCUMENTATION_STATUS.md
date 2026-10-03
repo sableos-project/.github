@@ -31,7 +31,7 @@ R9_PANTHER_IMAGE_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
 R9_PANTHER_TARGET_FILES_SHA256=a0b359613c4f30e9a834fba212e0b044a97d63ed0537c59471c31b99b627d285
 R10_KEYBOARD_FIRST_DESIGN_V1=MERGED_PR_108
 PANTHER_ROLE=FROZEN_TOUCH_FIRST_REFERENCE
-TITAN2_ROLE=ACTIVE_KEYBOARD_FIRST_N0_TARGET
+TITAN2_ROLE=ACTIVE_N1D_C3B_E3_ENGINEERING
 ```
 
 ## Classification vocabulary
@@ -52,6 +52,7 @@ RESEARCH_CONTEXT
 | `profile/README.md` | CURRENT_STATUS |
 | `docs/CURRENT_CROSS_REPO_AUTHORITY.md` | CURRENT_NORMATIVE / CURRENT_STATUS |
 | `docs/CURRENT_RELEASE_STATUS.md` | CURRENT_STATUS |
+| `docs/CURRENT_ROADMAP_AND_ASSIGNMENTS.md` | CURRENT_NORMATIVE / ACTIVE_WORKSTREAM |
 | `docs/DEVELOPMENT_RELEASE_PLAN.md` | CURRENT_NORMATIVE |
 | `docs/CI_TRUST_ARCHITECTURE.md` | CURRENT_NORMATIVE |
 | `docs/SECURITY_QUALITY_ENGINEERING.md` | CURRENT_NORMATIVE |
@@ -119,7 +120,7 @@ bound to `edf62e5b` and target-files SHA-256 `a0b359...`.
 ## device_sable_titan2
 
 - `README.md` — CURRENT_STATUS: public device/evidence boundary; active
-  canonical engineering is N1D/C3B while public build/flash remains fail-closed.
+  canonical engineering is N1D/C3B E3 while public build/flash remains fail-closed.
 - `docs/TITAN_FAMILY_BASE_CAPABILITY_MATRIX.md` — current device capability
   inventory plus Camera Control Deck product-binding notes.
 - N0/N1 bring-up, Restless and first-write documents remain historical evidence
@@ -158,3 +159,16 @@ Remaining open issues in the private integration repository are intentionally
 left open until Titan 2 SableOS install closure. They represent active Titan
 qualification, keyboard-first platform work and Panther/Titan-shared polish
 follow-ups rather than stale R8/R9 broad blockers.
+
+
+## Current Titan execution classification
+
+```text
+CURRENT_TITAN_EXECUTION=N1D_C3B_E3
+CURRENT_TITAN_ROADMAP=docs/CURRENT_ROADMAP_AND_ASSIGNMENTS.md
+N0_N1A_N1B_N1B2_N1B3_N1C=HISTORICAL_EVIDENCE_OR_SUPERSEDED_EXECUTION
+```
+
+Historical files are not stale merely because they describe their original
+milestone. A current/status/normative file is stale if it contradicts the
+authority chain above.
