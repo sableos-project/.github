@@ -20,7 +20,7 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=26d11bed93ef4eab924fc63100113bd94e8ae88b
+PRIVATE_MAIN=107464223295b29e2f8a04738d804abe47249603
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -47,11 +47,13 @@ P1  Sable Start keyboard-first handoff
 P2  Sable Keyboard provisioning readiness
 P3  SetupWizard2 keyboard/square-display integration preparation
 P4  Weather city-management + keyboard-first closure
-P5  Sable Reader v2 design/scope
+P5  Sable Reader v2 architecture ACCEPTED / P5A-P5F implementation
 ```
 
 P1-P4 proceed without per-stage operator waits and are later batch-qualified on
-ai-g732 before canonical admission. P5 implementation is not yet assigned.
+ai-g732 before canonical admission. P5 is now authorized as a separate sibling implementation train; it is not stacked into P1-P4.
+
+The existing `titan2-temp/apps/titan2/screens` 23-screen catalog is now an explicit design/behavior baseline, not a shipping runtime. P1-P5 and E8 consume its applicable focus/privacy/theme/profile semantics.
 
 Engineering path:
 

@@ -9,9 +9,9 @@ with this authority map.
 
 | Responsibility | Repository | Current ref / exact head |
 | --- | --- | --- |
-| private integration / current execution | `aimindseye/sableos` | `main` / `26d11bed93ef4eab924fc63100113bd94e8ae88b` |
+| private integration / current execution | `aimindseye/sableos` | `main` / `107464223295b29e2f8a04738d804abe47249603` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
-| public common platform/design | `sableos-project/platform_sable` | `main` / `253a55b14c028af7402b1ad92be7118cec9bba2a` |
+| public common platform/design | `sableos-project/platform_sable` | `main` / `63fdfc7becdc27994dc6c233a674c347b64eb277` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `092ed0bb8d322da19c816f2afd3891c4434220a1` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `c0b952492774b2369a78d70a981fc4ea30dc4baf` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
@@ -44,11 +44,23 @@ P1=Sable Start keyboard-first handoff
 P2=Sable Keyboard provisioning readiness
 P3=SetupWizard2 keyboard/square-display integration preparation
 P4=Weather city-management + keyboard-first closure
-P5=Sable Reader v2 design/scope
+P5=Sable Reader v2 architecture accepted / P5A-P5F
 ```
 
 P1-P4 proceed without per-stage ai-g732 waits but remain unmerged until batched
-exact-head operator qualification. P5 implementation is not yet authorized.
+exact-head operator qualification. P5 architecture is accepted and may proceed as a separate sibling P5A-P5F implementation train.
+
+## SableScreens / Reader v2 authority
+
+```text
+SABLESCREENS_REFERENCE_BASELINE=YES
+SABLESCREENS_SCREEN_COUNT=23
+SABLESCREENS_SHIPPING_RUNTIME=NO
+P5_READER_V2_ARCHITECTURE=ACCEPTED
+P5_TEXT_READER_BOUNDARY=SEPARATE
+```
+
+Common product architecture is published in `sableos-project/platform_sable/docs/SABLE_READER_V2_ARCHITECTURE.md` and `docs/SABLESCREENS_REFERENCE_BASELINE.md`.
 
 ## Current HOME / IME policy
 

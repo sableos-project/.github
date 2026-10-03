@@ -18,7 +18,7 @@ Production signing        DEFERRED
 ## Exact current identities
 
 ```text
-PRIVATE_INTEGRATION_MAIN=26d11bed93ef4eab924fc63100113bd94e8ae88b
+PRIVATE_INTEGRATION_MAIN=107464223295b29e2f8a04738d804abe47249603
 PARALLEL_PRODUCT_MAIN=dbbb96cc01a0e366ea56817b54028b5686cb4035
 
 R9_PANTHER_IMAGE_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
@@ -43,14 +43,13 @@ P1  Sable Start keyboard-first handoff
 P2  Sable Keyboard provisioning readiness
 P3  SetupWizard2 keyboard/square-display integration preparation
 P4  Weather city-management + keyboard-first closure
-P5  Reader v2 design/scope only
+P5  Reader v2 architecture ACCEPTED / P5A-P5F implementation
 ```
 
 P1-P4 proceed as a frozen stacked developer train and receive batched exact-head
 ai-g732 qualification after P4.
 
-Reader v2 direction is common keyboard-first books, local-first comics/manga/
-webtoons and audiobooks; Text Reader stays separate.
+Reader v2 is one local-first keyboard-first library for EPUB/PDF, CBZ comics/manga/webtoons and audiobooks; Text Reader stays separate. Remote AI/account sync is excluded from P5.
 
 ## Next engineering phases
 
