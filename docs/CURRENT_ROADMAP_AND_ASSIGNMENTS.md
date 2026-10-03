@@ -10,7 +10,7 @@ Exact build/runtime authority remains in `aimindseye/sableos`.
 
 ```text
 Panther           R9 frozen touch-first reference
-Titan 2           active N1D/C3B E3 engineering target
+Titan 2           active N1D/C3B E5A read-only revalidation
 Titan 2 Elite     independent portability target pending
 Q27               research / future candidate
 Production signing deferred
@@ -19,14 +19,15 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=dea340c7f03f9b0c18e2b0b7b60eebf80b293d9c
+aimindseye/sableos main=e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
-C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
+C3B_E3_STATUS=SEALED_PASS
 ```
 
-C3B E1 systemimage qualification and E2 source admission are complete. E3 is the
-first Sable-composed Titan 2 systemimage build. It entered the long build only
-after compatibility, product, parse and five-module qualification passed.
+C3B E1 systemimage qualification and E2 source admission are complete. E3 is
+sealed PASS, and E4 deployment readiness is sealed PASS. Private E5A read-only
+device-state revalidation is now explicitly authorized; E5B mutation remains
+unauthorized.
 
 Public Titan build/flash/signing/release remain closed.
 
@@ -134,21 +135,27 @@ N1D_C3B_E4_DIRECT_FIT=NO
 N1D_C3B_E4_PLANNED_SYSTEM_TARGET_BYTES=3263168512
 N1D_C3B_E4_ESTIMATED_REMAINING_SUPER_HEADROOM_BYTES=3003637760
 N1D_C3B_E4_STOCK_RESTORE_PROOF=PASS
-E5A_DEVICE_CONTACT_AUTHORIZED=NO
+E5A_DEVICE_CONTACT_AUTHORIZED=YES_READ_ONLY_PRIVATE_AUTHORIZATION
+E5A_REBOOT_BOOTLOADER_AUTHORIZED=YES
+E5A_REBOOT_FASTBOOTD_AUTHORIZED=YES
 E5B_FLASH_AUTHORIZED=NO
+E5B_LP_MUTATION_AUTHORIZED=NO
+E5B_AVB_MUTATION_AUTHORIZED=NO
+E5B_SLOT_MUTATION_AUTHORIZED=NO
 ```
 
-E5A is a separate manual authorization for fresh read-only device-state
-revalidation. E5B mutation/first boot requires another explicit authorization
+E5A has been explicitly authorized in the private execution lane for fresh
+read-only device-state revalidation and the mode transitions needed to reach
+fastbootd. E5B mutation/first boot still requires another explicit authorization
 after E5A evidence review.
 
 ## Engineering roadmap
 
 | Phase | Purpose | State |
 | --- | --- | --- |
-| E3 | first Sable-composed Titan 2 systemimage | RUNNING / not sealed |
-| E4 | artifact seal + deployment readiness | NEXT |
-| E5 | first controlled physical C3B boot | NEXT |
+| E3 | first Sable-composed Titan 2 systemimage | **PASS / SEALED** |
+| E4 | artifact seal + deployment readiness | **PASS / SEALED** |
+| E5 | E5A read-only revalidation then separately authorized first boot | **E5A AUTHORIZED / E5B CLOSED** |
 | E6 | runtime baseline: radio/input/display/camera/setup/security | after E5 |
 | E7 | smallest evidence-backed compatibility changes | after E6 |
 | E8 | product-closure waves | parallel source work / later integration |
