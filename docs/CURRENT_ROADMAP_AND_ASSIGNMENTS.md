@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=84509fb40376c77568915705d30ecc1d51ad0ef0
+aimindseye/sableos main=dea340c7f03f9b0c18e2b0b7b60eebf80b293d9c
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -125,6 +125,22 @@ RELEASE_ELIGIBLE=NO
 ```
 
 E4 deployment readiness is next. E3 PASS does not authorize device contact or flash.
+
+## E4 sealed / E5 authorization boundary
+
+```text
+N1D_C3B_E4_DEPLOYMENT_READINESS=PASS_REVIEW_READY
+N1D_C3B_E4_DIRECT_FIT=NO
+N1D_C3B_E4_PLANNED_SYSTEM_TARGET_BYTES=3263168512
+N1D_C3B_E4_ESTIMATED_REMAINING_SUPER_HEADROOM_BYTES=3003637760
+N1D_C3B_E4_STOCK_RESTORE_PROOF=PASS
+E5A_DEVICE_CONTACT_AUTHORIZED=NO
+E5B_FLASH_AUTHORIZED=NO
+```
+
+E5A is a separate manual authorization for fresh read-only device-state
+revalidation. E5B mutation/first boot requires another explicit authorization
+after E5A evidence review.
 
 ## Engineering roadmap
 
