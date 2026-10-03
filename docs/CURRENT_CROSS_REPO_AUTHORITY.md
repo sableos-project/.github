@@ -13,7 +13,7 @@ with this authority map.
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
 | public common platform/design | `sableos-project/platform_sable` | `main` / `63fdfc7becdc27994dc6c233a674c347b64eb277` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `092ed0bb8d322da19c816f2afd3891c4434220a1` |
-| public common product composition | `sableos-project/vendor_sable` | `main` / `c0b952492774b2369a78d70a981fc4ea30dc4baf` |
+| public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
 | public Titan 2 device boundary | `sableos-project/device_sable_titan2` | `main` / `6652b63bb486595315586195ad9a61c5212047c6` |
 | public build/deploy contracts | `sableos-project/build` | `main` / `e677f91f04aba648080c0e3028597ff74d52fcf1` |
