@@ -9,7 +9,7 @@ with this authority map.
 
 | Responsibility | Repository | Current ref / exact head |
 | --- | --- | --- |
-| private integration / current execution | `aimindseye/sableos` | `main` / `dea340c7f03f9b0c18e2b0b7b60eebf80b293d9c` |
+| private integration / current execution | `aimindseye/sableos` | `main` / `e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
 | public common platform/design | `sableos-project/platform_sable` | `main` / `80e3097bdef4cd2d5cbfd8ebde16390c29767918` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `771892d726f1220e5c1f2ccb686134c9481c3d08` |
@@ -28,8 +28,15 @@ TITAN2_ANDROID_RELEASE=16
 C3B_E1_SYSTEMIMAGE=PASS
 C3B_E2_SOURCE_ADMISSION=PASS
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
-C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
+C3B_E3_STATUS=SEALED_PASS
 C3B_RUNTIME_PATCH_ALLOWLIST_COUNT=0
+E4_DEPLOYMENT_READINESS=PASS_REVIEW_READY
+E5A_PRIVATE_DEVICE_CONTACT_AUTHORIZED=YES_READ_ONLY
+E5A_PRIVATE_REBOOT_TO_BOOTLOADER_FASTBOOTD=YES
+E5B_FLASH_AUTHORIZED=NO
+E5B_LP_MUTATION_AUTHORIZED=NO
+E5B_AVB_MUTATION_AUTHORIZED=NO
+E5B_SLOT_MUTATION_AUTHORIZED=NO
 PUBLIC_BUILD_IMAGE_AUTHORIZED=NO
 PUBLIC_FLASH_AUTHORIZED=NO
 PRODUCTION_SIGNING_AUTHORIZED=NO
