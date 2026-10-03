@@ -20,7 +20,7 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70
+PRIVATE_MAIN=a6eba44d7c575bf97c9b66ae25a16e1bea5cadc4
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
