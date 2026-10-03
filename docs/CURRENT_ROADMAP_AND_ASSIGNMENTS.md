@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=dadddf6c592f791fa9f0d9d841a3b3e38f720b1b
+aimindseye/sableos main=34b4b6f0e539400b4d8cb5adf1cb3b84aae6354b
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -58,6 +58,13 @@ Sable Text Reader
 ```
 
 Comic direction is local-first and may use Mihon as product/UX inspiration without importing Mihon runtime or an executable extension ecosystem.
+
+P5 v2.0 is local-only:
+
+```text
+P5_V2_INTERNET_PERMISSION=ABSENT
+P5_OPDS=P5_1_DEFERRED
+```
 
 P5 sequence:
 
