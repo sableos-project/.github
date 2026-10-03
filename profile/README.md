@@ -10,7 +10,7 @@ separate touch-first / keyboard-first interaction profiles.
 
 ```text
 Pixel 7 / Panther      R9 PHYSICAL ACCEPTANCE PASS / FROZEN TOUCH-FIRST REFERENCE
-Titan 2                ACTIVE N1D/C3B E5A READ-ONLY REVALIDATION
+Titan 2                ACTIVE N1D/C3B E5A PASS / SEALED; E5B OFFLINE DECISION
 Titan 2 Elite          INDEPENDENT KEYBOARD-FIRST TARGET PENDING
 Q27                    RESEARCH / FUTURE PRODUCT CANDIDATE
 Local direct CI        ACTIVE
@@ -20,7 +20,7 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=602fca81ffc43e8731342b96b6945ab9ef9642b6
+PRIVATE_MAIN=4adeb39b1f0bd1504076d68229e2e248d47862c3
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
@@ -35,9 +35,7 @@ R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
 
 Titan 2 C3B E3 is sealed with system SHA-256
 `998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5`.
-E4 deployment readiness is also sealed PASS. The user/operator has explicitly
-authorized private E5A read-only device-state revalidation, including reboot to
-bootloader/fastbootd. E5B flash/LP/AVB/slot mutation remains unauthorized.
+E4 deployment readiness is also sealed PASS. Private E5A read-only device-state revalidation completed with `PASS_REVIEW_READY` and left the device in fastbootd. E5B flash/LP/AVB/slot mutation remains unauthorized.
 Public repositories do not themselves authorize device contact or flashing.
 
 ## Current roadmap
@@ -75,7 +73,8 @@ Engineering path:
 ```text
 E3 sealed
  -> E4 sealed
- -> E5A fresh read-only device-state revalidation
+ -> E5A read-only revalidation PASS / SEALED
+ -> offline E5B authorization package
  -> separate E5B mutation authorization
  -> first physical C3B boot
  -> E6 runtime baseline

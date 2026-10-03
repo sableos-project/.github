@@ -10,7 +10,7 @@ Exact build/runtime authority remains in `aimindseye/sableos`.
 
 ```text
 Panther           R9 frozen touch-first reference
-Titan 2           active N1D/C3B E5A read-only revalidation
+Titan 2           active N1D/C3B E5B offline decision preparation
 Titan 2 Elite     independent portability target pending
 Q27               research / future candidate
 Production signing deferred
@@ -19,15 +19,13 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=602fca81ffc43e8731342b96b6945ab9ef9642b6
+aimindseye/sableos main=4adeb39b1f0bd1504076d68229e2e248d47862c3
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
 
 C3B E1 systemimage qualification and E2 source admission are complete. E3 is
-sealed PASS, and E4 deployment readiness is sealed PASS. Private E5A read-only
-device-state revalidation is now explicitly authorized; E5B mutation remains
-unauthorized.
+sealed PASS, and E4 deployment readiness is sealed PASS. Private E5A read-only device-state revalidation completed cleanly and is sealed PASS; E5B mutation remains unauthorized.
 
 Public Titan build/flash/signing/release remain closed.
 
@@ -125,7 +123,7 @@ DEVICE_CONTACT_AUTHORIZED=NO
 RELEASE_ELIGIBLE=NO
 ```
 
-E4 deployment readiness is sealed PASS. E5A read-only device-state revalidation is authorized; E5B flash/mutation remains unauthorized.
+E4 deployment readiness is sealed PASS. E5A read-only device-state revalidation is sealed PASS; E5B flash/mutation remains unauthorized.
 
 ## E4 sealed / E5 authorization boundary
 
@@ -135,23 +133,23 @@ N1D_C3B_E4_DIRECT_FIT=NO
 N1D_C3B_E4_PLANNED_SYSTEM_TARGET_BYTES=3263168512
 N1D_C3B_E4_ESTIMATED_REMAINING_SUPER_HEADROOM_BYTES=3003637760
 N1D_C3B_E4_STOCK_RESTORE_PROOF=PASS
-E5A_DEVICE_CONTACT_AUTHORIZED=YES_READ_ONLY_PRIVATE_AUTHORIZATION
-E5A_REBOOT_BOOTLOADER_AUTHORIZED=YES
-E5A_REBOOT_FASTBOOTD_AUTHORIZED=YES
+E5A_RESULT=PASS_REVIEW_READY_SEALED
+E5A_FINAL_DEVICE_MODE=FASTBOOTD
+E5A_ALLOCATION_COMPLETE=YES
+E5A_CAPACITY_SAFE=YES
+E5A_REMAINING_HEADROOM_AFTER_PLANNED_GROWTH_BYTES=2954141696
 E5B_FLASH_AUTHORIZED=NO
 E5B_LP_MUTATION_AUTHORIZED=NO
 E5B_AVB_MUTATION_AUTHORIZED=NO
 E5B_SLOT_MUTATION_AUTHORIZED=NO
 ```
 
-E5A has been explicitly authorized in the private execution lane for fresh
-read-only device-state revalidation and the mode transitions needed to reach
-fastbootd. The fail-closed E5A collector/qualifier is now merged and ready for
-exact-head operator execution.
+Private E5A execution completed cleanly. The fresh evidence has complete logical-partition accounting, idle/no snapshot-update state and sufficient total-super capacity. The device remains in fastbootd while the next offline E5B decision package is prepared.
 
 ```text
-E5A_IMPLEMENTATION=READY
+E5A_RESULT=PASS_REVIEW_READY_SEALED
 E5A_FINAL_DEVICE_MODE=FASTBOOTD
+E5B_AUTHORIZATION_PACKAGE=OFFLINE_PREPARATION_READY
 E5A_REBOOT_BACK_TO_ANDROID=NO_NOT_AUTHORIZED
 E5B_MUTATION_AUTHORIZED=NO
 ```
@@ -165,7 +163,7 @@ E5A evidence review.
 | --- | --- | --- |
 | E3 | first Sable-composed Titan 2 systemimage | **PASS / SEALED** |
 | E4 | artifact seal + deployment readiness | **PASS / SEALED** |
-| E5 | E5A read-only revalidation then separately authorized first boot | **E5A AUTHORIZED / E5B CLOSED** |
+| E5 | E5A sealed read-only evidence, offline E5B decision package, then separately authorized first boot | **E5A PASS / SEALED; E5B CLOSED** |
 | E6 | runtime baseline: radio/input/display/camera/setup/security | after E5 |
 | E7 | smallest evidence-backed compatibility changes | after E6 |
 | E8 | product-closure waves | parallel source work / later integration |
