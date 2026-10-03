@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=62fdcbb5f10a87eed37b66a32f6b6b687671e147
+aimindseye/sableos main=dadddf6c592f791fa9f0d9d841a3b3e38f720b1b
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
