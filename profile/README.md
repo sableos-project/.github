@@ -10,7 +10,7 @@ separate touch-first / keyboard-first interaction profiles.
 
 ```text
 Pixel 7 / Panther      R9 PHYSICAL ACCEPTANCE PASS / FROZEN TOUCH-FIRST REFERENCE
-Titan 2                ACTIVE N1D/C3B E3 ENGINEERING TARGET
+Titan 2                ACTIVE N1D/C3B E5A READ-ONLY REVALIDATION
 Titan 2 Elite          INDEPENDENT KEYBOARD-FIRST TARGET PENDING
 Q27                    RESEARCH / FUTURE PRODUCT CANDIDATE
 Local direct CI        ACTIVE
@@ -20,9 +20,9 @@ Production signing     DEFERRED
 Current private integration authority:
 
 ```text
-PRIVATE_MAIN=dea340c7f03f9b0c18e2b0b7b60eebf80b293d9c
+PRIVATE_MAIN=e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
-C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
+C3B_E3_STATUS=SEALED_PASS
 ```
 
 Panther remains the accepted touch-first reference:
@@ -33,10 +33,12 @@ R9_PANTHER_TARGET_FILES_SHA256=a0b359613c4f30e9a834fba212e0b044a97d63ed0537c5947
 R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
 ```
 
-Titan 2 C3B E1 is build-qualified, E2 source admission is complete, and E3 has
-entered the first long Sable-composed systemimage build after its cheap
-pre-build qualification passed. No E3 PASS, device boot, public build, flash,
-signing or release claim is made yet.
+Titan 2 C3B E3 is sealed with system SHA-256
+`998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5`.
+E4 deployment readiness is also sealed PASS. The user/operator has explicitly
+authorized private E5A read-only device-state revalidation, including reboot to
+bootloader/fastbootd. E5B flash/LP/AVB/slot mutation remains unauthorized.
+Public repositories do not themselves authorize device contact or flashing.
 
 ## Current roadmap
 
@@ -71,9 +73,11 @@ Implementation remains queued until the current P1-P4 and P5 qualification train
 Engineering path:
 
 ```text
-E3 build
- -> E4 artifact/deployment readiness
- -> E5 physical C3B boot
+E3 sealed
+ -> E4 sealed
+ -> E5A fresh read-only device-state revalidation
+ -> separate E5B mutation authorization
+ -> first physical C3B boot
  -> E6 runtime baseline
  -> E7 evidence-driven compatibility
  -> E8 product closure
