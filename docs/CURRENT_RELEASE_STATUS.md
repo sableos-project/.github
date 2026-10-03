@@ -33,9 +33,7 @@ C3B_E3_STATUS=SEALED_PASS
 C3B_RUNTIME_PATCH_ALLOWLIST_COUNT=0
 ```
 
-E3 is sealed PASS. E4 offline deployment readiness is sealed PASS. The private
-execution lane has explicit authorization for E5A read-only device-state
-revalidation; no C3B image has yet been deployed.
+E3 is sealed PASS. E4 offline deployment readiness is sealed PASS. Private E5A read-only device-state revalidation completed cleanly and is sealed; no C3B image has yet been deployed.
 
 ## Current assignments
 
@@ -56,7 +54,8 @@ Reader v2 is one local-first keyboard-first library for EPUB/PDF, CBZ comics/man
 
 ```text
 E3 sealed -> E4 sealed
-   -> E5A fresh read-only device-state revalidation
+   -> E5A read-only revalidation PASS / SEALED
+   -> offline E5B authorization package
    -> separate E5B mutation authorization
    -> first physical C3B boot
    -> E6 runtime baseline
