@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=62a3ec76f6a8065596810f2b2ae555cbd7784233
+aimindseye/sableos main=0d9d9b8754567d0784543dcace4aa10f1d36efc4
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=BUILD_RUNNING_NOT_YET_SEALED
 ```
@@ -90,7 +90,7 @@ DESIGN-KF-C  Sable Tools / Toolbox consolidation
 DESIGN-KF-D  All Apps privacy row + responsive app polish
 ```
 
-Authority: `sableos-project/platform_sable@126d91bfaedc98edc83fd38bb9c6eee8e5c1a008`.
+Authority: `sableos-project/platform_sable@80e3097bdef4cd2d5cbfd8ebde16390c29767918`.
 
 They remain intentionally unassigned until:
 - Developer A completes and operator-qualifies P1-P4;
@@ -99,6 +99,19 @@ They remain intentionally unassigned until:
 Recommended later handoff:
 `Developer A -> KF-D-I -> KF-A-I -> KF-B-I`;
 `Developer B -> KF-C-I1..I5`.
+
+## P1-P4 prequalification status
+
+Developer A completed the stacked P1-P4 source train, but operator review found one normalized-key correction required before ai-g732 qualification.
+
+```text
+P1_P4_PREQUAL_RESTACK_REQUIRED=YES
+P1_MOVE_HOME_SYSTEM_HOME_CONFLATION=FIX_REQUIRED
+NORMALIZED_KEY_CONTRACT=80e3097bdef4cd2d5cbfd8ebde16390c29767918
+AI_G732_P1_P4_BATCH_QUALIFICATION=HOLD_UNTIL_RESTACK
+```
+
+No device/runtime/release claim is affected.
 
 ## Engineering roadmap
 
