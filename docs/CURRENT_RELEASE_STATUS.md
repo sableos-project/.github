@@ -73,3 +73,16 @@ PUBLIC_RELEASE_AUTHORIZED=NO
 ```
 
 N0/N1B/N1B2/N1B3/N1C are historical execution families, not current authority.
+
+
+## Titan 2 C3B E3
+
+```text
+N1D_C3B_E3_SYSTEMIMAGE=PASS
+N1D_C3B_E3_SYSTEM_SHA256=998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5
+N1D_C3B_E3_SYSTEM_BYTES=2994405376
+N1D_C3B_E3_DEVICE_CONTACT_AUTHORIZED=NO
+N1D_C3B_E3_RELEASE_ELIGIBLE=NO
+```
+
+E4 artifact/deployment readiness is the next engineering phase.
