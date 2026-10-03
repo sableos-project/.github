@@ -1,7 +1,7 @@
 # SableOS current roadmap and assignments
 
 Status: **current organization roadmap**
-Updated: **2026-10-02 ET / 2026-10-03 UTC**
+Updated: **2026-10-03 ET**
 
 This is the public organization mirror of the current private execution plan.
 Exact build/runtime authority remains in `aimindseye/sableos`.
@@ -10,7 +10,7 @@ Exact build/runtime authority remains in `aimindseye/sableos`.
 
 ```text
 Panther           R9 frozen touch-first reference
-Titan 2           active N1D/C3B E5B offline decision preparation
+Titan 2           active N1D/C3B runtime recovery; N1B current-firmware control next
 Titan 2 Elite     independent portability target pending
 Q27               research / future candidate
 Production signing deferred
@@ -19,15 +19,37 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=094e42f778ea4b2a16997401351fc2578b86f66f
+aimindseye/sableos main=f08aac781e58b549e63d7104d495993917d43353
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
 
-C3B E1 systemimage qualification and E2 source admission are complete. E3 is
-sealed PASS, and E4 deployment readiness is sealed PASS. Private E5A read-only device-state revalidation completed cleanly and is sealed PASS; E5B mutation remains unauthorized.
+C3B E1 systemimage qualification and E2 source admission are complete. E3
+remains a sealed build artifact, and E4/E5A remain valid deployment/read-only
+evidence. The first private N1D physical attempt did not establish a stable boot
+and entered a reboot loop, so E6 is frozen. The next physical control is the
+exact sealed N1B system artifact on current V01.00.14. A minimal N1E build is
+authorized only if that control boots.
 
 Public Titan build/flash/signing/release remain closed.
+
+## Runtime-recovery control
+
+```text
+N1D_PHYSICAL_RESULT=FAIL_REBOOT_LOOP
+N1D_RUNTIME_PATCH_ALLOWLIST_COUNT=0
+COUNT_ZERO_STATUS=PRIMARY_SUSPECT_NOT_PROVEN_ROOT_CAUSE
+N1B_V010014_CONTROL=PENDING
+N1E_BUILD_AUTHORIZED=NO_PENDING_N1B_CONTROL
+N1E_FLASH_AUTHORIZED=NO
+E6_RUNTIME_BASELINE=HOLD
+```
+
+The control is intentionally narrow. If N1B boots on current firmware, N1E keeps
+the exact N1B generated `treble_arm64_bvN` product/lunch identity and adds only
+the five C3B apps. It does not use the `sable_titan2` wrapper identity. N1E
+must pass source/config/artifact qualification before any flash. If N1B fails,
+N1E stops and the firmware/boot-chain/current-device-state delta is investigated.
 
 ## Parallel assignments
 
@@ -77,6 +99,29 @@ P5F  exact-head ai-g732 qualification
 ```
 
 The existing 23-screen SableScreens catalog is an explicit design/reference baseline. It does not replace canonical Launcher3, SystemUI, Keyguard, Settings, Telecom or SetupWizard2 runtime owners. Weather and the dedicated Reader v2 product surface are additive to that catalog.
+
+## Current developer-delivery status
+
+The current product-source main is
+`aimindseye/titan2-temp@4089c1274a9e4a402a2c617cc00a7c166112f195`
+after the accepted P5E merge.
+
+```text
+PR_28=P5F_READER_RUNTIME_READINESS_DRAFT
+PR_28_HEAD=e8a5ddd374a0d78ca175b2137cf73707150ca28a
+PR_28_OPERATOR_ANDROID_COMPILE_LINT_TEST_MANIFEST=PENDING
+PR_28_DEVICE_RUNTIME=NOT_RUN
+
+PR_29=C3B_NON_READER_RUNTIME_READINESS_DRAFT
+PR_29_HEAD=5468758dc42c372854fc6936e3800afc1ee33def
+PR_29_STATIC_MUTATION=PASS_DEVELOPER
+PR_29_OPERATOR_ANDROID_OFFLINE=PENDING
+PR_29_DEVICE_RUNTIME=NOT_RUN
+```
+
+Both remain draft until exact-head operator qualification is attached. Neither
+PR is canonical runtime admission, and neither changes the N1B -> N1E recovery
+order.
 
 ## Keyboard-first design closure
 
@@ -164,10 +209,11 @@ E5A evidence review.
 
 | Phase | Purpose | State |
 | --- | --- | --- |
-| E3 | first Sable-composed Titan 2 systemimage | **PASS / SEALED** |
-| E4 | artifact seal + deployment readiness | **PASS / SEALED** |
-| E5 | E5A sealed read-only evidence, offline E5B decision package, then separately authorized first boot | **E5A PASS / SEALED; E5B CLOSED** |
-| E6 | runtime baseline: radio/input/display/camera/setup/security | after E5 |
+| N1D evidence | sealed build + failed physical boot evidence | **RECORDED / N1D REFLASH HOLD** |
+| N1B control | exact sealed N1B on current V01.00.14 | **NEXT PHYSICAL CONTROL** |
+| N1E | exact N1B product + five C3B apps only | **BLOCKED UNTIL N1B PASS** |
+| N1E qualification | G0/G1/G2 source/config/artifact isolation | **DESIGN REVIEWED; REAL HOST RUN PENDING** |
+| E6 | runtime baseline: radio/input/display/camera/setup/security | **HOLD UNTIL BOOT-QUALIFIED BASELINE** |
 | E7 | smallest evidence-backed compatibility changes | after E6 |
 | E8 | product-closure waves | parallel source work / later integration |
 | N1D Beta 1 | integrated daily-driver candidate | later |
