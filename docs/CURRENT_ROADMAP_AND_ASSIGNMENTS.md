@@ -19,7 +19,7 @@ Production signing deferred
 Current private integration authority:
 
 ```text
-aimindseye/sableos main=4adeb39b1f0bd1504076d68229e2e248d47862c3
+aimindseye/sableos main=094e42f778ea4b2a16997401351fc2578b86f66f
 C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
 C3B_E3_STATUS=SEALED_PASS
 ```
@@ -144,13 +144,16 @@ E5B_AVB_MUTATION_AUTHORIZED=NO
 E5B_SLOT_MUTATION_AUTHORIZED=NO
 ```
 
-Private E5A execution completed cleanly. The fresh evidence has complete logical-partition accounting, idle/no snapshot-update state and sufficient total-super capacity. The device remains in fastbootd while the next offline E5B decision package is prepared.
+Private E5A execution completed cleanly. Historical Titan 2 evidence confirms the dynamic userspace is Virtual A/B with active logical materialization: a zero-sized/non-openable `system_b` while slot A is active is not an inactive deployment target. The corrected E5B package is bound to the proven N1B current-slot `system_a` path with COW/group-capacity review; N1C whole-`super` writing remains negative evidence.
 
 ```text
 E5A_RESULT=PASS_REVIEW_READY_SEALED
 E5A_FINAL_DEVICE_MODE=FASTBOOTD
 E5B_AUTHORIZATION_PACKAGE=OFFLINE_PREPARATION_READY
 E5A_REBOOT_BACK_TO_ANDROID=NO_NOT_AUTHORIZED
+E5B_DEPLOYMENT_MODEL=ACTIVE_CURRENT_SYSTEM_VIRTUAL_AB
+E5B_TARGET_LOGICAL_PARTITION=system_a
+E5B_SLOT_POLICY=KEEP_CURRENT_SLOT_NO_SLOT_SWITCH
 E5B_MUTATION_AUTHORIZED=NO
 ```
 
