@@ -18,7 +18,7 @@ Production signing        DEFERRED
 ## Exact current identities
 
 ```text
-PRIVATE_INTEGRATION_MAIN=e2a0b38fc39136ba90ecabeaee4a2ebd9c66fc70
+PRIVATE_INTEGRATION_MAIN=a6eba44d7c575bf97c9b66ae25a16e1bea5cadc4
 PARALLEL_PRODUCT_MAIN=dbbb96cc01a0e366ea56817b54028b5686cb4035
 
 R9_PANTHER_IMAGE_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
@@ -88,7 +88,7 @@ N1D_C3B_E3_DEVICE_CONTACT_AUTHORIZED=NO
 N1D_C3B_E3_RELEASE_ELIGIBLE=NO
 ```
 
-E4 artifact/deployment readiness is the next engineering phase.
+E4 artifact/deployment readiness is sealed PASS. E5A read-only device-state revalidation is the active authorized engineering checkpoint.
 
 
 ## Titan 2 C3B E4 / E5 boundary
