@@ -110,6 +110,22 @@ Default/replacement status does not justify broader privilege.
 New privileged permissions, signer-based access, system-only APIs or special
 SELinux domains require explicit architecture/security evidence.
 
+## Sable Hub replacement boundary
+
+Sable Hub is common product functionality, not a Panther-only optional app.
+Titan-family integration must preserve Panther V1 Connected Apps semantics:
+generic package+user discovery/configuration, Android
+notification/conversation ingestion, source-authorized RemoteInput reply,
+Open-app fallback and bounded local derived history.
+
+Provider-specific private protocols, credentials, private-database scraping and
+embedded provider WebViews are not substitutes for this architecture. Provider
+names such as WhatsApp, Signal, Telegram and LinkedIn remain compatibility and
+evidence targets rather than a hard-coded allowlist.
+
+Sable Messages replacement/integration work must not silently replace or weaken
+Sable Hub.
+
 ## Multi-device rule
 
 Panther is REFERENCE_FROZEN.
