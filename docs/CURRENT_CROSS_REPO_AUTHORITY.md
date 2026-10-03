@@ -9,9 +9,9 @@ with this authority map.
 
 | Responsibility | Repository | Current ref / exact head |
 | --- | --- | --- |
-| private integration / current execution | `aimindseye/sableos` | `main` / `62fdcbb5f10a87eed37b66a32f6b6b687671e147` |
+| private integration / current execution | `aimindseye/sableos` | `main` / `dadddf6c592f791fa9f0d9d841a3b3e38f720b1b` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
-| public common platform/design | `sableos-project/platform_sable` | `main` / `63fdfc7becdc27994dc6c233a674c347b64eb277` |
+| public common platform/design | `sableos-project/platform_sable` | `main` / `1354033da1e667c99477f860c2c1e3af503e5eed` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `092ed0bb8d322da19c816f2afd3891c4434220a1` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
 | public exact source/composition model | `sableos-project/platform_manifest` | `main` / `89191cd66b0b0b6d34927c258e33eb9bd56fb9d0` |
