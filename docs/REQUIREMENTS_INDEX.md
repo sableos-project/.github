@@ -104,6 +104,28 @@ Sable Camera.
 
 Titan research should feed device adapters rather than fork common apps.
 
+
+## Battery usage and health
+
+Common product/design authority belongs in `sableos-project/platform_sable`:
+
+- `docs/design/BATTERY_HEALTH_USAGE_UX.md`
+- `docs/design/BATTERY_HEALTH_USAGE_VISUAL_CONFIRMATION.md`
+- `docs/design/artifacts/sable-battery-health-usage-titan2.svg`
+
+Product boundary:
+
+```text
+Settings -> Battery
+SEPARATE_BATTERY_APP=NO
+HEALTH_VALUES_REQUIRE_SOURCE_AND_AVAILABILITY=YES
+CHARGING_CONTROLS_REQUIRE_DEVICE_BACKEND_QUALIFICATION=YES
+COMMON_UI_RAW_SYSFS_WRITE=NO
+```
+
+Private implementation scheduling and device/backend qualification remain in
+`aimindseye/sableos`.
+
 ## Historical R8 material
 
 R8 build-review, pre-image and application-train documents are preserved for
