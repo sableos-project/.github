@@ -143,6 +143,56 @@ Recommended later handoff:
 `Developer A -> KF-D-I -> KF-A-I -> KF-B-I`;
 `Developer B -> KF-C-I1..I5`.
 
+
+## Battery usage / health / charging design
+
+A new keyboard-first Battery workstream is added to the product roadmap.
+
+```text
+DESIGN_KF_E_BATTERY_USAGE_HEALTH=DESIGN_READY_PENDING_REVIEW
+USER_SURFACE=Settings -> Battery
+SEPARATE_BATTERY_LAUNCHER_APP=NO
+KEYBOARD_FIRST=YES
+TITAN2_SQUARE_VISUAL_TARGET=YES
+READ_ONLY_TRUTH_FIRST=YES
+CHARGING_MUTATION=DEFERRED_UNTIL_BACKEND_QUALIFIED
+```
+
+The design extends Android's familiar Battery destination with:
+
+- compact battery overview;
+- platform-accounted app/system battery usage;
+- battery-health fields with measured/estimated/unavailable provenance;
+- keyboard-inspectable usage/temperature charts;
+- charging/protection controls only where a device profile proves a safe backend;
+- local-only history/analytics with no cloud battery profile.
+
+The common UX and visual target are being published in
+`sableos-project/platform_sable`:
+
+```text
+docs/design/BATTERY_HEALTH_USAGE_UX.md
+docs/design/BATTERY_HEALTH_USAGE_VISUAL_CONFIRMATION.md
+docs/design/artifacts/sable-battery-health-usage-titan2.svg
+```
+
+Implementation remains pending and must not interrupt Titan 2 N1I cellular
+closure or the already queued P1-P5 / KF-A..D trains. Recommended implementation
+label after design merge:
+
+```text
+KF-E-I1  Settings Battery overview + keyboard/focus contract
+KF-E-I2  usage/accounting + consumer detail
+KF-E-I3  health availability/provenance model
+KF-E-I4  bounded local history + chart inspection
+KF-E-I5  device charging-capability discovery
+KF-E-I6  mutable controls only for validated backends
+KF-E-I7  Panther/Titan keyboard/touch/accessibility qualification
+```
+
+The historical S1.7 PowerSnapshot API remains frozen and is not expanded as part
+of the design.
+
 ## P1-P4 prequalification status
 
 Developer A completed the stacked P1-P4 source train, but operator review found one normalized-key correction required before ai-g732 qualification.
