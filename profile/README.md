@@ -1,3 +1,5 @@
+> **2026-10-13 project status:** The October 13 M4 write completed but Android boot failed; new integration remains gated, with **no build/flash authority**. See [October 13 engineering status](../docs/ENGINEERING_STATUS_2026-10-13.md). October 12 and older notices below are dated history; other device baselines remain unchanged.
+
 > **Engineering status update — 2026-10-12:** Titan 2 has advanced to private N1F/M4 Android 16 source and product-graph qualification. Full M4 systemimage build was in progress at the last operator report; compiled classpath, SELinux, G3 native admission, image content and flash authorization remain open. Panther R9 is still the frozen accepted reference. [See the current engineering gate ledger](../docs/ENGINEERING_STATUS_2026-10-12.md). The dated October 2–3 checkpoint below is retained as history.
 
 # SableOS Project
