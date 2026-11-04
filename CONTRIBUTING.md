@@ -1,3 +1,7 @@
+> **CURRENT PROJECT-SCOPE OVERRIDE (2026-11-03):** SableOS GSI/custom-ROM development for **Unihertz Titan 2 and Titan 2 Elite is closed until further notice**. **Zinwa Q25 and Zinwa Q27 are the ongoing device priorities.** This document's older Titan-specific build, flash, qualification, deployment or contribution instructions are retained only as historical reference and are not active work authorization. Any future Titan reactivation requires an explicit owner decision. [Canonical portfolio decision](https://github.com/sableos-project/platform_sable/blob/main/docs/DEVICE_PORTFOLIO_STATUS_2026-11-03.md).
+
+---
+
 # Contributing to SableOS
 
 > **Current contribution context — 2026-09-24:** Panther is a frozen reference. K1/K2 is merged. New feature work should target common keyboard-first product architecture or bounded Titan research/adapters without enabling unqualified device mutation. Historical R8/R9 sequencing below is reference only where explicitly labeled.
