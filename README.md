@@ -1,0 +1,192 @@
+> **CURRENT DEVICE PORTFOLIO — 2026-11-03 (supersedes all older Titan status below):**
+> SableOS development of **GSIs and custom ROMs for Unihertz Titan 2 and Titan 2 Elite is closed until further notice**. **Active device-development priorities: Zinwa Q25 and Zinwa Q27.** Historical Titan source, research, flash and recovery evidence is retained, but no new Titan/Elite image build, device bring-up, IMS/VoLTE implementation, flash campaign, or release is authorized under the retired roadmap. Pixel 7 / Panther remains a frozen reference; Q25/Q27 are priorities, not implicitly qualified releases. [Current canonical decision](https://github.com/sableos-project/platform_sable/blob/main/docs/DEVICE_PORTFOLIO_STATUS_2026-11-03.md).
+>
+> **Historical documentation notice:** The README content below is preserved for provenance. Any older statement naming Titan 2/Elite as ACTIVE, NEXT, or a current deployment target is superseded by the 2026-11-03 decision.
+
+---
+
+## SableOS editions — 2026-11-15
+
+SableOS is one product idea in two editions. They share design contracts, not code.
+
+| | **SableOS** (Android edition) | **SableOS Native** (Linux edition) |
+|---|---|---|
+| What it is | Privacy-focused, keyboard-first Android OS | BB10-style Linux phone OS with no Android underneath |
+| Base | LineageOS / AOSP | [Marathon OS](https://github.com/patrickjquinn/Marathon-Shell) fork, postmarketOS / Alpine, mainline Linux |
+| Interface | Sable Start on Launcher3, Sable apps (Kotlin) | Qt 6 / QML shell: Flow gestures, Hub, Frames, keyboard-first navigation |
+| System services | Android services + Sable adapters | Rust daemons (`sable-hubd`, `sable-framesd`, `sable-inputd`, `sable-searchd`) |
+| Android apps | Native | In a container (Marathon's Deckard) |
+| Devices | Zinwa Q25, Zinwa Q27 | Zinwa Q25 first; Titan 2 source-only assessment |
+| Where | The repositories below, `aimindseye/sableos`, `aimindseye/zinwaq25-sableos` | [`sableos-native`](https://github.com/sableos-project/sableos-native) |
+| Status | See the device decision above | Early development, no image yet |
+
+Shared, edition-neutral contracts (Hub, keyboard input, device profiles,
+portability, support levels) live in [`platform_sable`](https://github.com/sableos-project/platform_sable).
+See the [editions decision](https://github.com/sableos-project/platform_sable/blob/main/docs/SABLEOS_EDITIONS_2026-11-15.md).
+The 2026-11-03 device decision is unchanged by the Native edition.
+
+---
+
+> **2026-10-13 project status:** The October 13 M4 write completed but Android boot failed; new integration remains gated, with **no build/flash authority**. See [October 13 engineering status](../docs/ENGINEERING_STATUS_2026-10-13.md). October 12 and older notices below are dated history; other device baselines remain unchanged.
+
+> **Engineering status update — 2026-10-12:** Titan 2 has advanced to private N1F/M4 Android 16 source and product-graph qualification. Full M4 systemimage build was in progress at the last operator report; compiled classpath, SELinux, G3 native admission, image content and flash authorization remain open. Panther R9 is still the frozen accepted reference. [See the current engineering gate ledger](../docs/ENGINEERING_STATUS_2026-10-12.md). The dated October 2–3 checkpoint below is retained as history.
+
+# SableOS Project
+
+SableOS is an experimental privacy- and security-focused Android-compatible
+mobile OS built around one common product core, narrow privilege boundaries and
+separate touch-first / keyboard-first interaction profiles.
+
+> Applications provide capabilities; Sable organizes people, attention and actions.
+
+## Current state — 2026-10-02 ET / 2026-10-03 UTC
+
+```text
+Pixel 7 / Panther      R9 PHYSICAL ACCEPTANCE PASS / FROZEN TOUCH-FIRST REFERENCE
+Titan 2                ACTIVE N1D/C3B RUNTIME RECOVERY; N1B CURRENT-FIRMWARE CONTROL NEXT
+Titan 2 Elite          INDEPENDENT KEYBOARD-FIRST TARGET PENDING
+Q27                    RESEARCH / FUTURE PRODUCT CANDIDATE
+Local direct CI        ACTIVE
+Production signing     DEFERRED
+```
+
+Current private integration authority:
+
+```text
+PRIVATE_MAIN=275ee52725cd732c4660323380aad6b20b817cdd
+C3B_E3_BUILD_SOURCE=caf98dde723d07a071d95aaa1ef27d578d3208d8
+C3B_E3_STATUS=SEALED_PASS
+```
+
+Panther remains the accepted touch-first reference:
+
+```text
+R9_PANTHER_ACCEPTED_SOURCE=edf62e5bb08372a1395841d6cc5d78d3148a7695
+R9_PANTHER_TARGET_FILES_SHA256=a0b359613c4f30e9a834fba212e0b044a97d63ed0537c59471c31b99b627d285
+R9_PANTHER_PHYSICAL_ACCEPTANCE=PASS_WITH_PRESERVED_PLAY_STATE
+```
+
+Titan 2 C3B E3 remains a sealed build artifact with system SHA-256
+`998a8b99cd4d1a631006291a96c6f0160c5a4400c4bf6bba62c319c4ed3c82a5`.
+The first private N1D physical attempt did not establish a stable boot and entered
+a reboot loop. The current recovery plan does not treat the `COUNT=0`
+compatibility decision as a proven root cause: the next physical control is the
+exact sealed N1B system artifact on current V01.00.14. Only if that boots is a
+minimal N1E build authorized; N1E retains the N1B product/lunch identity and adds
+only the five C3B apps. If N1B fails, N1E stops and firmware/boot-chain/current-
+state differences are investigated. Public repositories do not themselves
+authorize device contact or flashing.
+
+## Current roadmap
+
+Parallel product work:
+
+```text
+P1  Sable Start keyboard-first handoff
+P2  Sable Keyboard provisioning readiness
+P3  SetupWizard2 keyboard/square-display integration preparation
+P4  Weather city-management + keyboard-first closure
+P5  Sable Reader v2 architecture ACCEPTED / P5A-P5F implementation
+```
+
+P1-P4 proceed without per-stage operator waits and are later batch-qualified on
+ai-g732 before canonical admission. P5 is now authorized as a separate sibling implementation train; it is not stacked into P1-P4.
+
+The existing `titan2-temp/apps/titan2/screens` 23-screen catalog is now an explicit design/behavior baseline, not a shipping runtime. P1-P5 and E8 consume its applicable focus/privacy/theme/profile semantics.
+
+Keyboard-first/Titan 2 V1 foundational design is now closed:
+
+```text
+DESIGN_KF_A_NOTIFICATION_ATTENTION_HUB=ACCEPTED
+DESIGN_KF_B_SYSTEMUI_CONVERGENCE=ACCEPTED
+DESIGN_KF_C_SABLE_TOOLS_CONSOLIDATION=ACCEPTED
+DESIGN_KF_D_ALL_APPS_RESPONSIVE_POLISH=ACCEPTED
+KEYBOARD_FIRST_V1_FOUNDATIONAL_DESIGN=COMPLETE
+TITAN2_V1_PRODUCT_DESIGN=COMPLETE
+```
+
+Implementation remains queued until the current P1-P4 and P5 qualification trains finish.
+
+Engineering path:
+
+```text
+N1D sealed build evidence
+ -> N1D physical reboot-loop evidence
+ -> exact sealed N1B control on current V01.00.14
+ -> if N1B PASS: minimal N1E = N1B product + five C3B apps
+ -> N1E G0/G1/G2 pre-flash qualification
+ -> if N1E boots: resume controlled runtime/product deltas
+ -> E6 runtime baseline
+ -> E7 evidence-driven compatibility
+ -> E8 product closure
+ -> N1D Beta 1
+ -> production release engineering later
+
+if N1B FAIL:
+ -> stop N1E and investigate firmware/boot-chain/current-device-state delta
+```
+
+See [Current roadmap and assignments](../docs/CURRENT_ROADMAP_AND_ASSIGNMENTS.md).
+
+## Current developer-delivery checkpoint
+
+`aimindseye/titan2-temp` P5E feature baseline is `4089c1274a9e4a402a2c617cc00a7c166112f195`; later docs-only commits do not change that qualified feature baseline. Two follow-up PRs are intentionally draft:
+
+```text
+PR_28=P5F Reader runtime-readiness
+PR_28_OPERATOR_ANDROID_QUALIFICATION=PENDING
+PR_28_DEVICE_RUNTIME=NOT_RUN
+
+PR_29=non-Reader C3B runtime-readiness/handoff tooling
+PR_29_STATIC_MUTATION=PASS_DEVELOPER
+PR_29_OPERATOR_ANDROID_OFFLINE=PENDING
+PR_29_DEVICE_RUNTIME=NOT_RUN
+```
+
+Neither draft is canonical runtime admission and neither changes the N1B -> N1E
+recovery sequence.
+
+## Product architecture
+
+```text
+common Sable applications + semantic contracts
+        |
+        +-- touch-first profile      -> Panther reference
+        |
+        +-- keyboard-first profile   -> Titan 2 / Titan 2 Elite / future Q27
+        |
+        v
+bounded device adapters
+        |
+        v
+Android framework + vendor HAL/BSP + hardware
+```
+
+Current first-party HOME is Launcher3/Launcher3QuickStep hosting Sable Start
+presentation/state. The standalone SableLauncher runtime is retired. Android user
+choice of another launcher or IME remains supported.
+
+## Repositories
+
+- **sableos-native** — SableOS Native, the Linux edition (Marathon OS fork; BB10-style QML shell, Rust services).
+- **platform_manifest** — exact source/composition model.
+- **platform_sable** — common semantic/design/portability contracts, shared by both editions.
+- **vendor_sable** — common product composition.
+- **device_sable_panther** — frozen Pixel 7 reference adapter/evidence.
+- **device_sable_titan2** — public Titan 2 device boundary/evidence.
+- **build** — public build/evidence/deployment contracts.
+- **packages_apps_SableStart** — Sable Start presentation/history reference.
+- **treble_restlessos** — compatibility/reference fork only; not Sable runtime/security authority.
+- **.github** — organization status, roadmap and documentation authority.
+
+## Public release boundary
+
+```text
+PUBLIC_TITAN_BUILD_IMAGE=NO
+PUBLIC_TITAN_FLASH=NO
+PRODUCTION_SIGNING_AUTHORIZED=NO
+PUBLIC_RELEASE_AUTHORIZED=NO
+```
+
+Historical N0/N1B/N1B2/N1B3/N1C documents remain evidence, not current
+execution authority.
