@@ -11,6 +11,7 @@ with this authority map.
 | --- | --- | --- |
 | private integration / current execution | `aimindseye/sableos` | `main` / `094e42f778ea4b2a16997401351fc2578b86f66f` |
 | parallel Titan product-source candidate | `aimindseye/titan2-temp` | `main` / `dbbb96cc01a0e366ea56817b54028b5686cb4035` |
+| SableOS Native (Linux edition) source, images, releases | `sableos-project/sableos-native` | `main` (Marathon OS fork; see platform_sable `docs/SABLEOS_EDITIONS_2026-11-15.md`) |
 | public common platform/design | `sableos-project/platform_sable` | `main` / `80e3097bdef4cd2d5cbfd8ebde16390c29767918` |
 | public Sable Start presentation/history | `sableos-project/packages_apps_SableStart` | `main` / `771892d726f1220e5c1f2ccb686134c9481c3d08` |
 | public common product composition | `sableos-project/vendor_sable` | `main` / `82aee9331f2819457ae99f650e0f56f7b7a7d658` |
